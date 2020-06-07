@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import font
 from winsound import *
-import player
-import card
+from player import *
+from card import *
 import random
 
 class TexasHoldem:
@@ -47,3 +47,16 @@ class TexasHoldem:
         self.LdealerPts.place(x=300, y=100)
         self.Lstatus = Label(text="", width=15, height=1, font=self.fontstyle, bg="green", fg="white")
         self.Lstatus.place(x=500, y=300)
+
+    def pressedAgain(self):
+        pass
+    def pressedCheck(self):
+        pass
+    def pressedBet1(self):
+        pass
+    def pressedBet2(self):
+        pass
+    def pressedDeal(self):
+        pass
+
+TexasHoldem()
