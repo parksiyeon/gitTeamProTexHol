@@ -48,7 +48,6 @@ class TexasHoldem:
         self.Lstatus = Label(text="", width=15, height=1, font=self.fontstyle, bg="green", fg="white")
         self.Lstatus.place(x=500, y=300)
 
-<<<<<<< HEAD
     def pressedAgain(self):
         pass
     def pressedCheck(self):
@@ -59,9 +58,8 @@ class TexasHoldem:
         pass
     def pressedDeal(self):
         pass
-
-TexasHoldem()
-=======
     def Check(self):
         pass
->>>>>>> fc247db743caadf8c79189428d49f34c8d815487
+
+TexasHoldem()
+
