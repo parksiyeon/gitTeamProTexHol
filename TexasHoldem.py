@@ -47,3 +47,6 @@ class TexasHoldem:
         self.LdealerPts.place(x=300, y=100)
         self.Lstatus = Label(text="", width=15, height=1, font=self.fontstyle, bg="green", fg="white")
         self.Lstatus.place(x=500, y=300)
+
+    def Check(self):
+        pass

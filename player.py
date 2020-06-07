@@ -7,3 +7,4 @@ class Player:
         self.cards = []
         self.N = 0
 
+
