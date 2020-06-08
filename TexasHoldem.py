@@ -22,6 +22,7 @@ class TexasHoldem:
         self.setupLabel()
         self.betMoney = 10
         self.playerMoney = 2500
+        self.GetPmoney = 2500
         self.LcardsPlayer = []  # 플레이어가 뽑은 카드의 라벨 리스트
         self.LcardsDealer = []  # 딜러가 뽑은 카드의 라벨 리스트
         self.LcardsCommon = []
@@ -70,7 +71,7 @@ class TexasHoldem:
 
     def pressedBx1(self):
         self.betMoney += self.betMoney
-        self.playerMoney = 2500 - self.betMoney
+        self.playerMoney = self.GetPmoney - self.betMoney
         self.LbetMoney.configure(text="$" + str(self.betMoney))
         self.LplayerMoney.configure(text="You have $" + str(self.playerMoney))
         self.Deal['state'] = 'active'
@@ -79,7 +80,7 @@ class TexasHoldem:
 
     def pressedBx2(self):
         self.betMoney += self.betMoney * 2
-        self.playerMoney = 2500 - self.betMoney
+        self.playerMoney = self.GetPmoney - self.betMoney
         self.LbetMoney.configure(text="$" + str(self.betMoney))
         self.LplayerMoney.configure(text="You have $" + str(self.playerMoney))
         self.Deal['state'] = 'active'
@@ -193,6 +194,7 @@ class TexasHoldem:
         self.commoncardsN = 0
         self.pstatevalue = 0
         self.dstatevalue = 0
+        self.GetPmoney = self.playerMoney
 
         self.setupButton()
         self.LplayerState.configure(text="")
