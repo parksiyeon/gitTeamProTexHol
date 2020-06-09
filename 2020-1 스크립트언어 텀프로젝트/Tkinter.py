@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import font
+import tkinter.ttk
 import tkinter.messagebox
 
 class TermProj:
@@ -12,12 +13,23 @@ class TermProj:
         self.window.configure(bg="white")
         #self.initSearchList()
         #self.initInputLabel()
-        self.setButtons()
-
+        self.GetxmlFile()
+        self.setLabelandButtons()
         self.window.mainloop()
-    def setButtons(self):
+
+
+    def setLabelandButtons(self):
+        notebook = tkinter.ttk.Notebook(self.window, width=1000, height=600)
+        notebook.pack()
+        self.frame1 = Frame(self.window)
+        self.frame2=Frame(self.window)
+        notebook.add(self.frame1, text="검색")
+        notebook.add(self.frame2, text="상세뭐시기")
+        label1 = Label(self.frame1, text="조회를 원하는 지역을 클릭하세요", fg='black', font='helvetica 16')
+        label1.pack()
+        label1.place(x=100,y=50)
         self.bg = PhotoImage(file='SeoulMap.png')
-        self.SeoulMap = Label(self.window, image=self.bg, bd=0, bg='green')
+        self.SeoulMap = Label(self.frame1, image=self.bg, bd=0, bg='green')
         self.SeoulMap.pack()
         self.SeoulMap.place(x=250,y=100)
         TempFont = font.Font(self.window, size=12, weight='bold', family='Consolas')
@@ -63,6 +75,7 @@ class TermProj:
             else:
                 print("잘불러옴")
                 self.parseData = parseString(HaccpDoc)
+                self.Update=self.parseData.getElementsByTagName('MSRDATE')
                 self.GuNmaeData=self.parseData.getElementsByTagName('MSRSTENAME')#구이름
                 self.GradeMaxIndex=self.parseData.getElementsByTagName('MAXINDEX')#대기상태 숫자수치
                 self.GradeData = self.parseData.getElementsByTagName('GRADE')#보통 나쁨 그거..
@@ -72,23 +85,7 @@ class TermProj:
                 self.OzoneData = self.parseData.getElementsByTagName('OZONE')  # 오존
                 self.CarbonData = self.parseData.getElementsByTagName('CARBON')  # 일산화탄소
                 self.SurfulSData = self.parseData.getElementsByTagName('SULFUROUS')  # 아황산
-                #self.NitroData = self.parseData.getElementsByTagName('NITROGEN')  # 질소
-
                 self.SetDatastoList()
-
-                # for i in range(len(self.DataList)):
-                #     RenderText.insert(INSERT, "[")
-                #     RenderText.insert(INSERT, i + 1)
-                #     RenderText.insert(INSERT, "] ")
-                #     RenderText.insert(INSERT, "제품명: ")
-                #     RenderText.insert(INSERT, self.DataList[i][0])
-                #     RenderText.insert(INSERT, "\n")
-                #     RenderText.insert(INSERT, "유형: ")
-                #     RenderText.insert(INSERT, self.DataList[i][1])
-                #     RenderText.insert(INSERT, "\n")
-                #     RenderText.insert(INSERT, "여기엔뭐넣지..: ")
-                #     RenderText.insert(INSERT, self.DataList[i][2])
-                #     RenderText.insert(INSERT, "\n\n")
 
     def SetDatastoList(self):
         i=0
