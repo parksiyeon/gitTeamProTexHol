@@ -16,7 +16,7 @@ class TermProj:
         #self.initInputLabel()
         self.GetxmlFile()
         self.setLabelandButtons()
-        self.averageSeoul()
+        #self.averageSeoul()
 
 
         self.window.mainloop()
