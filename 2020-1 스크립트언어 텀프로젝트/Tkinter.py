@@ -16,7 +16,7 @@ class TermProj:
         #self.initInputLabel()
         self.GetxmlFile()
         self.setLabelandButtons()
-        #self.averageSeoul()
+        self.averageSeoul()
 
 
         self.window.mainloop()
@@ -187,53 +187,84 @@ class TermProj:
         for i in range(10):
             print(self.DataList[i])
 
-    # def averageSeoul(self, index):
-    #     startN = 3 #미세먼지 데이터부터
-    #     j = 0
-    #
-    #     self.intArray = [0] * 25
-    #     self.nullArray = [0] * 6
-    #     self.averArray = [0] * 6
-    #
-    #     for i in range(0, 6):
-    #         for j in range(0, 25):
-    #             self.intArray[j] = self.DataList[startN][j]
-    #             self.nullArray[i] += self.intArray[j]
-    #             if j == 25:
-    #                 self.averArray[i] = self.nullArray[i]/ 25
-    #
-    #     for i in range(6):
-    #         print(self.averArray[i])
+    def averageSeoul(self):
+
+        self.sum = 0
+        self.average = [0] * 6
+
+        #미세먼지
+        for i in range(25):
+            self.sum += int(self.DataList[3][i])
+        self.average[0] = self.sum /25
+        self.sum = 0
+
+        #초미세
+        for i in range(25):
+            self.sum += int(self.DataList[4][i])
+        self.average[1] = self.sum /25
+        self.sum = 0
+
+        #이산화질소
+        for i in range(25):
+            self.sum += float(self.DataList[5][i])
+        self.average[2] = self.sum/25
+        self.sum = 0
+
+        #오존
+        for i in range(25):
+            self.sum += float(self.DataList[6][i])
+        self.average[3] = self.sum/25
+        self.sum = 0
+
+        #일산화탄소
+        for i in range(25):
+            self.sum += float(self.DataList[7][i])
+        self.average[4] = self.sum/25
+        self.sum = 0
+
+        #아황산가스
+        for i in range(25):
+            self.sum += float(self.DataList[8][i])
+        self.average[5] = self.sum/25
+        self.sum = 0
+
+        for i in range(6):
+            print(self.average[i])
+
+
+
+
+
 
     def ShowPollutantList(self, index):
         self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50, y=500)
+        self.PollutantL1.place(x=50, y=480)
 
         self.PollutantL1 = Label(self.frame2, text="평균 / 초미세먼지", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*3.9, y=500)
+        self.PollutantL1.place(x=50*3.9, y=480)
 
         self.PollutantL1 = Label(self.frame2, text="평균 / 이산화질소", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*7.1, y=500)
+        self.PollutantL1.place(x=50*7.1, y=480)
 
         self.PollutantL1 = Label(self.frame2, text="평균 / 오존", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*10.5, y=500)
+        self.PollutantL1.place(x=50*10.5, y=480)
 
         self.PollutantL1 = Label(self.frame2, text="평균 / 일산화탄소", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*12.9, y=500)
+        self.PollutantL1.place(x=50*12.9, y=480)
 
         self.PollutantL1 = Label(self.frame2, text="평균 / 아황산가스", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*16.2, y=500)
+        self.PollutantL1.place(x=50*16.2, y=480)
 
         for i in range(0, 6):
             self.GuName = Label(self.frame2, text="(" + str(self.DataList[0][index]) + ")", fg='black', font='helvetica 12')
             self.GuName.pack()
-            self.GuName.place(x=95+(50*3.1*i), y=520)
+            self.GuName.place(x=95+(50*3.1*i), y=500)
 
     def DrawGraph(self, index):
         self.nullArray = [0] * 6
@@ -250,10 +281,17 @@ class TermProj:
 
         self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
         self.canvas.create_rectangle(270, 450-int(self.nullArray[1]), 290, 450, fill='black')
-        self.canvas.create_rectangle(420, 450-float(self.nullArray[2])*100, 440, 450, fill='black')
-        self.canvas.create_rectangle(570, 450-float(self.nullArray[3])*100, 590, 450, fill='black')
+        self.canvas.create_rectangle(425, 450-float(self.nullArray[2])*100, 445, 450, fill='black')
+        self.canvas.create_rectangle(575, 450-float(self.nullArray[3])*100, 595, 450, fill='black')
         self.canvas.create_rectangle(720, 450-float(self.nullArray[4])*10, 740, 450, fill='black')
-        self.canvas.create_rectangle(870, 450-float(self.nullArray[5])*100, 890, 450, fill='black')
+        self.canvas.create_rectangle(880, 450-float(self.nullArray[5])*100, 900, 450, fill='black')
+
+        self.canvas.create_rectangle(60, 450 - int(self.average[0]), 80, 450, fill='black')
+        self.canvas.create_rectangle(210, 450 - int(self.average[1]), 230, 450, fill='black')
+        self.canvas.create_rectangle(365, 450 - float(self.average[2]) * 100, 385, 450, fill='black')
+        self.canvas.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
+        self.canvas.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
+        self.canvas.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
 
 
 
