@@ -3,24 +3,21 @@ from tkinter import font
 import tkinter.ttk
 import tkinter.messagebox
 
+def GetCursor(event):
+    print(event.x, event.y)
+
 class TermProj:
     def __init__(self):
         self.DataList= [[0]*25 for _ in range(9)]
         self.DataList.append([])
-        #self.searchKeyword=StringVar()
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
         self.window.geometry("1000x600")
         self.window.configure(bg="white")
-        #self.initSearchList()
-        #self.initInputLabel()
         self.GetxmlFile()
         self.setLabelandButtons()
         self.averageSeoul()
-
-
         self.window.mainloop()
-
 
     def setLabelandButtons(self):
         notebook = tkinter.ttk.Notebook(self.window, width=1000, height=600)
@@ -29,25 +26,27 @@ class TermProj:
         self.frame2 = Frame(self.window)
         notebook.add(self.frame1, text="검색")
         notebook.add(self.frame2, text="상세비교")
+
         self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
         self.label1.pack()
         self.label1.place(x=100,y=50)
         self.label2 = Label(self.frame2, text="서울시 평균과 지역 비교", fg='black', font='helvetica 16')
         self.label2.pack()
         self.label2.place(x=100, y=50)
-        self.bg = PhotoImage(file='SeoulMap.png')
-        self.SeoulMap = Label(self.frame1, image=self.bg, bd=0)
-        self.SeoulMap.pack()
-        self.SeoulMap.place(x=100,y=100)
+
         TempFont = font.Font(self.window, size=12, weight='bold', family='Consolas')
-        self.EntryWidget = Entry(self.frame1, bd=5)
-        self.EntryWidget.pack()
-        self.EntryWidget.place(x=350,y=50)
-        self.canvas = Canvas(self.frame2, width = 1000 , height = 600)
-        self.canvas.pack()
+        EntryWidget = Entry(self.frame1, bd=5)
+        EntryWidget.pack()
+        EntryWidget.place(x=350,y=50)
         SearchButton = Button(self.frame1, font=TempFont, text="검색", command=self.SearchGu)
         SearchButton.pack()
         SearchButton.place(x=530, y=45)
+
+        self.bg = PhotoImage(file='SeoulMap.png')
+        GetClickL = Label(self.frame1, image=self.bg)
+        GetClickL.pack()
+        GetClickL.place(x=100, y=100)
+        GetClickL.bind("<B1-Motion>", GetCursor)
 
 
     def SearchGu(self):
@@ -56,11 +55,9 @@ class TermProj:
         self.ShowPollutantList(Entry)
         self.DrawGraph(Entry)
 
-
     def ShowResult(self, index):
         #self.SeoulMap.configure(image='')
         #self.label1.configure(text="")
-        print(str(self.DataList[0][index]))
         self.Lname = Label(self.frame1, text=str(self.DataList[0][index])+" 대기 상태", fg='black', font='helvetica 16')
         self.Lname.pack()
         self.Lname.place(x=700, y=50)
@@ -103,16 +100,13 @@ class TermProj:
         conn.request("GET", "/624a754e616d696e35326b42565763/xml/ListAirQualityByDistrictService/1/25")
         req = conn.getresponse()
 
-        # global DataList
-        # self.DataList.clear()
 
         if req.status == 200:
-            HaccpDoc = req.read().decode('utf-8')
-            if HaccpDoc == None:
+            SeoulAirXml = req.read().decode('utf-8')
+            if SeoulAirXml == None:
                 print("에러")
             else:
-                print("잘불러옴")
-                self.parseData = parseString(HaccpDoc)
+                self.parseData = parseString(SeoulAirXml)
                 self.Update=self.parseData.getElementsByTagName('MSRDATE')
                 self.GuNameData=self.parseData.getElementsByTagName('MSRSTENAME')#구이름
                 self.GradeMaxIndex=self.parseData.getElementsByTagName('MAXINDEX')#대기상태 숫자수치
@@ -183,10 +177,6 @@ class TermProj:
             i += 1
         i = 0
 
-        #rotated = list(zip(*reversed(self.DataList)))
-        for i in range(10):
-            print(self.DataList[i])
-
     def averageSeoul(self):
 
         self.sum = 0
@@ -228,13 +218,6 @@ class TermProj:
         self.average[5] = self.sum/25
         self.sum = 0
 
-        for i in range(6):
-            print(self.average[i])
-
-
-
-
-
 
     def ShowPollutantList(self, index):
         self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
@@ -274,9 +257,6 @@ class TermProj:
             self.nullArray[i] = self.DataList[startN][index]
             startN += 1
 
-        for i in range(6):
-            print(self.nullArray[i])
-
         #미세먼지부터 아황산 가스
 
         self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
@@ -292,14 +272,6 @@ class TermProj:
         self.canvas.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
         self.canvas.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
         self.canvas.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
-
-
-
-
-
-
-
-
 
 
 TermProj()
