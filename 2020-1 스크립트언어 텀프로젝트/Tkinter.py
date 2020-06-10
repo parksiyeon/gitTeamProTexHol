@@ -16,6 +16,9 @@ class TermProj:
         #self.initInputLabel()
         self.GetxmlFile()
         self.setLabelandButtons()
+        #self.averageSeoul()
+
+
         self.window.mainloop()
 
 
@@ -23,12 +26,15 @@ class TermProj:
         notebook = tkinter.ttk.Notebook(self.window, width=1000, height=600)
         notebook.pack()
         self.frame1 = Frame(self.window)
-        self.frame2=Frame(self.window)
+        self.frame2 = Frame(self.window)
         notebook.add(self.frame1, text="검색")
-        notebook.add(self.frame2, text="상세뭐시기")
+        notebook.add(self.frame2, text="상세비교")
         self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
         self.label1.pack()
         self.label1.place(x=100,y=50)
+        self.label2 = Label(self.frame2, text="서울시 평균과 지역 비교", fg='black', font='helvetica 16')
+        self.label2.pack()
+        self.label2.place(x=100, y=50)
         self.bg = PhotoImage(file='SeoulMap.png')
         self.SeoulMap = Label(self.frame1, image=self.bg, bd=0)
         self.SeoulMap.pack()
@@ -37,15 +43,21 @@ class TermProj:
         self.EntryWidget = Entry(self.frame1, bd=5)
         self.EntryWidget.pack()
         self.EntryWidget.place(x=350,y=50)
+        self.canvas = Canvas(self.frame2, width = 1000 , height = 600)
+        self.canvas.pack()
         SearchButton = Button(self.frame1, font=TempFont, text="검색", command=self.SearchGu)
         SearchButton.pack()
         SearchButton.place(x=530, y=45)
 
+
     def SearchGu(self):
         Entry=self.DataList[0].index(self.EntryWidget.get())
         self.ShowResult(Entry)
+        self.ShowPollutantList(Entry)
+        self.DrawGraph(Entry)
 
-    def ShowResult(self,index):
+
+    def ShowResult(self, index):
         #self.SeoulMap.configure(image='')
         #self.label1.configure(text="")
         print(str(self.DataList[0][index]))
@@ -102,7 +114,7 @@ class TermProj:
                 print("잘불러옴")
                 self.parseData = parseString(HaccpDoc)
                 self.Update=self.parseData.getElementsByTagName('MSRDATE')
-                self.GuNmaeData=self.parseData.getElementsByTagName('MSRSTENAME')#구이름
+                self.GuNameData=self.parseData.getElementsByTagName('MSRSTENAME')#구이름
                 self.GradeMaxIndex=self.parseData.getElementsByTagName('MAXINDEX')#대기상태 숫자수치
                 self.GradeData = self.parseData.getElementsByTagName('GRADE')#보통 나쁨 그거..
                 self.Pm10Data = self.parseData.getElementsByTagName('PM10')#미먼
@@ -115,7 +127,7 @@ class TermProj:
 
     def SetDatastoList(self):
         i=0
-        for one_tag in self.GuNmaeData:
+        for one_tag in self.GuNameData:
             self.xmlTag = one_tag.toxml()
             self.xmlData = self.xmlTag.replace('<MSRSTENAME>', '').replace('</MSRSTENAME>', '')
             self.DataList[0][i]=self.xmlData
@@ -174,5 +186,82 @@ class TermProj:
         #rotated = list(zip(*reversed(self.DataList)))
         for i in range(10):
             print(self.DataList[i])
+
+    # def averageSeoul(self, index):
+    #     startN = 3 #미세먼지 데이터부터
+    #     j = 0
+    #
+    #     self.intArray = [0] * 25
+    #     self.nullArray = [0] * 6
+    #     self.averArray = [0] * 6
+    #
+    #     for i in range(0, 6):
+    #         for j in range(0, 25):
+    #             self.intArray[j] = self.DataList[startN][j]
+    #             self.nullArray[i] += self.intArray[j]
+    #             if j == 25:
+    #                 self.averArray[i] = self.nullArray[i]/ 25
+    #
+    #     for i in range(6):
+    #         print(self.averArray[i])
+
+    def ShowPollutantList(self, index):
+        self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
+        self.PollutantL1.pack()
+        self.PollutantL1.place(x=50, y=500)
+
+        self.PollutantL1 = Label(self.frame2, text="평균 / 초미세먼지", fg='black', font='helvetica 12')
+        self.PollutantL1.pack()
+        self.PollutantL1.place(x=50*3.9, y=500)
+
+        self.PollutantL1 = Label(self.frame2, text="평균 / 이산화질소", fg='black', font='helvetica 12')
+        self.PollutantL1.pack()
+        self.PollutantL1.place(x=50*7.1, y=500)
+
+        self.PollutantL1 = Label(self.frame2, text="평균 / 오존", fg='black', font='helvetica 12')
+        self.PollutantL1.pack()
+        self.PollutantL1.place(x=50*10.5, y=500)
+
+        self.PollutantL1 = Label(self.frame2, text="평균 / 일산화탄소", fg='black', font='helvetica 12')
+        self.PollutantL1.pack()
+        self.PollutantL1.place(x=50*12.9, y=500)
+
+        self.PollutantL1 = Label(self.frame2, text="평균 / 아황산가스", fg='black', font='helvetica 12')
+        self.PollutantL1.pack()
+        self.PollutantL1.place(x=50*16.2, y=500)
+
+        for i in range(0, 6):
+            self.GuName = Label(self.frame2, text="(" + str(self.DataList[0][index]) + ")", fg='black', font='helvetica 12')
+            self.GuName.pack()
+            self.GuName.place(x=95+(50*3.1*i), y=520)
+
+    def DrawGraph(self, index):
+        self.nullArray = [0] * 6
+        startN = 3  #미세먼지부터 아황산 가스
+
+        for i in range(0, 6):
+            self.nullArray[i] = self.DataList[startN][index]
+            startN += 1
+
+        for i in range(6):
+            print(self.nullArray[i])
+
+        #미세먼지부터 아황산 가스
+
+        self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
+        self.canvas.create_rectangle(270, 450-int(self.nullArray[1]), 290, 450, fill='black')
+        self.canvas.create_rectangle(420, 450-float(self.nullArray[2])*100, 440, 450, fill='black')
+        self.canvas.create_rectangle(570, 450-float(self.nullArray[3])*100, 590, 450, fill='black')
+        self.canvas.create_rectangle(720, 450-float(self.nullArray[4])*10, 740, 450, fill='black')
+        self.canvas.create_rectangle(870, 450-float(self.nullArray[5])*100, 890, 450, fill='black')
+
+
+
+
+
+
+
+
+
 
 TermProj()
