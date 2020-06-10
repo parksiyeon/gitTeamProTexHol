@@ -77,14 +77,6 @@ class TermProj:
         self.Lsurful.pack()
         self.Lsurful.place(x=700, y=450)
 
-
-
-
-
-
-
-
-
     def initInputLabel(self):#검색칸
         global InputLabel
         TempFont = font.Font(self.window, size=15, weight='bold', family='Consolas')
