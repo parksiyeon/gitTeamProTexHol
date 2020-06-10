@@ -15,6 +15,7 @@ class TermProj:
         self.GetxmlFile()
         self.setLabelandButtons()
         self.averageSeoul()
+        self.UpdateRecentDate()
         self.window.mainloop()
 
     def setLabelandButtons(self):
@@ -33,9 +34,15 @@ class TermProj:
         self.label2.place(x=100, y=50)
 
         TempFont = font.Font(self.window, size=12, weight='bold', family='Consolas')
+        TempFont1 = font.Font(self.window, size=10, weight='bold', family='Consolas')
+        TempFont1 = font.Font(self.window, size=12, weight='bold',slant='italic', family='Consolas')
         EntryWidget = Entry(self.frame1, bd=5)
         EntryWidget.pack()
         EntryWidget.place(x=350,y=50)
+
+        self.updateL = Label(self.frame1, text="", fg='black', font=TempFont1)
+        self.updateL.pack()
+        self.updateL.place(x=650, y=0)
 
         SearchButton = Button(self.frame1, font=TempFont, text="검색", command=self.SearchGu)
         SearchButton.pack()
@@ -118,7 +125,21 @@ class TermProj:
                 self.OzoneData = self.parseData.getElementsByTagName('OZONE')  # 오존
                 self.CarbonData = self.parseData.getElementsByTagName('CARBON')  # 일산화탄소
                 self.SurfulSData = self.parseData.getElementsByTagName('SULFUROUS')  # 아황산
-                self.SetDatastoList()
+
+                if len(self.Update)>0:
+                    xmltag=self.Update[0].toxml()
+                    self.date=xmltag.replace('<MSRDATE>','').replace('</MSRDATE>','')
+
+
+        self.SetDatastoList()
+
+    def UpdateRecentDate(self):
+        year = self.date[0:4]
+        month = self.date[4:6]
+        day = self.date[6:8]
+        time=self.date[8:10]
+        self.updateL.configure(text="업데이트 시간:" + year + "년 " + month + "월 " + day + "일 "+time+"시 "+"00분")
+
 
     def SetDatastoList(self):
         i=0
@@ -179,45 +200,44 @@ class TermProj:
         i = 0
 
     def averageSeoul(self):
-
         self.sum = 0
         self.average = [0] * 6
 
-        #미세먼지
-        for i in range(25):
-            self.sum += int(self.DataList[3][i])
-        self.average[0] = self.sum /25
-        self.sum = 0
-
-        #초미세
-        for i in range(25):
-            self.sum += int(self.DataList[4][i])
-        self.average[1] = self.sum /25
-        self.sum = 0
-
-        #이산화질소
-        for i in range(25):
-            self.sum += float(self.DataList[5][i])
-        self.average[2] = self.sum/25
-        self.sum = 0
-
-        #오존
-        for i in range(25):
-            self.sum += float(self.DataList[6][i])
-        self.average[3] = self.sum/25
-        self.sum = 0
-
-        #일산화탄소
-        for i in range(25):
-            self.sum += float(self.DataList[7][i])
-        self.average[4] = self.sum/25
-        self.sum = 0
-
-        #아황산가스
-        for i in range(25):
-            self.sum += float(self.DataList[8][i])
-        self.average[5] = self.sum/25
-        self.sum = 0
+        # #미세먼지
+        # for i in range(25):
+        #     self.sum += int(self.DataList[3][i])
+        # self.average[0] = self.sum /25
+        # self.sum = 0
+        #
+        # #초미세
+        # for i in range(25):
+        #     self.sum += int(self.DataList[4][i])
+        # self.average[1] = self.sum /25
+        # self.sum = 0
+        #
+        # #이산화질소
+        # for i in range(25):
+        #     self.sum += float(self.DataList[5][i])
+        # self.average[2] = self.sum/25
+        # self.sum = 0
+        #
+        # #오존
+        # for i in range(25):
+        #     self.sum += float(self.DataList[6][i])
+        # self.average[3] = self.sum/25
+        # self.sum = 0
+        #
+        # #일산화탄소
+        # for i in range(25):
+        #     self.sum += float(self.DataList[7][i])
+        # self.average[4] = self.sum/25
+        # self.sum = 0
+        #
+        # #아황산가스
+        # for i in range(25):
+        #     self.sum += float(self.DataList[8][i])
+        # self.average[5] = self.sum/25
+        # self.sum = 0
 
 
     def ShowPollutantList(self, index):
