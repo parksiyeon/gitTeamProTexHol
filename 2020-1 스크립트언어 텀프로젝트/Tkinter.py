@@ -16,6 +16,8 @@ class TermProj:
         self.setLabelandButtons()
         self.averageSeoul()
         self.UpdateRecentDate()
+        #self.checkBoxList()
+        #self.averageSeoul()
         self.window.mainloop()
 
     def setLabelandButtons(self):
@@ -55,10 +57,41 @@ class TermProj:
         GetClickL.bind("<Button-1>",self.Clicked)
 
     def Clicked(self,event):
-        pos = mouse.get_position()  # 현재 마우스 포인터 좌표
+        self.posX = mouse.get_position()[0]  # 현재 마우스 포인터 좌표
+        self.posY = mouse.get_position()[1]  # 현재 마우스 포인터 좌표
         print(mouse.get_position())
-        print(mouse.get_position()[0])
-        print(mouse.get_position()[1])
+        # print(mouse.get_position()[0])
+        # print(mouse.get_position()[1])
+        self.GuList = [[870, 342, 914, 636],
+                       [881, 372, 925, 389],
+                       [869, 402, 908, 422],
+                       [935, 383, 974, 425],
+                       [987, 388, 1016, 406],
+                       [946, 344, 989, 367],
+                       [985, 319, 1024, 349],
+                       [900, 315, 948, 341],
+                       [894, 263, 945, 298],
+                       [926, 224, 967, 269],
+                       [968, 236, 1016, 304],
+                       [801, 280, 855, 322],
+                       [818, 349, 863, 368],
+                       [417, 403, 447, 406],
+                       [359, 452, 394, 398],
+                       [321, 397, 357, 398],
+                       [352, 486, 376, 485],
+                       [410, 524, 428, 527],
+                       [417, 453, 453, 450],
+                       [456, 474, 488, 476],
+                       [452, 518, 492, 518],
+                       [536, 478, 594, 472],
+                       [969, 445, 1021, 499],
+                       [616, 469, 660, 464],
+                       [659, 518, 703, 409], ]
+
+        for i in range(25):
+            if self.GuList[i][0] <= self.posX <= self.GuList[i][2]:
+                if self.GuList[i][1] <= self.posY <= self.GuList[i][3]:
+                    self.ShowResult(i)
 
     def SearchGu(self):
         Entry=self.DataList[0].index(self.EntryWidget.get())
@@ -293,6 +326,42 @@ class TermProj:
         self.canvas.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
         self.canvas.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
         self.canvas.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
+
+    def checkBoxList(self):
+        pass
+    #     self.GuList = [[870,342,914,636],
+    #                    [881,372,925,389],
+    #                    [869,402,908,422],
+    #                    [935,383,974,425],
+    #                    [987,388,1016,406],
+    #                    [946,344,989,367],
+    #                    [985,319,1024,349],
+    #                    [900,315,948,341],
+    #                    [894,263,945,298],
+    #                    [926,224,967,269],
+    #                    [968,236,1016,304],
+    #                    [801,280,855,322],
+    #                    [818,349,863,368],
+    #                    [417,403,447,406],
+    #                    [359,452,394,398],
+    #                    [321,397,357,398],
+    #                    [352,486,376,485],
+    #                    [410,524,428,527],
+    #                    [417,453,453,450],
+    #                    [456,474,488,476],
+    #                    [452,518,492,518],
+    #                    [536,478,594,472],
+    #                    [969,445,1021,499],
+    #                    [616,469,660,464],
+    #                    [659,518,703,409],]
+    #
+    #     for i in range(25):
+    #         if self.GuList[i][0] <= self.posX <=self.GuList[i][2]:
+    #             if self.GuList[i][1] <= self.posY <= self.GuList[i][3]:
+    #                 self.ShowResult(i)
+
+
+
 
 
 TermProj()
