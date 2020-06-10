@@ -2,105 +2,65 @@ from tkinter import *
 from tkinter import font
 import tkinter.ttk
 import tkinter.messagebox
-import mouse
 
 class TermProj:
     def __init__(self):
         self.DataList= [[0]*25 for _ in range(9)]
         self.DataList.append([])
+        #self.searchKeyword=StringVar()
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
         self.window.geometry("1000x600")
         self.window.configure(bg="white")
+        #self.initSearchList()
+        #self.initInputLabel()
         self.GetxmlFile()
         self.setLabelandButtons()
-        self.UpdateRecentDate()
-        #self.checkBoxList()
+        #self.averageSeoul()
+
+
         self.window.mainloop()
+
 
     def setLabelandButtons(self):
         notebook = tkinter.ttk.Notebook(self.window, width=1000, height=600)
         notebook.pack()
-
         self.frame1 = Frame(self.window)
         self.frame2 = Frame(self.window)
         notebook.add(self.frame1, text="검색")
         notebook.add(self.frame2, text="상세비교")
-        self.canvas = Canvas(self.frame2)
-
         self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
         self.label1.pack()
         self.label1.place(x=100,y=50)
         self.label2 = Label(self.frame2, text="서울시 평균과 지역 비교", fg='black', font='helvetica 16')
         self.label2.pack()
         self.label2.place(x=100, y=50)
-
+        self.bg = PhotoImage(file='SeoulMap.png')
+        self.SeoulMap = Label(self.frame1, image=self.bg, bd=0)
+        self.SeoulMap.pack()
+        self.SeoulMap.place(x=100,y=100)
         TempFont = font.Font(self.window, size=12, weight='bold', family='Consolas')
-        TempFont1 = font.Font(self.window, size=10, weight='bold', family='Consolas')
-        TempFont1 = font.Font(self.window, size=12, weight='bold',slant='italic', family='Consolas')
         self.EntryWidget = Entry(self.frame1, bd=5)
         self.EntryWidget.pack()
         self.EntryWidget.place(x=350,y=50)
-
-        self.updateL = Label(self.frame1, text="", fg='black', font=TempFont1)
-        self.updateL.pack()
-        self.updateL.place(x=650, y=0)
-
+        self.canvas = Canvas(self.frame2, width = 1000 , height = 600)
+        self.canvas.pack()
         SearchButton = Button(self.frame1, font=TempFont, text="검색", command=self.SearchGu)
         SearchButton.pack()
         SearchButton.place(x=530, y=45)
 
-        self.bg = PhotoImage(file='SeoulMap.png')
-        GetClickL = Label(self.frame1, image=self.bg)
-        GetClickL.pack()
-        GetClickL.place(x=100, y=100)
-        GetClickL.bind("<Button-1>",self.Clicked)
-
-    def Clicked(self,event):
-        self.posX = mouse.get_position()[0]  # 현재 마우스 포인터 좌표
-        self.posY = mouse.get_position()[1]  # 현재 마우스 포인터 좌표
-        print(mouse.get_position())
-        # print(mouse.get_position()[0])
-        # print(mouse.get_position()[1])
-        self.GuList = [[870, 342, 914, 636],
-                       [881, 372, 925, 389],
-                       [869, 402, 908, 422],
-                       [935, 383, 974, 425],
-                       [987, 388, 1016, 406],
-                       [946, 344, 989, 367],
-                       [985, 319, 1024, 349],
-                       [900, 315, 948, 341],
-                       [894, 263, 945, 298],
-                       [926, 224, 967, 269],
-                       [968, 236, 1016, 304],
-                       [801, 280, 855, 322],
-                       [818, 349, 863, 368],
-                       [417, 403, 447, 406],
-                       [359, 452, 394, 398],
-                       [321, 397, 357, 398],
-                       [352, 486, 376, 485],
-                       [410, 524, 428, 527],
-                       [417, 453, 453, 450],
-                       [456, 474, 488, 476],
-                       [452, 518, 492, 518],
-                       [536, 478, 594, 472],
-                       [969, 445, 1021, 499],
-                       [616, 469, 660, 464],
-                       [659, 518, 703, 409], ]
-
-        for i in range(25):
-            if self.GuList[i][0] <= self.posX <= self.GuList[i][2]:
-                if self.GuList[i][1] <= self.posY <= self.GuList[i][3]:
-                    self.ShowResult(i)
 
     def SearchGu(self):
         Entry=self.DataList[0].index(self.EntryWidget.get())
         self.ShowResult(Entry)
         self.ShowPollutantList(Entry)
-        self.averageSeoul()
         self.DrawGraph(Entry)
 
+
     def ShowResult(self, index):
+        #self.SeoulMap.configure(image='')
+        #self.label1.configure(text="")
+        print(str(self.DataList[0][index]))
         self.Lname = Label(self.frame1, text=str(self.DataList[0][index])+" 대기 상태", fg='black', font='helvetica 16')
         self.Lname.pack()
         self.Lname.place(x=700, y=50)
@@ -143,12 +103,16 @@ class TermProj:
         conn.request("GET", "/624a754e616d696e35326b42565763/xml/ListAirQualityByDistrictService/1/25")
         req = conn.getresponse()
 
+        # global DataList
+        # self.DataList.clear()
+
         if req.status == 200:
-            SeoulAirXml = req.read().decode('utf-8')
-            if SeoulAirXml == None:
+            HaccpDoc = req.read().decode('utf-8')
+            if HaccpDoc == None:
                 print("에러")
             else:
-                self.parseData = parseString(SeoulAirXml)
+                print("잘불러옴")
+                self.parseData = parseString(HaccpDoc)
                 self.Update=self.parseData.getElementsByTagName('MSRDATE')
                 self.GuNameData=self.parseData.getElementsByTagName('MSRSTENAME')#구이름
                 self.GradeMaxIndex=self.parseData.getElementsByTagName('MAXINDEX')#대기상태 숫자수치
@@ -159,21 +123,7 @@ class TermProj:
                 self.OzoneData = self.parseData.getElementsByTagName('OZONE')  # 오존
                 self.CarbonData = self.parseData.getElementsByTagName('CARBON')  # 일산화탄소
                 self.SurfulSData = self.parseData.getElementsByTagName('SULFUROUS')  # 아황산
-
-                if len(self.Update)>0:
-                    xmltag=self.Update[0].toxml()
-                    self.date=xmltag.replace('<MSRDATE>','').replace('</MSRDATE>','')
-
-
-        self.SetDatastoList()
-
-    def UpdateRecentDate(self):
-        year = self.date[0:4]
-        month = self.date[4:6]
-        day = self.date[6:8]
-        time=self.date[8:10]
-        self.updateL.configure(text="업데이트 시간:" + year + "년 " + month + "월 " + day + "일 "+time+"시 "+"00분")
-
+                self.SetDatastoList()
 
     def SetDatastoList(self):
         i=0
@@ -233,65 +183,58 @@ class TermProj:
             i += 1
         i = 0
 
+        #rotated = list(zip(*reversed(self.DataList)))
+        for i in range(10):
+            print(self.DataList[i])
+
     def averageSeoul(self):
-        print("불림")
+
         self.sum = 0
-        numtodivide=0
         self.average = [0] * 6
 
         #미세먼지
         for i in range(25):
-            if self.DataList[3][i]!='점검중':
-                self.sum += int(self.DataList[3][i])
-                numtodivide+=1
-        self.average[0] = self.sum /numtodivide
+            self.sum += int(self.DataList[3][i])
+        self.average[0] = self.sum /25
         self.sum = 0
-        numtodivide=0
 
         #초미세
         for i in range(25):
-            if self.DataList[4][i] != '점검중':
-                self.sum += int(self.DataList[4][i])
-                numtodivide+=1
-        self.average[1] = self.sum /numtodivide
+            self.sum += int(self.DataList[4][i])
+        self.average[1] = self.sum /25
         self.sum = 0
-        numtodivide=0
 
         #이산화질소
         for i in range(25):
-            if self.DataList[5][i] != '점검중':
-                self.sum += float(self.DataList[5][i])
-                numtodivide+=1
-        self.average[2] = self.sum/numtodivide
+            self.sum += float(self.DataList[5][i])
+        self.average[2] = self.sum/25
         self.sum = 0
-        numtodivide=0
 
         #오존
         for i in range(25):
-            if self.DataList[6][i] != '점검중':
-                self.sum += float(self.DataList[6][i])
-                numtodivide+=1
-        self.average[3] = self.sum/numtodivide
+            self.sum += float(self.DataList[6][i])
+        self.average[3] = self.sum/25
         self.sum = 0
-        numtodivide=0
 
         #일산화탄소
         for i in range(25):
-            if self.DataList[7][i] != '점검중':
-                self.sum += float(self.DataList[7][i])
-                numtodivide+=1
-        self.average[4] = self.sum/numtodivide
+            self.sum += float(self.DataList[7][i])
+        self.average[4] = self.sum/25
         self.sum = 0
-        numtodivide=0
 
         #아황산가스
         for i in range(25):
-            if self.DataList[8][i] != '점검중':
-                self.sum += float(self.DataList[8][i])
-                numtodivide+=1
-        self.average[5] = self.sum/numtodivide
+            self.sum += float(self.DataList[8][i])
+        self.average[5] = self.sum/25
         self.sum = 0
-        print(self.average)
+
+        for i in range(6):
+            print(self.average[i])
+
+
+
+
+
 
     def ShowPollutantList(self, index):
         self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
@@ -331,6 +274,9 @@ class TermProj:
             self.nullArray[i] = self.DataList[startN][index]
             startN += 1
 
+        for i in range(6):
+            print(self.nullArray[i])
+
         #미세먼지부터 아황산 가스
 
         self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
@@ -346,39 +292,11 @@ class TermProj:
         self.canvas.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
         self.canvas.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
         self.canvas.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
+ 
 
-    def checkBoxList(self):
-        pass
-    #     self.GuList = [[870,342,914,636],
-    #                    [881,372,925,389],
-    #                    [869,402,908,422],
-    #                    [935,383,974,425],
-    #                    [987,388,1016,406],
-    #                    [946,344,989,367],
-    #                    [985,319,1024,349],
-    #                    [900,315,948,341],
-    #                    [894,263,945,298],
-    #                    [926,224,967,269],
-    #                    [968,236,1016,304],
-    #                    [801,280,855,322],
-    #                    [818,349,863,368],
-    #                    [417,403,447,406],
-    #                    [359,452,394,398],
-    #                    [321,397,357,398],
-    #                    [352,486,376,485],
-    #                    [410,524,428,527],
-    #                    [417,453,453,450],
-    #                    [456,474,488,476],
-    #                    [452,518,492,518],
-    #                    [536,478,594,472],
-    #                    [969,445,1021,499],
-    #                    [616,469,660,464],
-    #                    [659,518,703,409],]
-    #
-    #     for i in range(25):
-    #         if self.GuList[i][0] <= self.posX <=self.GuList[i][2]:
-    #             if self.GuList[i][1] <= self.posY <= self.GuList[i][3]:
-    #                 self.ShowResult(i)
+
+
+
 
 
 
