@@ -14,19 +14,19 @@ class TermProj:
         self.window.configure(bg="white")
         self.GetxmlFile()
         self.setLabelandButtons()
-        self.averageSeoul()
         self.UpdateRecentDate()
         #self.checkBoxList()
-        #self.averageSeoul()
         self.window.mainloop()
 
     def setLabelandButtons(self):
         notebook = tkinter.ttk.Notebook(self.window, width=1000, height=600)
         notebook.pack()
+
         self.frame1 = Frame(self.window)
         self.frame2 = Frame(self.window)
         notebook.add(self.frame1, text="검색")
         notebook.add(self.frame2, text="상세비교")
+        self.canvas = Canvas(self.frame2)
 
         self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
         self.label1.pack()
@@ -38,9 +38,9 @@ class TermProj:
         TempFont = font.Font(self.window, size=12, weight='bold', family='Consolas')
         TempFont1 = font.Font(self.window, size=10, weight='bold', family='Consolas')
         TempFont1 = font.Font(self.window, size=12, weight='bold',slant='italic', family='Consolas')
-        EntryWidget = Entry(self.frame1, bd=5)
-        EntryWidget.pack()
-        EntryWidget.place(x=350,y=50)
+        self.EntryWidget = Entry(self.frame1, bd=5)
+        self.EntryWidget.pack()
+        self.EntryWidget.place(x=350,y=50)
 
         self.updateL = Label(self.frame1, text="", fg='black', font=TempFont1)
         self.updateL.pack()
@@ -97,6 +97,7 @@ class TermProj:
         Entry=self.DataList[0].index(self.EntryWidget.get())
         self.ShowResult(Entry)
         self.ShowPollutantList(Entry)
+        self.averageSeoul()
         self.DrawGraph(Entry)
 
     def ShowResult(self, index):
@@ -233,45 +234,64 @@ class TermProj:
         i = 0
 
     def averageSeoul(self):
+        print("불림")
         self.sum = 0
+        numtodivide=0
         self.average = [0] * 6
 
-        # #미세먼지
-        # for i in range(25):
-        #     self.sum += int(self.DataList[3][i])
-        # self.average[0] = self.sum /25
-        # self.sum = 0
-        #
-        # #초미세
-        # for i in range(25):
-        #     self.sum += int(self.DataList[4][i])
-        # self.average[1] = self.sum /25
-        # self.sum = 0
-        #
-        # #이산화질소
-        # for i in range(25):
-        #     self.sum += float(self.DataList[5][i])
-        # self.average[2] = self.sum/25
-        # self.sum = 0
-        #
-        # #오존
-        # for i in range(25):
-        #     self.sum += float(self.DataList[6][i])
-        # self.average[3] = self.sum/25
-        # self.sum = 0
-        #
-        # #일산화탄소
-        # for i in range(25):
-        #     self.sum += float(self.DataList[7][i])
-        # self.average[4] = self.sum/25
-        # self.sum = 0
-        #
-        # #아황산가스
-        # for i in range(25):
-        #     self.sum += float(self.DataList[8][i])
-        # self.average[5] = self.sum/25
-        # self.sum = 0
+        #미세먼지
+        for i in range(25):
+            if self.DataList[3][i]!='점검중':
+                self.sum += int(self.DataList[3][i])
+                numtodivide+=1
+        self.average[0] = self.sum /numtodivide
+        self.sum = 0
+        numtodivide=0
 
+        #초미세
+        for i in range(25):
+            if self.DataList[4][i] != '점검중':
+                self.sum += int(self.DataList[4][i])
+                numtodivide+=1
+        self.average[1] = self.sum /numtodivide
+        self.sum = 0
+        numtodivide=0
+
+        #이산화질소
+        for i in range(25):
+            if self.DataList[5][i] != '점검중':
+                self.sum += float(self.DataList[5][i])
+                numtodivide+=1
+        self.average[2] = self.sum/numtodivide
+        self.sum = 0
+        numtodivide=0
+
+        #오존
+        for i in range(25):
+            if self.DataList[6][i] != '점검중':
+                self.sum += float(self.DataList[6][i])
+                numtodivide+=1
+        self.average[3] = self.sum/numtodivide
+        self.sum = 0
+        numtodivide=0
+
+        #일산화탄소
+        for i in range(25):
+            if self.DataList[7][i] != '점검중':
+                self.sum += float(self.DataList[7][i])
+                numtodivide+=1
+        self.average[4] = self.sum/numtodivide
+        self.sum = 0
+        numtodivide=0
+
+        #아황산가스
+        for i in range(25):
+            if self.DataList[8][i] != '점검중':
+                self.sum += float(self.DataList[8][i])
+                numtodivide+=1
+        self.average[5] = self.sum/numtodivide
+        self.sum = 0
+        print(self.average)
 
     def ShowPollutantList(self, index):
         self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
