@@ -2,9 +2,7 @@ from tkinter import *
 from tkinter import font
 import tkinter.ttk
 import tkinter.messagebox
-
-def GetCursor(event):
-    print(event.x, event.y)
+import mouse
 
 class TermProj:
     def __init__(self):
@@ -38,6 +36,7 @@ class TermProj:
         EntryWidget = Entry(self.frame1, bd=5)
         EntryWidget.pack()
         EntryWidget.place(x=350,y=50)
+
         SearchButton = Button(self.frame1, font=TempFont, text="검색", command=self.SearchGu)
         SearchButton.pack()
         SearchButton.place(x=530, y=45)
@@ -46,8 +45,13 @@ class TermProj:
         GetClickL = Label(self.frame1, image=self.bg)
         GetClickL.pack()
         GetClickL.place(x=100, y=100)
-        GetClickL.bind("<B1-Motion>", GetCursor)
+        GetClickL.bind("<Button-1>",self.Clicked)
 
+    def Clicked(self,event):
+        pos = mouse.get_position()  # 현재 마우스 포인터 좌표
+        print(mouse.get_position())
+        print(mouse.get_position()[0])
+        print(mouse.get_position()[1])
 
     def SearchGu(self):
         Entry=self.DataList[0].index(self.EntryWidget.get())
@@ -56,8 +60,6 @@ class TermProj:
         self.DrawGraph(Entry)
 
     def ShowResult(self, index):
-        #self.SeoulMap.configure(image='')
-        #self.label1.configure(text="")
         self.Lname = Label(self.frame1, text=str(self.DataList[0][index])+" 대기 상태", fg='black', font='helvetica 16')
         self.Lname.pack()
         self.Lname.place(x=700, y=50)
@@ -99,7 +101,6 @@ class TermProj:
         conn = http.client.HTTPConnection("openapi.seoul.go.kr:8088")
         conn.request("GET", "/624a754e616d696e35326b42565763/xml/ListAirQualityByDistrictService/1/25")
         req = conn.getresponse()
-
 
         if req.status == 200:
             SeoulAirXml = req.read().decode('utf-8')
