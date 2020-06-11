@@ -104,11 +104,14 @@ class TermProj:
                         self.ShowPollutantList(i)
                         self.averageSeoul()
                         self.DrawGraph(i)
+                        self.printAverL()
                     elif self.findtimes>=2:
+                        self.resetMatterN()
                         self.UpdateResult(i)
                         self.ShowPollutantList(i)
                         self.averageSeoul()
                         self.DrawGraph(i)
+
 
 
 
@@ -121,6 +124,7 @@ class TermProj:
             self.averageSeoul()
             self.DrawGraph(Entry)
         elif self.findtimes>=2:
+            self.resetMatterN()
             self.UpdateResult(Entry)
             self.averageSeoul()
             self.DrawGraph(Entry)
@@ -140,19 +144,19 @@ class TermProj:
         self.GuName.configure(text="")
         self.GuName.configure(text=self.DataList[0][index])
 
-        self.pollutantValue0.configure(text="( " + str(self.DataList[3][index]) + " )")
-        self.pollutantValue1.configure(text="( " + str(self.DataList[4][index]) + " )")
-        self.pollutantValue2.configure(text="( " + str(self.DataList[5][index]) + " )")
-        self.pollutantValue3.configure(text="( " + str(self.DataList[6][index]) + " )")
-        self.pollutantValue4.configure(text="( " + str(self.DataList[7][index]) + " )")
-        self.pollutantValue5.configure(text="( " + str(self.DataList[8][index]) + " )")
-
         self.canvas2.delete(self.graph0)
         self.canvas2.delete(self.graph1)
         self.canvas2.delete(self.graph2)
         self.canvas2.delete(self.graph3)
         self.canvas2.delete(self.graph4)
         self.canvas2.delete(self.graph5)
+
+        self.canvas2.delete(self.averGraph0)
+        self.canvas2.delete(self.averGraph1)
+        self.canvas2.delete(self.averGraph2)
+        self.canvas2.delete(self.averGraph3)
+        self.canvas2.delete(self.averGraph4)
+        self.canvas2.delete(self.averGraph5)
 
 
     def ShowResult(self, index):
@@ -387,7 +391,7 @@ class TermProj:
             if self.DataList[3][i]!='점검중':
                 self.sum += int(self.DataList[3][i])
                 numtodivide+=1
-        self.average[0] = self.sum /numtodivide
+        self.average[0] = round(self.sum /numtodivide, 1)
         self.sum = 0
         numtodivide=0
 
@@ -396,7 +400,7 @@ class TermProj:
             if self.DataList[4][i] != '점검중':
                 self.sum += int(self.DataList[4][i])
                 numtodivide+=1
-        self.average[1] = self.sum /numtodivide
+        self.average[1] = round(self.sum /numtodivide, 1)
         self.sum = 0
         numtodivide=0
 
@@ -405,7 +409,7 @@ class TermProj:
             if self.DataList[5][i] != '점검중':
                 self.sum += float(self.DataList[5][i])
                 numtodivide+=1
-        self.average[2] = self.sum/numtodivide
+        self.average[2] = round(self.sum /numtodivide, 3)
         self.sum = 0
         numtodivide=0
 
@@ -414,7 +418,7 @@ class TermProj:
             if self.DataList[6][i] != '점검중':
                 self.sum += float(self.DataList[6][i])
                 numtodivide+=1
-        self.average[3] = self.sum/numtodivide
+        self.average[3] = round(self.sum /numtodivide, 1)
         self.sum = 0
         numtodivide=0
 
@@ -423,7 +427,7 @@ class TermProj:
             if self.DataList[7][i] != '점검중':
                 self.sum += float(self.DataList[7][i])
                 numtodivide+=1
-        self.average[4] = self.sum/numtodivide
+        self.average[4] = round(self.sum /numtodivide, 2)
         self.sum = 0
         numtodivide=0
 
@@ -432,8 +436,10 @@ class TermProj:
             if self.DataList[8][i] != '점검중':
                 self.sum += float(self.DataList[8][i])
                 numtodivide+=1
-        self.average[5] = self.sum/numtodivide
+        self.average[5] = round(self.sum /numtodivide, 4)
         self.sum = 0
+
+
 
     def ShowPollutantList(self, index):
         print(self.findtimes)
@@ -465,6 +471,30 @@ class TermProj:
         self.GuName.pack()
         self.GuName.place(x=400, y=50)
 
+        self.matterName1 = Label(self.frame2, text = "["+"미세먼지"+"]", fg = 'black', font='helvetica 12')
+        self.matterName1.pack()
+        self.matterName1.place(x=70 , y=500)
+
+        self.matterName2 = Label(self.frame2, text = "["+"초미세먼지"+"]", fg = 'black', font='helvetica 12')
+        self.matterName2.pack()
+        self.matterName2.place(x=210, y=500)
+
+        self.matterName3 = Label(self.frame2, text = "["+"이산화질소"+"]", fg = 'black', font='helvetica 12')
+        self.matterName3.pack()
+        self.matterName3.place(x=370, y=500)
+
+        self.matterName4 = Label(self.frame2, text = "["+"오존"+"]", fg = 'black', font='helvetica 12')
+        self.matterName4.pack()
+        self.matterName4.place(x=550, y=500)
+
+        self.matterName5 = Label(self.frame2, text = "["+"일산화탄소"+"]", fg = 'black', font='helvetica 12')
+        self.matterName5.pack()
+        self.matterName5.place(x=655, y=500)
+
+        self.matterName6 = Label(self.frame2, text = "["+"아황산가스"+"]", fg = 'black', font='helvetica 12')
+        self.matterName6.pack()
+        self.matterName6.place(x=820, y=500)
+
     def DrawGraph(self, index):
         self.nullArray = [0] * 6
         startN = 3  #미세먼지부터 아황산 가스
@@ -477,61 +507,76 @@ class TermProj:
         #미세먼지부터 아황산 가스
 
         if self.nullArray[0] != '점검중':
-            self.graph0 = self.canvas2.create_rectangle(120, 250 - int(self.nullArray[0]), 140, 450, fill='black')
-            self.pollutantValue0 = Label(self.frame2, text="( " + str(self.nullArray[0]) + " )", fg='black',
-                                         font='helvetica 12')
+            self.graph0 = self.canvas2.create_rectangle(120, 450 - int(self.nullArray[0])*5, 140, 450, fill='black')
+            self.pollutantValue0 = Label(self.frame2, text=str(self.nullArray[0]), fg='black',font='helvetica 12',tags='label')
             self.pollutantValue0.pack()
-            self.pollutantValue0.place(x=107, y=220 - int(self.nullArray[0]))
+            self.pollutantValue0.place(x=110, y=400 - int(self.nullArray[0])*5)
 
         if self.nullArray[1] != '점검중':
-            self.graph1 = self.canvas2.create_rectangle(270, 250 - int(self.nullArray[1]), 290, 450, fill='black')
-            self.pollutantValue1 = Label(self.frame2, text="( " + str(self.nullArray[1]) + " )", fg='black',
-                                         font='helvetica 12')
+            self.graph1 = self.canvas2.create_rectangle(270, 450 - int(self.nullArray[1])*5, 290, 450, fill='black')
+            self.pollutantValue1 = Label(self.frame2, text=str(self.nullArray[1]), fg='black',font='helvetica 12',tags='label')
             self.pollutantValue1.pack()
-            self.pollutantValue1.place(x=257, y=220 - int(self.nullArray[1]))
+            self.pollutantValue1.place(x=265, y=400 - int(self.nullArray[1])*5)
 
         if self.nullArray[2] != '점검중':
             self.graph2 = self.canvas2.create_rectangle(425, 450 - float(self.nullArray[2]) * 100, 445, 450, fill='black')
-            self.pollutantValue2 = Label(self.frame2, text="( " + str(self.nullArray[2]) + " )", fg='black',
-                                         font='helvetica 12')
+            self.pollutantValue2 = Label(self.frame2, text=str(self.nullArray[2]), fg='black',font='helvetica 12',tags='label')
             self.pollutantValue2.pack()
-            self.pollutantValue2.place(x=407, y=400 - float(self.nullArray[2]))
+            self.pollutantValue2.place(x=415, y=400 - float(self.nullArray[2]))
 
         if self.nullArray[3] != '점검중':
             self.graph3 = self.canvas2.create_rectangle(575, 450 - float(self.nullArray[3]) * 100, 595, 450, fill='black')
-            self.pollutantValue3 = Label(self.frame2, text="( " + str(self.nullArray[3]) + " )", fg='black',
-                                         font='helvetica 12')
+            self.pollutantValue3 = Label(self.frame2, text=str(self.nullArray[3]), fg='black',font='helvetica 12',tags='label')
             self.pollutantValue3.pack()
             self.pollutantValue3.place(x=557, y=400 - float(self.nullArray[3]))
 
         if self.nullArray[4] != '점검중':
             self.graph4 = self.canvas2.create_rectangle(720, 450 - float(self.nullArray[4]) * 10, 740, 450, fill='black')
-            self.pollutantValue4 = Label(self.frame2, text="( " + str(self.nullArray[4]) + " )", fg='black',
-                                         font='helvetica 12')
+            self.pollutantValue4 = Label(self.frame2, text=str(self.nullArray[4]), fg='black',font='helvetica 12',tags='label')
             self.pollutantValue4.pack()
             self.pollutantValue4.place(x=707, y=400 - float(self.nullArray[4]))
 
         if self.nullArray[5] != '점검중':
             self.graph5 = self.canvas2.create_rectangle(880, 450 - float(self.nullArray[5]) * 100, 900, 450, fill='black')
-            self.pollutantValue5 = Label(self.frame2, text="( " + str(self.nullArray[5]) + " )", fg='black',
-                                         font='helvetica 12')
+            self.pollutantValue5 = Label(self.frame2, text=str(self.nullArray[5]), fg='black',font='helvetica 12',tags='label')
             self.pollutantValue5.pack()
-            self.pollutantValue5.place(x=857, y=400 - float(self.nullArray[5]))
+            self.pollutantValue5.place(x=865, y=400 - float(self.nullArray[5]))
 
-        self.canvas2.create_rectangle(60, 250 - int(self.average[0]), 80, 450, fill='black')
-        self.canvas2.create_rectangle(210, 250 - int(self.average[1]), 230, 450, fill='black')
-        self.canvas2.create_rectangle(365, 450 - float(self.average[2]) * 100, 385, 450, fill='black')
-        self.canvas2.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
-        self.canvas2.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
-        self.canvas2.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
-
-
+        self.averGraph0 = self.canvas2.create_rectangle(60, 450 - int(self.average[0]*5), 80, 450, fill='black')
+        self.averGraph1 = self.canvas2.create_rectangle(210, 450 - int(self.average[1]*5), 230, 450, fill='black')
+        self.averGraph2 = self.canvas2.create_rectangle(365, 450 - float(self.average[2]) * 100, 385, 450, fill='black')
+        self.averGraph3 = self.canvas2.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
+        self.averGraph4 = self.canvas2.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
+        self.averGraph5 = self.canvas2.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
 
 
+    def printAverL(self):
+        self.averageValue0 = Label(self.frame2, text=str(self.average[0]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue0.pack()
+        self.averageValue0.place(x=52, y=400 - int(self.average[0]) * 5)
 
+        self.averageValue1 = Label(self.frame2, text=str(self.average[1]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue1.pack()
+        self.averageValue1.place(x=195, y=400 - int(self.average[1]) * 5)
 
+        self.averageValue2 = Label(self.frame2, text=str(self.average[2]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue2.pack()
+        self.averageValue2.place(x=345, y=400 - int(self.average[2]))
 
+        self.averageValue3 = Label(self.frame2, text=str(self.average[3]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue3.pack()
+        self.averageValue3.place(x=505, y=400 - int(self.average[3]))
 
+        self.averageValue4 = Label(self.frame2, text=str(self.average[4]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue4.pack()
+        self.averageValue4.place(x=652, y=400 - int(self.average[4]))
+
+        self.averageValue5 = Label(self.frame2, text=str(self.average[5]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue5.pack()
+        self.averageValue5.place(x=795, y=400 - int(self.average[5]))
+
+    def resetMatterN(self):
+        self.canvas2.delete('label')
 
 
 
