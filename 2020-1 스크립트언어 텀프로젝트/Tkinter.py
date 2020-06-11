@@ -140,6 +140,13 @@ class TermProj:
 
         self.GuName.configure(text="(" + str(self.DataList[0][index] + ")"))
 
+        self.pollutantValue0.configure(text="( " + str(self.DataList[3][index]) + " )")
+        self.pollutantValue1.configure(text="( " + str(self.DataList[4][index]) + " )")
+        self.pollutantValue2.configure(text="( " + str(self.DataList[5][index]) + " )")
+        self.pollutantValue3.configure(text="( " + str(self.DataList[6][index]) + " )")
+        self.pollutantValue4.configure(text="( " + str(self.DataList[7][index]) + " )")
+        self.pollutantValue5.configure(text="( " + str(self.DataList[8][index]) + " )")
+
         self.canvas2.delete(self.graph0)
         self.canvas2.delete(self.graph1)
         self.canvas2.delete(self.graph2)
@@ -429,42 +436,39 @@ class TermProj:
         self.sum = 0
 
     def ShowPollutantList(self, index):
-        self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
+        self.PollutantL0 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
+        self.PollutantL0.pack()
+        self.PollutantL0.place(x=50, y=480)
+
+        self.PollutantL1 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
         self.PollutantL1.pack()
-        self.PollutantL1.place(x=50, y=480)
+        self.PollutantL1.place(x=50*4, y=480)
 
-        self.PollutantL1 = Label(self.frame2, text="평균 / 초미세먼지", fg='black', font='helvetica 12')
-        self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*3.9, y=480)
+        self.PollutantL2 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
+        self.PollutantL2.pack()
+        self.PollutantL2.place(x=50*7.2, y=480)
 
-        self.PollutantL1 = Label(self.frame2, text="평균 / 이산화질소", fg='black', font='helvetica 12')
-        self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*7.1, y=480)
+        self.PollutantL3 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
+        self.PollutantL3.pack()
+        self.PollutantL3.place(x=50*10.4, y=480)
 
-        self.PollutantL1 = Label(self.frame2, text="평균 / 오존", fg='black', font='helvetica 12')
-        self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*10.5, y=480)
+        self.PollutantL4 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
+        self.PollutantL4.pack()
+        self.PollutantL4.place(x=50*12.9, y=480)
 
-        self.PollutantL1 = Label(self.frame2, text="평균 / 일산화탄소", fg='black', font='helvetica 12')
-        self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*12.9, y=480)
-
-        self.PollutantL1 = Label(self.frame2, text="평균 / 아황산가스", fg='black', font='helvetica 12')
-        self.PollutantL1.pack()
-        self.PollutantL1.place(x=50*16.2, y=480)
+        self.PollutantL5 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
+        self.PollutantL5.pack()
+        self.PollutantL5.place(x=50*16.2, y=480)
 
 
-        for i in range(0, 6):
-            self.GuName = Label(self.frame2, text="(" + str(self.DataList[0][index]) + ")", fg='black', font='helvetica 12')
-            self.GuName.pack()
-            self.GuName.place(x=95+(50*3.1*i), y=500)
-
-
-
+        self.GuName = Label(self.frame2, text="(" + str(self.DataList[0][index]) + ")", fg='black', font='helvetica 15')
+        self.GuName.pack()
+        self.GuName.place(x=350, y=50)
 
     def DrawGraph(self, index):
         self.nullArray = [0] * 6
         startN = 3  #미세먼지부터 아황산 가스
+
 
         for i in range(0, 6):
             self.nullArray[i] = self.DataList[startN][index]
@@ -473,24 +477,62 @@ class TermProj:
         #미세먼지부터 아황산 가스
 
         if self.nullArray[0] != '점검중':
-            self.graph0 = self.canvas2.create_rectangle(120, 450 - int(self.nullArray[0]), 140, 450, fill='black')
+            self.graph0 = self.canvas2.create_rectangle(120, 250 - int(self.nullArray[0]), 140, 450, fill='black')
+            self.pollutantValue0 = Label(self.frame2, text="( " + str(self.nullArray[0]) + " )", fg='black',
+                                         font='helvetica 12')
+            self.pollutantValue0.pack()
+            self.pollutantValue0.place(x=107, y=220 - int(self.nullArray[0]))
+
         if self.nullArray[1] != '점검중':
-            self.graph1 = self.canvas2.create_rectangle(270, 450 - int(self.nullArray[1]), 290, 450, fill='black')
+            self.graph1 = self.canvas2.create_rectangle(270, 250 - int(self.nullArray[1]), 290, 450, fill='black')
+            self.pollutantValue1 = Label(self.frame2, text="( " + str(self.nullArray[1]) + " )", fg='black',
+                                         font='helvetica 12')
+            self.pollutantValue1.pack()
+            self.pollutantValue1.place(x=257, y=220 - int(self.nullArray[1]))
+
         if self.nullArray[2] != '점검중':
             self.graph2 = self.canvas2.create_rectangle(425, 450 - float(self.nullArray[2]) * 100, 445, 450, fill='black')
+            self.pollutantValue2 = Label(self.frame2, text="( " + str(self.nullArray[2]) + " )", fg='black',
+                                         font='helvetica 12')
+            self.pollutantValue2.pack()
+            self.pollutantValue2.place(x=407, y=400 - float(self.nullArray[2]))
+
         if self.nullArray[3] != '점검중':
             self.graph3 = self.canvas2.create_rectangle(575, 450 - float(self.nullArray[3]) * 100, 595, 450, fill='black')
+            self.pollutantValue3 = Label(self.frame2, text="( " + str(self.nullArray[3]) + " )", fg='black',
+                                         font='helvetica 12')
+            self.pollutantValue3.pack()
+            self.pollutantValue3.place(x=557, y=400 - float(self.nullArray[3]))
+
         if self.nullArray[4] != '점검중':
             self.graph4 = self.canvas2.create_rectangle(720, 450 - float(self.nullArray[4]) * 10, 740, 450, fill='black')
+            self.pollutantValue4 = Label(self.frame2, text="( " + str(self.nullArray[4]) + " )", fg='black',
+                                         font='helvetica 12')
+            self.pollutantValue4.pack()
+            self.pollutantValue4.place(x=707, y=400 - float(self.nullArray[4]))
+
         if self.nullArray[5] != '점검중':
             self.graph5 = self.canvas2.create_rectangle(880, 450 - float(self.nullArray[5]) * 100, 900, 450, fill='black')
+            self.pollutantValue5 = Label(self.frame2, text="( " + str(self.nullArray[5]) + " )", fg='black',
+                                         font='helvetica 12')
+            self.pollutantValue5.pack()
+            self.pollutantValue5.place(x=857, y=400 - float(self.nullArray[5]))
 
-        self.canvas2.create_rectangle(60, 450 - int(self.average[0]), 80, 450, fill='black')
-        self.canvas2.create_rectangle(210, 450 - int(self.average[1]), 230, 450, fill='black')
+        self.canvas2.create_rectangle(60, 250 - int(self.average[0]), 80, 450, fill='black')
+        self.canvas2.create_rectangle(210, 250 - int(self.average[1]), 230, 450, fill='black')
         self.canvas2.create_rectangle(365, 450 - float(self.average[2]) * 100, 385, 450, fill='black')
         self.canvas2.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
         self.canvas2.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
         self.canvas2.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
+
+
+
+
+
+
+
+
+
 
 
 
