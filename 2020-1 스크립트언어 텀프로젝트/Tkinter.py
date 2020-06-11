@@ -8,26 +8,34 @@ class TermProj:
     def __init__(self):
         self.DataList= [[0]*25 for _ in range(9)]
         self.DataList.append([])
+        self.favtimes=0
+        self.FavList=[0 for _ in range(3)]
         self.findtimes=0
+        self.index=0
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
         self.window.geometry("1000x600+300+100")
         self.window.configure(bg="white")
         self.GetxmlFile()
-        self.setLabelandButtons()
+        self.SetUIs()
+        self.SetUIonFrame3()
         self.UpdateRecentDate()
         self.window.mainloop()
 
-    def setLabelandButtons(self):
+    def SetUIs(self):
         notebook = tkinter.ttk.Notebook(self.window, width=1000, height=600)
         notebook.pack()
 
         self.frame1 = Frame(self.window)
         self.frame2 = Frame(self.window)
+        self.frame3 = Frame(self.window)
         notebook.add(self.frame1, text="검색")
         notebook.add(self.frame2, text="상세비교")
-        self.canvas = Canvas(self.frame2, width=1000, height=600)
-        self.canvas.pack()
+        notebook.add(self.frame3, text="즐겨찾기")
+        
+        self.canvas1=Canvas(self.frame1,width=1000,height=600)
+        self.canvas2 = Canvas(self.frame2, width=1000, height=600)
+        self.canvas2.pack()
 
         self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
         self.label1.pack()
@@ -60,9 +68,6 @@ class TermProj:
     def Clicked(self,event):
         self.posX = mouse.get_position()[0]  # 현재 마우스 포인터 좌표
         self.posY = mouse.get_position()[1]  # 현재 마우스 포인터 좌표
-        print(mouse.get_position())
-        # print(mouse.get_position()[0])
-        # print(mouse.get_position()[1])
         self.GuList = [[631, 409, 676, 439],
                        [640, 445, 696, 466],
                        [628, 473, 679, 506],
@@ -122,6 +127,7 @@ class TermProj:
 
 
     def UpdateResult(self,index):
+        self.index=index
         self.Lname.configure(text=self.DataList[0][index]+" 대기 상태")
         self.LgradeStr.configure(text=self.DataList[1][index])
         self.Lgradenum.configure(text="(수치 "+self.DataList[2][index]+")")
@@ -134,16 +140,17 @@ class TermProj:
 
         self.GuName.configure(text="(" + str(self.DataList[0][index] + ")"))
 
-        self.canvas.delete(self.graph0)
-        self.canvas.delete(self.graph1)
-        self.canvas.delete(self.graph2)
-        self.canvas.delete(self.graph3)
-        self.canvas.delete(self.graph4)
-        self.canvas.delete(self.graph5)
+        self.canvas2.delete(self.graph0)
+        self.canvas2.delete(self.graph1)
+        self.canvas2.delete(self.graph2)
+        self.canvas2.delete(self.graph3)
+        self.canvas2.delete(self.graph4)
+        self.canvas2.delete(self.graph5)
 
 
     def ShowResult(self, index):
-        self.Lname = Label(self.frame1, text=str(self.DataList[0][index])+" 대기 상태", fg='black', font='helvetica 16')
+        self.index=index
+        self.Lname = Label(self.frame1, text=str(self.DataList[0][index]), fg='black', font='helvetica 16')
         self.Lname.pack()
         self.Lname.place(x=700, y=50)
         self.LgradeStr = Label(self.frame1, text=str(self.DataList[1][index]), fg='black', font='helvetica 16')
@@ -170,8 +177,97 @@ class TermProj:
         self.Lsurful = Label(self.frame1, text="아황산가스:" + str(self.DataList[8][index]), fg='black', font='helvetica 16')
         self.Lsurful.pack()
         self.Lsurful.place(x=700, y=450)
+        self.Baddfav=Button(self.frame1,text="즐겨찾기 등록",command=self.AddtoFav)
+        self.Baddfav.pack()
+        self.Baddfav.place(x=800,y=500)
 
-    def initInputLabel(self):#검색칸
+    def SetUIonFrame3(self):
+        lab=Label(self.frame3,text="나의 즐겨찾기 목록")
+        lab.pack()
+        lab.place(x=100,y=20)
+
+        self.Bfav1=Button(self.frame3,text="Empty",command=self.ShowMyFav1)
+        self.Bfav1.pack()
+        self.Bfav1.place(x=50,y=100)
+        self.Bfav2 = Button(self.frame3, text="Empty", command=self.ShowMyFav2)
+        self.Bfav2.pack()
+        self.Bfav2.place(x=50, y=150)
+        self.Bfav3 = Button(self.frame3, text="Empty", command=self.ShowMyFav3)
+        self.Bfav3.pack()
+        self.Bfav3.place(x=50, y=200)
+
+    def AddtoFav(self):
+        self.FavList[self.favtimes]=self.index
+        self.Lnamef3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.Lnamef3.pack()
+        self.Lnamef3.place(x=700, y=50)
+        self.LgradeStrf3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.LgradeStrf3.pack()
+        self.LgradeStrf3.place(x=700, y=100)
+        self.Lgradenumf3 = Label(self.frame3, text="", fg='black',font='helvetica 16')
+        self.Lgradenumf3.pack()
+        self.Lgradenumf3.place(x=750, y=100)
+        self.Lpm10f3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.Lpm10f3.pack()
+        self.Lpm10f3.place(x=700, y=200)
+        self.Lpm25f3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.Lpm25f3.pack()
+        self.Lpm25f3.place(x=700, y=250)
+        self.Lnitrof3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.Lnitrof3.pack()
+        self.Lnitrof3.place(x=700, y=300)
+        self.Lozonef3 = Label(self.frame3, text="" , fg='black', font='helvetica 16')
+        self.Lozonef3.pack()
+        self.Lozonef3.place(x=700, y=350)
+        self.Lcarbonf3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.Lcarbonf3.pack()
+        self.Lcarbonf3.place(x=700, y=400)
+        self.Lsurfulf3 = Label(self.frame3, text="", fg='black', font='helvetica 16')
+        self.Lsurfulf3.pack()
+        self.Lsurfulf3.place(x=700, y=450)
+
+        if self.favtimes==0:
+            self.Bfav1.configure(text=self.DataList[0][self.index])
+        elif self.favtimes==1:
+            self.Bfav2.configure(text=self.DataList[0][self.index])
+        elif self.favtimes==2:
+            self.Bfav3.configure(text=self.DataList[0][self.index])
+        self.favtimes += 1
+
+    def ShowMyFav1(self):
+        self.Lnamef3.configure(text=str(self.DataList[0][self.FavList[0]]))
+        self.LgradeStrf3.configure(text=str(self.DataList[1][self.FavList[0]]))
+        self.Lgradenumf3.configure(text="(수치 " + str(self.DataList[2][self.FavList[0]]) + ")")
+        self.Lpm10f3.configure(text="미세먼지:" + str(self.DataList[3][self.FavList[0]]))
+        self.Lpm25f3.configure(text="초미세먼지:" + str(self.DataList[4][self.FavList[0]]))
+        self.Lnitrof3.configure(text="이산화질소:" + str(self.DataList[5][self.FavList[0]]))
+        self.Lozonef3.configure(text="오존:" + str(self.DataList[6][self.FavList[0]]))
+        self.Lcarbonf3.configure(text="일산화탄소:" + str(self.DataList[7][self.FavList[0]]))
+        self.Lsurfulf3.configure(text="아황산가스:" + str(self.DataList[8][self.FavList[0]]))
+    def ShowMyFav2(self):
+        self.Lnamef3.configure(text=str(self.DataList[0][self.FavList[1]]))
+        self.LgradeStrf3.configure(text=str(self.DataList[1][self.FavList[1]]))
+        self.Lgradenumf3.configure(text="(수치 " + str(self.DataList[2][self.FavList[1]]) + ")")
+        self.Lpm10f3.configure(text="미세먼지:" + str(self.DataList[3][self.FavList[1]]))
+        self.Lpm25f3.configure(text="초미세먼지:" + str(self.DataList[4][self.FavList[1]]))
+        self.Lnitrof3.configure(text="이산화질소:" + str(self.DataList[5][self.FavList[1]]))
+        self.Lozonef3.configure(text="오존:" + str(self.DataList[6][self.FavList[1]]))
+        self.Lcarbonf3.configure(text="일산화탄소:" + str(self.DataList[7][self.FavList[1]]))
+        self.Lsurfulf3.configure(text="아황산가스:" + str(self.DataList[8][self.FavList[1]]))
+
+    def ShowMyFav3(self):
+        self.Lnamef3.configure(text=str(self.DataList[0][self.FavList[2]]))
+        self.LgradeStrf3.configure(text=str(self.DataList[1][self.FavList[2]]))
+        self.Lgradenumf3.configure(text="(수치 " + str(self.DataList[2][self.FavList[2]]) + ")")
+        self.Lpm10f3.configure(text="미세먼지:" + str(self.DataList[3][self.FavList[2]]))
+        self.Lpm25f3.configure(text="초미세먼지:" + str(self.DataList[4][self.FavList[2]]))
+        self.Lnitrof3.configure(text="이산화질소:" + str(self.DataList[5][self.FavList[2]]))
+        self.Lozonef3.configure(text="오존:" + str(self.DataList[6][self.FavList[2]]))
+        self.Lcarbonf3.configure(text="일산화탄소:" + str(self.DataList[7][self.FavList[2]]))
+        self.Lsurfulf3.configure(text="아황산가스:" + str(self.DataList[8][self.FavList[2]]))
+
+
+    def InitInputLabel(self):#검색칸
         global InputLabel
         TempFont = font.Font(self.window, size=15, weight='bold', family='Consolas')
         InputLabel = Entry(self.window, font=TempFont, width=26, borderwidth=12, relief='ridge')
@@ -215,7 +311,6 @@ class TermProj:
         day = self.date[6:8]
         time=self.date[8:10]
         self.updateL.configure(text="업데이트 시간:" + year + "년 " + month + "월 " + day + "일 "+time+"시 "+"00분")
-
 
     def SetDatastoList(self):
         i=0
@@ -276,7 +371,6 @@ class TermProj:
         i = 0
 
     def averageSeoul(self):
-        print("불림")
         self.sum = 0
         numtodivide=0
         self.average = [0] * 6
@@ -333,7 +427,6 @@ class TermProj:
                 numtodivide+=1
         self.average[5] = self.sum/numtodivide
         self.sum = 0
-        print(self.average)
 
     def ShowPollutantList(self, index):
         self.PollutantL1 = Label(self.frame2, text="평균 / 미세먼지", fg='black', font='helvetica 12')
@@ -380,24 +473,24 @@ class TermProj:
         #미세먼지부터 아황산 가스
 
         if self.nullArray[0] != '점검중':
-            self.graph0 = self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
+            self.graph0 = self.canvas2.create_rectangle(120, 450 - int(self.nullArray[0]), 140, 450, fill='black')
         if self.nullArray[1] != '점검중':
-            self.graph1 = self.canvas.create_rectangle(270, 450-int(self.nullArray[1]), 290, 450, fill='black')
+            self.graph1 = self.canvas2.create_rectangle(270, 450 - int(self.nullArray[1]), 290, 450, fill='black')
         if self.nullArray[2] != '점검중':
-            self.graph2 = self.canvas.create_rectangle(425, 450-float(self.nullArray[2])*100, 445, 450, fill='black')
+            self.graph2 = self.canvas2.create_rectangle(425, 450 - float(self.nullArray[2]) * 100, 445, 450, fill='black')
         if self.nullArray[3] != '점검중':
-            self.graph3 = self.canvas.create_rectangle(575, 450-float(self.nullArray[3])*100, 595, 450, fill='black')
+            self.graph3 = self.canvas2.create_rectangle(575, 450 - float(self.nullArray[3]) * 100, 595, 450, fill='black')
         if self.nullArray[4] != '점검중':
-            self.graph4 = self.canvas.create_rectangle(720, 450-float(self.nullArray[4])*10, 740, 450, fill='black')
+            self.graph4 = self.canvas2.create_rectangle(720, 450 - float(self.nullArray[4]) * 10, 740, 450, fill='black')
         if self.nullArray[5] != '점검중':
-            self.graph5 = self.canvas.create_rectangle(880, 450-float(self.nullArray[5])*100, 900, 450, fill='black')
+            self.graph5 = self.canvas2.create_rectangle(880, 450 - float(self.nullArray[5]) * 100, 900, 450, fill='black')
 
-        self.canvas.create_rectangle(60, 450 - int(self.average[0]), 80, 450, fill='black')
-        self.canvas.create_rectangle(210, 450 - int(self.average[1]), 230, 450, fill='black')
-        self.canvas.create_rectangle(365, 450 - float(self.average[2]) * 100, 385, 450, fill='black')
-        self.canvas.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
-        self.canvas.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
-        self.canvas.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
+        self.canvas2.create_rectangle(60, 450 - int(self.average[0]), 80, 450, fill='black')
+        self.canvas2.create_rectangle(210, 450 - int(self.average[1]), 230, 450, fill='black')
+        self.canvas2.create_rectangle(365, 450 - float(self.average[2]) * 100, 385, 450, fill='black')
+        self.canvas2.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
+        self.canvas2.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
+        self.canvas2.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
 
 
 
