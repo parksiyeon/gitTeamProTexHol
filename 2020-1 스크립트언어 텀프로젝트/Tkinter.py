@@ -16,7 +16,6 @@ class TermProj:
         self.GetxmlFile()
         self.setLabelandButtons()
         self.UpdateRecentDate()
-        #self.checkBoxList()
         self.window.mainloop()
 
     def setLabelandButtons(self):
@@ -132,6 +131,15 @@ class TermProj:
         self.Lozone.configure(text="오존:" +self.DataList[6][index])
         self.Lcarbon.configure(text="일산화탄소:"+self.DataList[7][index])
         self.Lsurful.configure(text="아황산가스:" +self.DataList[8][index])
+
+        self.GuName.configure(text="(" + str(self.DataList[0][index] + ")"))
+
+        self.canvas.delete(self.graph0)
+        self.canvas.delete(self.graph1)
+        self.canvas.delete(self.graph2)
+        self.canvas.delete(self.graph3)
+        self.canvas.delete(self.graph4)
+        self.canvas.delete(self.graph5)
 
 
     def ShowResult(self, index):
@@ -352,10 +360,14 @@ class TermProj:
         self.PollutantL1.pack()
         self.PollutantL1.place(x=50*16.2, y=480)
 
+
         for i in range(0, 6):
             self.GuName = Label(self.frame2, text="(" + str(self.DataList[0][index]) + ")", fg='black', font='helvetica 12')
             self.GuName.pack()
             self.GuName.place(x=95+(50*3.1*i), y=500)
+
+
+
 
     def DrawGraph(self, index):
         self.nullArray = [0] * 6
@@ -367,12 +379,18 @@ class TermProj:
 
         #미세먼지부터 아황산 가스
 
-        self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
-        self.canvas.create_rectangle(270, 450-int(self.nullArray[1]), 290, 450, fill='black')
-        self.canvas.create_rectangle(425, 450-float(self.nullArray[2])*100, 445, 450, fill='black')
-        self.canvas.create_rectangle(575, 450-float(self.nullArray[3])*100, 595, 450, fill='black')
-        self.canvas.create_rectangle(720, 450-float(self.nullArray[4])*10, 740, 450, fill='black')
-        self.canvas.create_rectangle(880, 450-float(self.nullArray[5])*100, 900, 450, fill='black')
+        if self.nullArray[0] != '점검중':
+            self.graph0 = self.canvas.create_rectangle(120, 450-int(self.nullArray[0]), 140, 450, fill='black')
+        if self.nullArray[1] != '점검중':
+            self.graph1 = self.canvas.create_rectangle(270, 450-int(self.nullArray[1]), 290, 450, fill='black')
+        if self.nullArray[2] != '점검중':
+            self.graph2 = self.canvas.create_rectangle(425, 450-float(self.nullArray[2])*100, 445, 450, fill='black')
+        if self.nullArray[3] != '점검중':
+            self.graph3 = self.canvas.create_rectangle(575, 450-float(self.nullArray[3])*100, 595, 450, fill='black')
+        if self.nullArray[4] != '점검중':
+            self.graph4 = self.canvas.create_rectangle(720, 450-float(self.nullArray[4])*10, 740, 450, fill='black')
+        if self.nullArray[5] != '점검중':
+            self.graph5 = self.canvas.create_rectangle(880, 450-float(self.nullArray[5])*100, 900, 450, fill='black')
 
         self.canvas.create_rectangle(60, 450 - int(self.average[0]), 80, 450, fill='black')
         self.canvas.create_rectangle(210, 450 - int(self.average[1]), 230, 450, fill='black')
@@ -380,39 +398,6 @@ class TermProj:
         self.canvas.create_rectangle(515, 450 - float(self.average[3]) * 100, 535, 450, fill='black')
         self.canvas.create_rectangle(665, 450 - float(self.average[4]) * 10, 685, 450, fill='black')
         self.canvas.create_rectangle(825, 450 - float(self.average[5]) * 100, 845, 450, fill='black')
-
-    def checkBoxList(self):
-        pass
-    #     self.GuList = [[870,342,914,636],
-    #                    [881,372,925,389],
-    #                    [869,402,908,422],
-    #                    [935,383,974,425],
-    #                    [987,388,1016,406],
-    #                    [946,344,989,367],
-    #                    [985,319,1024,349],
-    #                    [900,315,948,341],
-    #                    [894,263,945,298],
-    #                    [926,224,967,269],
-    #                    [968,236,1016,304],
-    #                    [801,280,855,322],
-    #                    [818,349,863,368],
-    #                    [417,403,447,406],
-    #                    [359,452,394,398],
-    #                    [321,397,357,398],
-    #                    [352,486,376,485],
-    #                    [410,524,428,527],
-    #                    [417,453,453,450],
-    #                    [456,474,488,476],
-    #                    [452,518,492,518],
-    #                    [536,478,594,472],
-    #                    [969,445,1021,499],
-    #                    [616,469,660,464],
-    #                    [659,518,703,409],]
-    #
-    #     for i in range(25):
-    #         if self.GuList[i][0] <= self.posX <=self.GuList[i][2]:
-    #             if self.GuList[i][1] <= self.posY <= self.GuList[i][3]:
-    #                 self.ShowResult(i)
 
 
 
