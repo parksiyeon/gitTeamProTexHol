@@ -10,7 +10,7 @@ class TermProj:
         self.DataList.append([])
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
-        self.window.geometry("1000x600")
+        self.window.geometry("1000x600+300+100")
         self.window.configure(bg="white")
         self.GetxmlFile()
         self.setLabelandButtons()
