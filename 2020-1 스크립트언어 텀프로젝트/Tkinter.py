@@ -40,7 +40,8 @@ class TermProj:
         self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
         self.label1.pack()
         self.label1.place(x=100,y=50)
-        self.label2 = Label(self.frame2, text="서울시 평균과 지역 비교", fg='black', font='helvetica 16')
+
+        self.label2 = Label(self.frame2, text="서울시 대기 평균과의 비교", fg='black', font='helvetica 16')
         self.label2.pack()
         self.label2.place(x=100, y=50)
 
@@ -114,21 +115,20 @@ class TermProj:
     def SearchGu(self):
         self.findtimes+=1
         Entry=self.DataList[0].index(self.EntryWidget.get())
+        self.ShowPollutantList(Entry) #그래프 하단 라벨 세팅 함수. 두번부를필요 ㄴㄴ
         if self.findtimes==1:
             self.ShowResult(Entry)
-            self.ShowPollutantList(Entry)
             self.averageSeoul()
             self.DrawGraph(Entry)
         elif self.findtimes>=2:
             self.UpdateResult(Entry)
-            self.ShowPollutantList(Entry)
             self.averageSeoul()
             self.DrawGraph(Entry)
 
 
     def UpdateResult(self,index):
         self.index=index
-        self.Lname.configure(text=self.DataList[0][index]+" 대기 상태")
+        self.Lname.configure(text=self.DataList[0][index])
         self.LgradeStr.configure(text=self.DataList[1][index])
         self.Lgradenum.configure(text="(수치 "+self.DataList[2][index]+")")
         self.Lpm10.configure(text="미세먼지:" + self.DataList[3][index])
@@ -137,8 +137,8 @@ class TermProj:
         self.Lozone.configure(text="오존:" +self.DataList[6][index])
         self.Lcarbon.configure(text="일산화탄소:"+self.DataList[7][index])
         self.Lsurful.configure(text="아황산가스:" +self.DataList[8][index])
-
-        self.GuName.configure(text="(" + str(self.DataList[0][index] + ")"))
+        self.GuName.configure(text="")
+        self.GuName.configure(text=self.DataList[0][index])
 
         self.pollutantValue0.configure(text="( " + str(self.DataList[3][index]) + " )")
         self.pollutantValue1.configure(text="( " + str(self.DataList[4][index]) + " )")
@@ -436,6 +436,7 @@ class TermProj:
         self.sum = 0
 
     def ShowPollutantList(self, index):
+        print(self.findtimes)
         self.PollutantL0 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
         self.PollutantL0.pack()
         self.PollutantL0.place(x=50, y=480)
@@ -460,10 +461,9 @@ class TermProj:
         self.PollutantL5.pack()
         self.PollutantL5.place(x=50*16.2, y=480)
 
-
-        self.GuName = Label(self.frame2, text="(" + str(self.DataList[0][index]) + ")", fg='black', font='helvetica 15')
+        self.GuName = Label(self.frame2, text=str(self.DataList[0][index]), fg='black', font='helvetica 15')
         self.GuName.pack()
-        self.GuName.place(x=350, y=50)
+        self.GuName.place(x=400, y=50)
 
     def DrawGraph(self, index):
         self.nullArray = [0] * 6
