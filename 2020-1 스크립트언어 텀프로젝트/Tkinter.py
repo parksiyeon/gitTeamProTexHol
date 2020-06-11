@@ -154,6 +154,8 @@ class TermProj:
         self.GuName.configure(text="")
         self.GuName.configure(text=self.DataList[0][index])
 
+        self.canvas2.delete('label')
+
         self.canvas2.delete(self.graph0)
         self.canvas2.delete(self.graph1)
         self.canvas2.delete(self.graph2)
@@ -574,4 +576,14 @@ class TermProj:
         self.averageValue5.pack()
         self.averageValue5.place(x=795, y=400 - int(self.average[5]))
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+>>>>>>> eefc9e25ccb31a0b698351aa3f66ab8166a93318
 TermProj()
