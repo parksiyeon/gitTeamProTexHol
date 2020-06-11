@@ -8,6 +8,7 @@ class TermProj:
     def __init__(self):
         self.DataList= [[0]*25 for _ in range(9)]
         self.DataList.append([])
+        self.findtimes=0
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
         self.window.geometry("1000x600+300+100")
@@ -92,17 +93,45 @@ class TermProj:
         for i in range(25):
             if self.GuList[i][0] <= self.posX <= self.GuList[i][2]:
                 if self.GuList[i][1] <= self.posY <= self.GuList[i][3]:
-                    self.ShowResult(i)
-                    self.ShowPollutantList(i)
-                    self.averageSeoul()
-                    self.DrawGraph(i)
+                    self.findtimes+=1
+                    if self.findtimes==1:
+                        self.ShowResult(i)
+                        self.ShowPollutantList(i)
+                        self.averageSeoul()
+                        self.DrawGraph(i)
+                    elif self.findtimes>=2:
+                        self.UpdateResult(i)
+                        self.ShowPollutantList(i)
+                        self.averageSeoul()
+                        self.DrawGraph(i)
+
+
 
     def SearchGu(self):
+        self.findtimes+=1
         Entry=self.DataList[0].index(self.EntryWidget.get())
-        self.ShowResult(Entry)
-        self.ShowPollutantList(Entry)
-        self.averageSeoul()
-        self.DrawGraph(Entry)
+        if self.findtimes==1:
+            self.ShowResult(Entry)
+            self.ShowPollutantList(Entry)
+            self.averageSeoul()
+            self.DrawGraph(Entry)
+        elif self.findtimes>=2:
+            self.UpdateResult(Entry)
+            self.ShowPollutantList(Entry)
+            self.averageSeoul()
+            self.DrawGraph(Entry)
+
+
+    def UpdateResult(self,index):
+        self.Lname.configure(text=self.DataList[0][index]+" 대기 상태")
+        self.LgradeStr.configure(text=self.DataList[1][index])
+        self.Lgradenum.configure(text="(수치 "+self.DataList[2][index]+")")
+        self.Lpm10.configure(text="미세먼지:" + self.DataList[3][index])
+        self.Lpm25.configure(text="초미세먼지:" +self.DataList[4][index])
+        self.Lnitro.configure(text="이산화질소:" +self.DataList[5][index])
+        self.Lozone.configure(text="오존:" +self.DataList[6][index])
+        self.Lcarbon.configure(text="일산화탄소:"+self.DataList[7][index])
+        self.Lsurful.configure(text="아황산가스:" +self.DataList[8][index])
 
 
     def ShowResult(self, index):
