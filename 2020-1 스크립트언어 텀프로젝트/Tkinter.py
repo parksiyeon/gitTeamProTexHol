@@ -37,17 +37,18 @@ class TermProj:
         self.canvas2 = Canvas(self.frame2, width=1000, height=600)
         self.canvas2.pack()
 
-        self.label1 = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
-        self.label1.pack()
-        self.label1.place(x=100,y=50)
+        self.InfoL = Label(self.frame1, text="원하는 지역 검색 or 클릭", fg='black', font='helvetica 16')
+        self.InfoL.pack()
+        self.InfoL.place(x=100, y=50)
 
-        self.label2 = Label(self.frame2, text="서울시 대기 평균과의 비교", fg='black', font='helvetica 16')
-        self.label2.pack()
-        self.label2.place(x=100, y=50)
+        self.InfoGraphL = Label(self.frame2, text="서울시 대기 평균과의 비교", fg='black', font='helvetica 16')
+        self.InfoGraphL.pack()
+        self.InfoGraphL.place(x=100, y=50)
 
         TempFont = font.Font(self.window, size=12, weight='bold', family='Consolas')
         TempFont1 = font.Font(self.window, size=10, weight='bold', family='Consolas')
         TempFont1 = font.Font(self.window, size=12, weight='bold',slant='italic', family='Consolas')
+
         self.EntryWidget = Entry(self.frame1, bd=5)
         self.EntryWidget.pack()
         self.EntryWidget.place(x=350,y=50)
@@ -65,6 +66,21 @@ class TermProj:
         GetClickL.pack()
         GetClickL.place(x=100, y=100)
         GetClickL.bind("<Button-1>",self.Clicked)
+
+        self.pollutantValue1=Label(self.frame2, text="", fg='black', font='helvetica 12')
+        self.pollutantValue1.pack()
+        self.pollutantValue2 = Label(self.frame2, text="", fg='black', font='helvetica 12')
+        self.pollutantValue2.pack()
+        self.pollutantValue3 = Label(self.frame2, text="", fg='black', font='helvetica 12')
+        self.pollutantValue3.pack()
+        self.pollutantValue4 = Label(self.frame2, text="", fg='black', font='helvetica 12')
+        self.pollutantValue4.pack()
+        self.pollutantValue5 = Label(self.frame2, text="", fg='black', font='helvetica 12')
+        self.pollutantValue5.pack()
+        self.pollutantValue0 = Label(self.frame2, text="", fg='black', font='helvetica 12')
+        self.pollutantValue0.pack()
+
+
 
     def Clicked(self,event):
         self.posX = mouse.get_position()[0]  # 현재 마우스 포인터 좌표
@@ -106,14 +122,10 @@ class TermProj:
                         self.DrawGraph(i)
                         self.printAverL()
                     elif self.findtimes>=2:
-                        self.resetMatterN()
                         self.UpdateResult(i)
                         self.ShowPollutantList(i)
                         self.averageSeoul()
                         self.DrawGraph(i)
-
-
-
 
     def SearchGu(self):
         self.findtimes+=1
@@ -439,8 +451,6 @@ class TermProj:
         self.average[5] = round(self.sum /numtodivide, 4)
         self.sum = 0
 
-
-
     def ShowPollutantList(self, index):
         print(self.findtimes)
         self.PollutantL0 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12')
@@ -499,47 +509,38 @@ class TermProj:
         self.nullArray = [0] * 6
         startN = 3  #미세먼지부터 아황산 가스
 
-
         for i in range(0, 6):
             self.nullArray[i] = self.DataList[startN][index]
             startN += 1
 
-        #미세먼지부터 아황산 가스
-
         if self.nullArray[0] != '점검중':
             self.graph0 = self.canvas2.create_rectangle(120, 450 - int(self.nullArray[0])*5, 140, 450, fill='black')
-            self.pollutantValue0 = Label(self.frame2, text=str(self.nullArray[0]), fg='black',font='helvetica 12',tags='label')
-            self.pollutantValue0.pack()
-            self.pollutantValue0.place(x=110, y=400 - int(self.nullArray[0])*5)
+            self.pollutantValue0.configure(text=str(self.nullArray[0]))
+            self.pollutantValue0.place(x=110, y=400 - int(self.nullArray[0]) * 5)
 
         if self.nullArray[1] != '점검중':
             self.graph1 = self.canvas2.create_rectangle(270, 450 - int(self.nullArray[1])*5, 290, 450, fill='black')
-            self.pollutantValue1 = Label(self.frame2, text=str(self.nullArray[1]), fg='black',font='helvetica 12',tags='label')
-            self.pollutantValue1.pack()
+            self.pollutantValue1.configure(text=str(self.nullArray[1]))
             self.pollutantValue1.place(x=265, y=400 - int(self.nullArray[1])*5)
 
         if self.nullArray[2] != '점검중':
             self.graph2 = self.canvas2.create_rectangle(425, 450 - float(self.nullArray[2]) * 100, 445, 450, fill='black')
-            self.pollutantValue2 = Label(self.frame2, text=str(self.nullArray[2]), fg='black',font='helvetica 12',tags='label')
-            self.pollutantValue2.pack()
+            self.pollutantValue2.configure(text=str(self.nullArray[2]))
             self.pollutantValue2.place(x=415, y=400 - float(self.nullArray[2]))
 
         if self.nullArray[3] != '점검중':
             self.graph3 = self.canvas2.create_rectangle(575, 450 - float(self.nullArray[3]) * 100, 595, 450, fill='black')
-            self.pollutantValue3 = Label(self.frame2, text=str(self.nullArray[3]), fg='black',font='helvetica 12',tags='label')
-            self.pollutantValue3.pack()
+            self.pollutantValue3.configure(text=str(self.nullArray[3]))
             self.pollutantValue3.place(x=557, y=400 - float(self.nullArray[3]))
 
         if self.nullArray[4] != '점검중':
             self.graph4 = self.canvas2.create_rectangle(720, 450 - float(self.nullArray[4]) * 10, 740, 450, fill='black')
-            self.pollutantValue4 = Label(self.frame2, text=str(self.nullArray[4]), fg='black',font='helvetica 12',tags='label')
-            self.pollutantValue4.pack()
+            self.pollutantValue4.configure(text=str(self.nullArray[4]))
             self.pollutantValue4.place(x=707, y=400 - float(self.nullArray[4]))
 
         if self.nullArray[5] != '점검중':
             self.graph5 = self.canvas2.create_rectangle(880, 450 - float(self.nullArray[5]) * 100, 900, 450, fill='black')
-            self.pollutantValue5 = Label(self.frame2, text=str(self.nullArray[5]), fg='black',font='helvetica 12',tags='label')
-            self.pollutantValue5.pack()
+            self.pollutantValue5.configure(text=str(self.nullArray[5]))
             self.pollutantValue5.place(x=865, y=400 - float(self.nullArray[5]))
 
         self.averGraph0 = self.canvas2.create_rectangle(60, 450 - int(self.average[0]*5), 80, 450, fill='black')
@@ -551,32 +552,30 @@ class TermProj:
 
 
     def printAverL(self):
-        self.averageValue0 = Label(self.frame2, text=str(self.average[0]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue0 = Label(self.frame2, text=str(self.average[0]), fg='black', font='helvetica 12')
         self.averageValue0.pack()
         self.averageValue0.place(x=52, y=400 - int(self.average[0]) * 5)
 
-        self.averageValue1 = Label(self.frame2, text=str(self.average[1]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue1 = Label(self.frame2, text=str(self.average[1]), fg='black', font='helvetica 12')
         self.averageValue1.pack()
         self.averageValue1.place(x=195, y=400 - int(self.average[1]) * 5)
 
-        self.averageValue2 = Label(self.frame2, text=str(self.average[2]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue2 = Label(self.frame2, text=str(self.average[2]), fg='black', font='helvetica 12')
         self.averageValue2.pack()
         self.averageValue2.place(x=345, y=400 - int(self.average[2]))
 
-        self.averageValue3 = Label(self.frame2, text=str(self.average[3]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue3 = Label(self.frame2, text=str(self.average[3]), fg='black', font='helvetica 12')
         self.averageValue3.pack()
         self.averageValue3.place(x=505, y=400 - int(self.average[3]))
 
-        self.averageValue4 = Label(self.frame2, text=str(self.average[4]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue4 = Label(self.frame2, text=str(self.average[4]), fg='black', font='helvetica 12')
         self.averageValue4.pack()
         self.averageValue4.place(x=652, y=400 - int(self.average[4]))
 
-        self.averageValue5 = Label(self.frame2, text=str(self.average[5]), fg='black', font='helvetica 12',tags='label')
+        self.averageValue5 = Label(self.frame2, text=str(self.average[5]), fg='black', font='helvetica 12')
         self.averageValue5.pack()
         self.averageValue5.place(x=795, y=400 - int(self.average[5]))
 
-    def resetMatterN(self):
-        self.canvas2.delete('label')
 
 
 
