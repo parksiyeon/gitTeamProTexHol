@@ -106,7 +106,6 @@ class TermProj:
                         self.DrawGraph(i)
                         self.printAverL()
                     elif self.findtimes>=2:
-                        self.resetMatterN()
                         self.UpdateResult(i)
                         self.ShowPollutantList(i)
                         self.averageSeoul()
@@ -143,6 +142,8 @@ class TermProj:
         self.Lsurful.configure(text="아황산가스:" +self.DataList[8][index])
         self.GuName.configure(text="")
         self.GuName.configure(text=self.DataList[0][index])
+
+        self.canvas2.delete('label')
 
         self.canvas2.delete(self.graph0)
         self.canvas2.delete(self.graph1)
@@ -575,8 +576,7 @@ class TermProj:
         self.averageValue5.pack()
         self.averageValue5.place(x=795, y=400 - int(self.average[5]))
 
-    def resetMatterN(self):
-        self.canvas2.delete('label')
+
 
 
 
