@@ -80,8 +80,6 @@ class TermProj:
         self.pollutantValue0 = Label(self.frame2, text="", fg='black', font='helvetica 12')
         self.pollutantValue0.pack()
 
-
-
     def Clicked(self,event):
         self.posX = mouse.get_position()[0]  # 현재 마우스 포인터 좌표
         self.posY = mouse.get_position()[1]  # 현재 마우스 포인터 좌표
@@ -575,11 +573,5 @@ class TermProj:
         self.averageValue5 = Label(self.frame2, text=str(self.average[5]), fg='black', font='helvetica 12')
         self.averageValue5.pack()
         self.averageValue5.place(x=795, y=400 - int(self.average[5]))
-
-
-
-
-
-
 
 TermProj()
