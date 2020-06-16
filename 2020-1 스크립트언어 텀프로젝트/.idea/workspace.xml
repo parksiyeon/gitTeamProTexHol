@@ -21,7 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="136fba82-5252-470e-93b5-ea29e51991d8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tkinter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tkinter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CCard.py" beforeDir="false" afterPath="$PROJECT_DIR$/CCard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cplayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cplayer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../card.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Card.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../player.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +44,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
   </component>
   <component name="RunManager">
     <configuration name="Tkinter" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -93,40 +97,45 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1515" height="186" key="GridCell.Tab.0.bottom" timestamp="1591877439371">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1592321140348">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="186" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591877439371" />
-    <state width="1515" height="186" key="GridCell.Tab.0.center" timestamp="1591877439371">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1592321140348" />
+    <state width="1515" height="261" key="GridCell.Tab.0.bottom" timestamp="1591889454738">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="186" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591877439371" />
-    <state width="1515" height="186" key="GridCell.Tab.0.left" timestamp="1591877439370">
+    <state width="1515" height="261" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591889454738" />
+    <state width="1515" height="261" key="GridCell.Tab.0.center" timestamp="1591889454738">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="186" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591877439370" />
-    <state width="1515" height="186" key="GridCell.Tab.0.right" timestamp="1591877439371">
+    <state width="1515" height="261" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591889454738" />
+    <state width="1515" height="261" key="GridCell.Tab.0.left" timestamp="1591889454737">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="186" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591877439371" />
-    <state width="1515" height="261" key="GridCell.Tab.1.bottom" timestamp="1591877253384">
+    <state width="1515" height="261" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591889454737" />
+    <state width="1515" height="261" key="GridCell.Tab.0.right" timestamp="1591889454738">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591877253384" />
-    <state width="1515" height="261" key="GridCell.Tab.1.center" timestamp="1591877253383">
+    <state width="1515" height="261" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591889454738" />
+    <state width="1515" height="261" key="GridCell.Tab.1.bottom" timestamp="1591889454739">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1591877253383" />
-    <state width="1515" height="261" key="GridCell.Tab.1.left" timestamp="1591877253383">
+    <state width="1515" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591889454739" />
+    <state width="1515" height="261" key="GridCell.Tab.1.center" timestamp="1591889454739">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1591877253383" />
-    <state width="1515" height="261" key="GridCell.Tab.1.right" timestamp="1591877253383">
+    <state width="1515" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1591889454739" />
+    <state width="1515" height="261" key="GridCell.Tab.1.left" timestamp="1591889454738">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1591877253383" />
+    <state width="1515" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1591889454738" />
+    <state width="1515" height="261" key="GridCell.Tab.1.right" timestamp="1591889454739">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1591889454739" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1591855872589">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -1,16 +1,16 @@
 class Card:
-    def __init__(self, temp):  # 렌덤 넘버0..51 값을 입력받아서 카드 객체 생성
-        self.value = temp % 12 + 1  # 1..13
-        self.suit = temp %4+1
+    def __init__(self, temp):  # 카드 랜덤 넘버
+        self.value = temp % 10 + 1  # 1..10 ( 0월까지 씀)
+        self.suit = temp %4+1 # n월의 화투 피? 번호
 
-    def getsuit(self):  # 카드 무늬 결정
+    def getsuit(self):  # n월
         return self.suit
 
-    def getValue(self):  # 카드 값 JQK는 10으로 결정
+    def getValue(self): # 끗 또는 땡 처리할 때
         return self.value
 
     def seperatename(self):
         return self.getsuit()
 
-    def filename(self):  # 카드 이미지 파일 이름
+    def filename(self):  # 화투패 이미지
         return str(self.getValue()) +"."+str(self.getsuit()) + ".gif"
