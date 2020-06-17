@@ -28,7 +28,8 @@ class DorijitGo:
         self.LcardsPlayer3 = []
         self.LcardsDealer = []  # 딜러가 뽑은 카드의 라벨 리스트
         self.deckN = 0
-        self.cardsphotoimage = [0 for _ in range(40)] # 20에서 40으로 교체
+        #self.cardsphotoimage = [0 for _ in range(40)] # 20에서 40으로 교체
+        self.cardsphotoimage = [0] * 40
         self.pstatevalue = 0
         self.dstatevalue = 0
 
@@ -130,7 +131,9 @@ class DorijitGo:
         self.player3 = Player("player3")
         self.dealer = Player("dealer")
         # 화투 패 40장 셔플링 0,1,,.40
-        self.cardDeck = [i for i in range(40)]
+        #self.cardDeck = [i for i in range(40)]
+        self.cardDeck = [0] * 40
+        self.inputCardList()
         random.shuffle(self.cardDeck)
 
     def HitPlayer(self):
@@ -173,7 +176,7 @@ class DorijitGo:
             p = PhotoImage(file='GodoriCards/' + self.player1.cards[self.player1.inHand() - 1][1])
             self.LcardsPlayer1.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsPlayer1[self.player1.inHand() - 1].image = p
-            self.LcardsPlayer1[self.player1.inHand() - 1].place(x=70+i*20, y=300)
+            self.LcardsPlayer1[self.player1.inHand() - 1].place(x=70+i*30, y=300) # i*20 >> i* 30
 
             self.deckN += 1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
@@ -182,7 +185,7 @@ class DorijitGo:
             p1 = PhotoImage(file='GodoriCards/' + self.player2.cards[self.player2.inHand() - 1][1])
             self.LcardsPlayer2.append(Label(self.window, image=p1, bd=0, bg='green'))
             self.LcardsPlayer2[self.player2.inHand() - 1].image = p1
-            self.LcardsPlayer2[self.player2.inHand() - 1].place(x=280+i*20, y=300)
+            self.LcardsPlayer2[self.player2.inHand() - 1].place(x=280+i*30, y=300) # i*20 >> i* 30
 
             self.deckN += 1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
@@ -191,7 +194,7 @@ class DorijitGo:
             p2 = PhotoImage(file='GodoriCards/' + self.player3.cards[self.player3.inHand() - 1][1])
             self.LcardsPlayer3.append(Label(self.window, image=p2, bd=0, bg='green'))
             self.LcardsPlayer3[self.player3.inHand() - 1].image = p2
-            self.LcardsPlayer3[self.player3.inHand() - 1].place(x=480+i*20, y=300)
+            self.LcardsPlayer3[self.player3.inHand() - 1].place(x=480+i*30, y=300) # i*20 >> i* 30
 
     def AllCardstoDealer(self):
         for i in range(4):
@@ -202,7 +205,7 @@ class DorijitGo:
             p = PhotoImage(file='GodoriCards/cardback.gif')  # 카드 가려줄 뒷면 이미지! 추후 지워짐(리스트에 추가할필요 없음)
             self.LcardsDealer.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsDealer[self.dealer.inHand() - 1].image = p
-            self.LcardsDealer[self.dealer.inHand() - 1].place(x=290+i*20, y=100)
+            self.LcardsDealer[self.dealer.inHand() - 1].place(x=290+i*30, y=100) # i*20 >> i* 30
 
     def HitDealer(self):
         self.deckN += 1  # 가려진 카드
@@ -365,5 +368,12 @@ class DorijitGo:
 
     def DealerCheck(self):
         pass
+
+    def inputCardList(self):
+        n = 0
+        for i in range(10, 101, 10):
+            for j in range(1, 5):
+                self.cardDeck[n] = i+j
+                n += 1
 
 DorijitGo()

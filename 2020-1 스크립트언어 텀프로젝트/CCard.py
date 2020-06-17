@@ -1,7 +1,7 @@
 class Card:
     def __init__(self, temp):  # 카드 랜덤 넘버
-        self.value = temp % 10 + 1  # 1..10 ( 0월까지 씀)
-        self.suit = temp %4+1 # n월의 화투 피? 번호
+        self.value = temp // 10  # 1..10 ( 0월까지 씀)
+        self.suit = temp % 10 # n월의 화투 피? 번호
 
     def getsuit(self):  # n월
         return self.suit
