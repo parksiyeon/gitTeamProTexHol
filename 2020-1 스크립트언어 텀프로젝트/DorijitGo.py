@@ -19,17 +19,23 @@ class DorijitGo:
         self.fontstyle = font.Font(self.window, size=24, weight='bold', family='Consolas')
         self.fontstyle2 = font.Font(self.window, size=16, weight='bold', family='Consolas')
 
-        self.betMoney =0
+        self.betMoney1 =0
+        self.betMoney2 = 0
+        self.betMoney3 = 0
         self.playerMoney = 2500
-        self.GetPmoney = 2500
         self.LcardsPlayer = []  # 플레이어가 뽑은 카드의 라벨 리스트
         self.LcardsDealer = []  # 딜러가 뽑은 카드의 라벨 리스트
         self.deckN = 0
         self.cardsphotoimage = [0 for _ in range(20)]
+
         self.pstatevalue = 0
         self.dstatevalue = 0
+
         self.pCheck = 0
         self.dCheck = 0
+
+        self.FirstCardsDoneP=False
+        self.FirstCardsDoneD=False
 
         self.setupButton()
         self.setupLabel()
@@ -37,17 +43,17 @@ class DorijitGo:
         self.window.mainloop()
 
     def setupButton(self):
-        self.user1_5milB = Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.Pressed5milB)
+        self.user1_5milB = Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser1_5milB)
         self.user1_5milB.place(x=50, y=500)
-        self.user1_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.Pressed5milB)
+        self.user1_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser1_1milB)
         self.user1_1milB.place(x=120, y=500)
-        self.user2_5milB = Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.Pressed5milB)
+        self.user2_5milB = Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser2_5milB)
         self.user2_5milB.place(x=230, y=500)
-        self.user2_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.Pressed1milB)
+        self.user2_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser2_1milB)
         self.user2_1milB.place(x=300, y=500)
-        self.user3_5milB= Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.Pressed5milB)
+        self.user3_5milB= Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser3_5milB)
         self.user3_5milB.place(x=410, y=500)
-        self.user3_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.Pressed1milB)
+        self.user3_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser3_1milB)
         self.user3_1milB.place(x=480, y=500)
 
 
@@ -76,16 +82,45 @@ class DorijitGo:
         self.Lstatus = Label(text="", width=12, height=1, font=self.fontstyle, bg="green", fg="red")
         self.Lstatus.place(x=550, y=350)
 
-    def Pressed5milB(self):
-        self.betMoney=5
-        self.playerMoney = self.GetPmoney - self.betMoney
-        self.LUser1_betMoney.configure(text=str(self.betMoney)+"만")
+    def PressedUser1_5milB(self):
+        self.betMoney1+=5
+        self.playerMoney -=5
+        self.LUser1_betMoney.configure(text=str(self.betMoney1)+"만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
         #PlaySound('GodoriCards/', SND_FILENAME)
 
-    def Pressed1milB(self):
-        self.betMoney=1
-        self.playerMoney = self.GetPmoney - self.betMoney
+    def PressedUser2_5milB(self):
+        self.betMoney2+=5
+        self.playerMoney -=5
+        self.LUser2_betMoney.configure(text=str(self.betMoney2)+"만")
+        self.LUserMoney.configure(text=str(self.playerMoney)+"만")
+        #PlaySound('GodoriCards/', SND_FILENAME)
+
+    def PressedUser3_5milB(self):
+        self.betMoney3+=5
+        self.playerMoney-= 5
+        self.LUser3_betMoney.configure(text=str(self.betMoney3)+"만")
+        self.LUserMoney.configure(text=str(self.playerMoney)+"만")
+        #PlaySound('GodoriCards/', SND_FILENAME)
+
+    def PressedUser1_1milB(self):
+        self.betMoney1+=1
+        self.playerMoney -= 1
+        self.LUser1_betMoney.configure(text=str(self.betMoney1) + "만")
+        self.LUserMoney.configure(text=str(self.playerMoney)+"만")
+        #PlaySound('GodoriCards/', SND_FILENAME)
+
+    def PressedUser2_1milB(self):
+        self.betMoney2+=1
+        self.playerMoney -= 1
+        self.LUser2_betMoney.configure(text=str(self.betMoney2) + "만")
+        self.LUserMoney.configure(text=str(self.playerMoney)+"만")
+        #PlaySound('GodoriCards/', SND_FILENAME)
+
+    def PressedUser3_1milB(self):
+        self.betMoney3+=1
+        self.playerMoney -= 1
+        self.LUser3_betMoney.configure(text=str(self.betMoney3) + "만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
         #PlaySound('GodoriCards/', SND_FILENAME)
 
@@ -129,6 +164,8 @@ class DorijitGo:
         self.LcardsPlayer[self.deckN].image = p2
         self.LcardsPlayer[self.deckN].place(x=470, y=300)
 
+        self.FirstCardsDoneP=True
+
     def HitDealer(self):
         self.deckN += 1  # 가려진 카드
         self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
@@ -138,7 +175,8 @@ class DorijitGo:
         self.LcardsDealer.append(Label(self.window, image=p, bd=0, bg='green'))
         self.LcardsDealer[self.dealer.inHand() - 1].image = p
         self.LcardsDealer[self.dealer.inHand() - 1].place(x=270, y=100)
-
+        self.FirstCardsDoneD=True
+     
     def StartButtonState(self):
         self.user1_5milB['state'] = 'disabled'
         self.user1_5milB['bg'] = 'gray'
@@ -174,6 +212,8 @@ class DorijitGo:
 
 
     def PressedDeal(self):
+        if self.FirstCardsDoneP==True&&self.FirstCardsDoneD==True:
+
         self.StartGame()
         self.HitPlayer()
         self.HitDealer()
@@ -193,7 +233,6 @@ class DorijitGo:
         self.commoncardsN = 0
         self.pstatevalue = 0
         self.dstatevalue = 0
-        self.GetPmoney = self.playerMoney
 
         self.setupButton()
         self.LplayerState.configure(text="")
