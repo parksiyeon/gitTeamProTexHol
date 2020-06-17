@@ -51,17 +51,17 @@ class DorijitGo:
 
     def setupButton(self):
         self.user1_5milB = Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser1_5milB)
-        self.user1_5milB.place(x=50, y=500)
+        self.user1_5milB.place(x=70, y=500)
         self.user1_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser1_1milB)
-        self.user1_1milB.place(x=120, y=500)
+        self.user1_1milB.place(x=140, y=500)
         self.user2_5milB = Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser2_5milB)
-        self.user2_5milB.place(x=230, y=500)
+        self.user2_5milB.place(x=250, y=500)
         self.user2_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser2_1milB)
-        self.user2_1milB.place(x=300, y=500)
+        self.user2_1milB.place(x=320, y=500)
         self.user3_5milB= Button(self.window, text="5만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser3_5milB)
-        self.user3_5milB.place(x=410, y=500)
+        self.user3_5milB.place(x=430, y=500)
         self.user3_1milB = Button(self.window, text="1만", width=4, height=1, font=self.fontstyle2, command=self.PressedUser3_1milB)
-        self.user3_1milB.place(x=480, y=500)
+        self.user3_1milB.place(x=500, y=500)
 
 
         self.Deal = Button(self.window, text="Deal", width=6, height=1, font=self.fontstyle2, command=self.PressedDeal)
@@ -81,7 +81,7 @@ class DorijitGo:
 
         self.LUserMoney = Label(text="2500만", width=8, height=1, font=self.fontstyle, bg="green",
                                 fg="orange")
-        self.LUserMoney.place(x=630, y=450)
+        self.LUserMoney.place(x=605, y=450)
         self.LplayerState = Label(text="", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
         self.LplayerState.place(x=300, y=350)
         self.LdealerState = Label(text="", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
