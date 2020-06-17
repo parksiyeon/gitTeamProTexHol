@@ -26,8 +26,12 @@ class DorijitGo:
         self.LcardsPlayer = []  # 플레이어가 뽑은 카드의 라벨 리스트
         self.LcardsDealer = []  # 딜러가 뽑은 카드의 라벨 리스트
         self.deckN = 0
+<<<<<<< HEAD
         self.cardsphotoimage = [0 for _ in range(20)]
 
+=======
+        self.cardsphotoimage = [0 for _ in range(40)] # 20에서 40으로 교체
+>>>>>>> c24cb3e99f53f1ad7d85c9f191ddb68057ebcb12
         self.pstatevalue = 0
         self.dstatevalue = 0
 
@@ -130,8 +134,8 @@ class DorijitGo:
         self.player3 = Player("player3")
         self.dealer = Player("dealer")
         self.cardsphotoimage = [0 for _ in range(10)]
-        # 카드 덱 52장 셔플링 0,1,,.51
-        self.cardDeck = [i for i in range(48)]
+        # 화투 패 40장 셔플링 0,1,,.40
+        self.cardDeck = [i for i in range(40)]
         random.shuffle(self.cardDeck)
 
     def HitPlayer(self):
