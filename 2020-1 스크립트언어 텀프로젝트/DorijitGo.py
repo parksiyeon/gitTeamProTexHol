@@ -489,7 +489,7 @@ class DorijitGo:
            self.p1val[i]=self.player1.cards[i][0] #점수 각각 저장
 
         #self.p1Check.sort()
-        for i in range(20):
+        for i in range(21):
             if self.cardtable[i][0] in self.p1val:
                 self.p1val.remove(self.cardtable[i][0])
                 if self.cardtable[i][1] in self.p1val:
@@ -508,7 +508,7 @@ class DorijitGo:
             self.p2val[i] = self.player2.cards[i][0]
 
         #self.p1Check.sort()
-        for i in range(20):
+        for i in range(21):
             if self.cardtable[i][0] in self.p2val:
                 self.p2val.remove(self.cardtable[i][0])
                 if self.cardtable[i][1] in self.p2val:
@@ -527,7 +527,7 @@ class DorijitGo:
             self.p3val[i] = self.player3.cards[i][0]
 
         #self.p1Check.sort()
-        for i in range(20):
+        for i in range(21):
             if self.cardtable[i][0] in self.p3val:
                 self.p3val.remove(self.cardtable[i][0])
                 if self.cardtable[i][1] in self.p3val:
