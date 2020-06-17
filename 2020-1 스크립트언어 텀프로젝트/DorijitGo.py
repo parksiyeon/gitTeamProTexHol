@@ -158,8 +158,7 @@ class DorijitGo:
         #LcardsPlayer,cardsphotoimage 리스트 인자-->self.deckN
         if self.DealPressedTimes==0:
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
-            self.player1.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename(),
-                                self.cardsphotoimage[self.deckN].seperatename())
+            self.player1.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename())
             #print(self.player1.inHand())
             p = PhotoImage(file='GodoriCards/'+self.player1.cards[self.player1.inHand()-1][1])
             self.LcardsPlayer1.append(Label(self.window, image=p, bd=0, bg='green'))
@@ -169,8 +168,7 @@ class DorijitGo:
 
             self.deckN+=1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
-            self.player2.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename(),
-                                 self.cardsphotoimage[self.deckN].seperatename())
+            self.player2.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename())
             p = PhotoImage(file='GodoriCards/' + self.player2.cards[self.player2.inHand() - 1][1])
             self.LcardsPlayer2.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsPlayer2[self.player2.inHand() - 1].image = p
@@ -179,8 +177,7 @@ class DorijitGo:
 
             self.deckN+=1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
-            self.player3.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename(),
-                                 self.cardsphotoimage[self.deckN].seperatename())
+            self.player3.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename())
             p = PhotoImage(file='GodoriCards/' + self.player3.cards[self.player3.inHand() - 1][1])
             self.LcardsPlayer3.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsPlayer3[self.player3.inHand() - 1].image = p
@@ -193,8 +190,7 @@ class DorijitGo:
                 self.deckN += 1
                 self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
                 self.player1.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                     self.cardsphotoimage[self.deckN].filename(),
-                                     self.cardsphotoimage[self.deckN].seperatename())
+                                     self.cardsphotoimage[self.deckN].filename())
                 # print(self.player1.inHand())
                 p = PhotoImage(file='GodoriCards/' + self.player1.cards[self.player1.inHand() - 1][1])
                 self.LcardsPlayer1.append(Label(self.window, image=p, bd=0, bg='green'))
@@ -206,8 +202,7 @@ class DorijitGo:
                 self.deckN += 1
                 self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
                 self.player2.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                     self.cardsphotoimage[self.deckN].filename(),
-                                     self.cardsphotoimage[self.deckN].seperatename())
+                                     self.cardsphotoimage[self.deckN].filename())
                 p = PhotoImage(file='GodoriCards/' + self.player2.cards[self.player2.inHand() - 1][1])
                 self.LcardsPlayer2.append(Label(self.window, image=p, bd=0, bg='green'))
                 self.LcardsPlayer2[self.player2.inHand() - 1].image = p
@@ -218,8 +213,7 @@ class DorijitGo:
                 self.deckN += 1
                 self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
                 self.player3.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                     self.cardsphotoimage[self.deckN].filename(),
-                                     self.cardsphotoimage[self.deckN].seperatename())
+                                     self.cardsphotoimage[self.deckN].filename())
                 p = PhotoImage(file='GodoriCards/' + self.player3.cards[self.player3.inHand() - 1][1])
                 self.LcardsPlayer3.append(Label(self.window, image=p, bd=0, bg='green'))
                 self.LcardsPlayer3[self.player3.inHand() - 1].image = p
@@ -231,8 +225,7 @@ class DorijitGo:
             self.deckN += 1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
             self.player1.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                 self.cardsphotoimage[self.deckN].filename(),
-                                 self.cardsphotoimage[self.deckN].seperatename())
+                                 self.cardsphotoimage[self.deckN].filename())
             # print(self.player1.inHand())
             p = PhotoImage(file='GodoriCards/' + self.player1.cards[self.player1.inHand() - 1][1])
             self.LcardsPlayer1.append(Label(self.window, image=p, bd=0, bg='green'))
@@ -244,8 +237,7 @@ class DorijitGo:
             self.deckN += 1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
             self.player2.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                 self.cardsphotoimage[self.deckN].filename(),
-                                 self.cardsphotoimage[self.deckN].seperatename())
+                                 self.cardsphotoimage[self.deckN].filename())
             p = PhotoImage(file='GodoriCards/' + self.player2.cards[self.player2.inHand() - 1][1])
             self.LcardsPlayer2.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsPlayer2[self.player2.inHand() - 1].image = p
@@ -256,8 +248,7 @@ class DorijitGo:
             self.deckN += 1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
             self.player3.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                 self.cardsphotoimage[self.deckN].filename(),
-                                 self.cardsphotoimage[self.deckN].seperatename())
+                                 self.cardsphotoimage[self.deckN].filename())
             p = PhotoImage(file='GodoriCards/' + self.player3.cards[self.player3.inHand() - 1][1])
             self.LcardsPlayer3.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsPlayer3[self.player3.inHand() - 1].image = p
@@ -269,8 +260,7 @@ class DorijitGo:
         if self.DealPressedTimes==0:
             self.deckN += 1  # 가려진 카드
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
-            self.dealer.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename(),
-                                self.cardsphotoimage[self.deckN].seperatename())
+            self.dealer.addCard(self.cardsphotoimage[self.deckN].getValue(), self.cardsphotoimage[self.deckN].filename())
             p = PhotoImage(file='GodoriCards/cardback.gif')  # 카드 가려줄 뒷면 이미지! 추후 지워짐(리스트에 추가할필요 없음)
             self.LcardsDealer.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsDealer[self.dealer.inHand() - 1].image = p
@@ -281,8 +271,7 @@ class DorijitGo:
                 self.deckN += 1  # 가려진 카드
                 self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
                 self.dealer.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                    self.cardsphotoimage[self.deckN].filename(),
-                                    self.cardsphotoimage[self.deckN].seperatename())
+                                    self.cardsphotoimage[self.deckN].filename())
                 p = PhotoImage(file='GodoriCards/cardback.gif')  # 카드 가려줄 뒷면 이미지! 추후 지워짐(리스트에 추가할필요 없음)
                 self.LcardsDealer.append(Label(self.window, image=p, bd=0, bg='green'))
                 self.LcardsDealer[self.dealer.inHand() - 1].image = p
@@ -292,8 +281,7 @@ class DorijitGo:
             self.deckN += 1  # 가려진 카드
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
             self.dealer.addCard(self.cardsphotoimage[self.deckN].getValue(),
-                                self.cardsphotoimage[self.deckN].filename(),
-                                self.cardsphotoimage[self.deckN].seperatename())
+                                self.cardsphotoimage[self.deckN].filename())
             p = PhotoImage(file='GodoriCards/cardback.gif')  # 카드 가려줄 뒷면 이미지! 추후 지워짐(리스트에 추가할필요 없음)
             self.LcardsDealer.append(Label(self.window, image=p, bd=0, bg='green'))
             self.LcardsDealer[self.dealer.inHand() - 1].image = p
@@ -352,7 +340,6 @@ class DorijitGo:
             self.user3_1milB['state'] = 'active'
             self.user3_1milB['bg'] = 'SystemButtonFace'
 
-
     def PressedDeal(self):
         if self.DealPressedTimes==0:
             self.StartGame()
@@ -373,7 +360,8 @@ class DorijitGo:
             self.LcardsDealer[i].configure(image=p)  # 이미지 레퍼런스 변경
             self.LcardsDealer[i].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
             #self.LdealerState.configure(text=str(self.dealer.value()))
-        #self.CheckWinner()
+        self.CheckWinner()
+        #딜러점수 라벨에 보여야함여
 
     def PressedAgain(self):
         self.cardDeck.clear()
@@ -390,9 +378,9 @@ class DorijitGo:
         self.LdealerState.configure(text="")
         self.Lstatus.configure(text="")
         self.Lstatus.configure(text="")
-        self.LUser1_betMoney.configure(text="")
-        self.LUser2_betMoney.configure(text="")
-        self.LUser3_betMoney.configure(text="")
+        self.LUser1_betMoney.configure(text="0만")
+        self.LUser2_betMoney.configure(text="0만")
+        self.LUser3_betMoney.configure(text="0만")
 
         del self.player1
         del self.player2
@@ -414,7 +402,6 @@ class DorijitGo:
         self.LcardsDealer.clear()
 
     def CheckWinner(self):
-        self.LUserMoney.configure(text="" + str(self.playerMoney))
         self.user1_5milB['state'] = 'disabled'
         self.user1_5milB['bg'] = 'gray'
         self.user1_5milB['state'] = 'disabled'
@@ -455,7 +442,9 @@ class DorijitGo:
         self.LUser1_betMoney.configure(text="$" + str(self.betMoney))
 
     def PlayerCheck(self):  # 플레이어의 상태를 체크 한 당
-        pass
+        #p1
+        for i in range (5):
+            print(self.player1.cards[i][2]) #점수 각각
 
     def DealerCheck(self):
         pass
@@ -489,7 +478,8 @@ class DorijitGo:
                      [7,7,6,'철철육'],
                      [8,8,4,'팍팍싸'],
                      [9,9,2,'구구리']]
-
+        #인덱스 20까지
+        #각 점수 오름차순 정렬한 후 비교가 나을 것 같은데 숫자를 좀 바꿔도 될까 용~
         # 3장을 메이르도 완성한 뒤 나머지 2장으로 족보 비교
 
         # 1순위 - 2장 self.value가 3,8 >> 38광땡

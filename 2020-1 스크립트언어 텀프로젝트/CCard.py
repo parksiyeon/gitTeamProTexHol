@@ -9,8 +9,5 @@ class Card:
     def getValue(self): # 끗 또는 땡 처리할 때
         return self.value
 
-    def seperatename(self):
-        return self.getsuit()
-
     def filename(self):  # 화투패 이미지
         return str(self.getValue()) +"."+str(self.getsuit()) + ".gif"

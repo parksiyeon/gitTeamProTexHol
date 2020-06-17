@@ -9,8 +9,8 @@ class Player:
     def inHand(self):
         return self.N
 
-    def addCard(self,c,f,n):
-        self.cards.append([c,f,n])
+    def addCard(self,c,f):
+        self.cards.append([c,f])
         self.N += 1
         return c
 
