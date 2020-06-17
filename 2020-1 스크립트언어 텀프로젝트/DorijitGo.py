@@ -176,7 +176,7 @@ class DorijitGo:
         self.LcardsDealer[self.dealer.inHand() - 1].image = p
         self.LcardsDealer[self.dealer.inHand() - 1].place(x=270, y=100)
         self.FirstCardsDoneD=True
-     
+
     def StartButtonState(self):
         self.user1_5milB['state'] = 'disabled'
         self.user1_5milB['bg'] = 'gray'
