@@ -19,6 +19,28 @@ class DorijitGo:
         self.fontstyle = font.Font(self.window, size=24, weight='bold', family='Consolas')
         self.fontstyle2 = font.Font(self.window, size=12, weight='bold', family='Consolas')
 
+        self.cardtable = [[1, 1, 8, '콩콩팔'],
+                          [1, 2, 7, '삐리칠'],
+                          [1, 3, 6, '물삼육'],
+                          [1, 4, 5, '빽새오'],
+                          [1, 9, 10, '삥구장'],
+                          [2, 2, 6, '니니육'],
+                          [2, 3, 5, '이삼오'],
+                          [2, 8, 10, '이판장'],
+                          [3, 3, 4, '심심새'],
+                          [3, 7, 10, '삼칠장'],
+                          [3, 8, 9, '삼빡구'],
+                          [2, 4, 4, '살살이'],
+                          [4, 6, 10, '사륙장'],
+                          [4, 8, 9, '사칠구'],
+                          [5, 5, 10, '꼬꼬장'],
+                          [5, 6, 9, '오륙구'],
+                          [5, 7, 8, '오리발'],
+                          [6, 6, 8, '쭉쭉팔'],
+                          [6, 7, 7, '철철육'],
+                          [4, 8, 8, '팍팍싸'],
+                          [2, 9, 9, '구구리']]
+
         self.betMoney1 =0
         self.betMoney2 = 0
         self.betMoney3 = 0
@@ -77,17 +99,21 @@ class DorijitGo:
         self.LUser2_betMoney.place(x=260, y=450)
         self.LUser3_betMoney = Label(text="0만", width=4, height=1, font=self.fontstyle, bg="green", fg="orange")
         self.LUser3_betMoney.place(x=450, y=450)
-
-
         self.LUserMoney = Label(text="2500만", width=8, height=1, font=self.fontstyle, bg="green",
                                 fg="orange")
         self.LUserMoney.place(x=605, y=450)
-        self.LplayerState = Label(text="", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
-        self.LplayerState.place(x=300, y=350)
-        self.LdealerState = Label(text="", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
-        self.LdealerState.place(x=300, y=100)
-        self.Lstatus = Label(text="", width=12, height=1, font=self.fontstyle, bg="green", fg="red")
-        self.Lstatus.place(x=550, y=350)
+
+        self.Lplayer1State = Label(text="여기", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.Lplayer1State.place(x=100, y=400)
+        self.Lplayer2State = Label(text="여기", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.Lplayer2State.place(x=300, y=400)
+        self.Lplayer3State = Label(text="여기", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.Lplayer3State.place(x=500, y=400)
+
+        #self.LdealerState = Label(text="", width=12, height=1, font=self.fontstyle2, bg="green", fg="white")
+        #self.LdealerState.place(x=300, y=100)
+        #self.Lstatus = Label(text="", width=12, height=1, font=self.fontstyle, bg="green", fg="red")
+        #self.Lstatus.place(x=550, y=350)
 
         #플레이어 각 화투패 점수 나오는 라 벨,,,,
         for i in range(5):
@@ -354,7 +380,6 @@ class DorijitGo:
         self.DealPressedTimes+=1
 
     def Opendealercard(self):
-        print(self.dealer.inHand()-1)
         for i in range(5):
             p = PhotoImage(file='GodoriCards/' + self.dealer.cards[i][1])
             self.LcardsDealer[i].configure(image=p)  # 이미지 레퍼런스 변경
@@ -374,10 +399,10 @@ class DorijitGo:
         self.betMoney3=0
 
         self.StartButtonState()
-        self.LplayerState.configure(text="")
-        self.LdealerState.configure(text="")
-        self.Lstatus.configure(text="")
-        self.Lstatus.configure(text="")
+        #self.LplayerState.configure(text="")
+        #self.LdealerState.configure(text="")
+        #self.Lstatus.configure(text="")
+        #self.Lstatus.configure(text="")
         self.LUser1_betMoney.configure(text="0만")
         self.LUser2_betMoney.configure(text="0만")
         self.LUser3_betMoney.configure(text="0만")
@@ -413,41 +438,119 @@ class DorijitGo:
         self.Again['state'] = 'active'
         self.Again['bg'] = 'SystemButtonFace'
 
-        self.pCheck = self.PlayerCheck()
-        self.dCheck = self.DealerCheck()
 
-        if self.pCheck > self.dCheck:
-            #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
-            self.Lstatus.configure(text="Win")
-            self.playerMoney += self.betMoney
+        #self.dCheck = self.DealerCheck()
+        print(self.Player1Check(),self.Player2Check(),self.Player3Check())
 
-        elif self.pCheck == self.dCheck:
-            if self.pstatevalue > self.dstatevalue:
-                self.Lstatus.configure(text="Win")
-                #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
-            elif self.pstatevalue == self.dstatevalue:
-                self.Lstatus.configure(text="Push")
-            else:
-                self.Lstatus.configure(text="Lose")
-                #PlaySound('Resources/sounds/wrong.wav', SND_FILENAME)
-            self.playerMoney = self.playerMoney
+        #메이드 된 애들
+        if self.Player1Check()> -1:
+            self.Lplayer1State.configure(text=str(self.cardtable[self.Player1Check()][3]))
+            self.JokboCheck(self.p1val)
 
-        else:
-            #PlaySound('Resources/sounds/wrong.wav', SND_FILENAME)
-            self.Lstatus.configure(text="Lose")
-            self.playerMoney -= self.betMoney
+        elif self.Player2Check()>-1:
+            self.Lplayer2State.configure(text=str(self.cardtable[self.Player2Check()][3]))
+            self.JokboCheck(self.p2val)
 
-        self.LUserMoney.configure(text= str(self.playerMoney))
-        self.betMoney = 10
-        self.LUser1_betMoney.configure(text="$" + str(self.betMoney))
+        elif self.Player3Check()>-1:
+            self.Lplayer3State.configure(text=str(self.cardtable[self.Player3Check()][3]))
+            self.JokboCheck(self.p3val)
 
-    def PlayerCheck(self):  # 플레이어의 상태를 체크 한 당
-        #p1
+        #print(self.cardtable[self.Player1Check()][3],self.cardtable[self.Player2Check()][3],self.cardtable[self.Player3Check()][3])
+
+        # if self.pCheck > self.dCheck:
+        #     #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
+        #     self.Lstatus.configure(text="Win")
+        #     self.playerMoney += self.betMoney
+        #
+        # elif self.pCheck == self.dCheck:
+        #     if self.pstatevalue > self.dstatevalue:
+        #         self.Lstatus.configure(text="Win")
+        #         #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
+        #     elif self.pstatevalue == self.dstatevalue:
+        #         self.Lstatus.configure(text="Push")
+        #     else:
+        #         self.Lstatus.configure(text="Lose")
+        #         #PlaySound('Resources/sounds/wrong.wav', SND_FILENAME)
+        #     self.playerMoney = self.playerMoney
+        #
+        # else:
+        #     #PlaySound('Resources/sounds/wrong.wav', SND_FILENAME)
+        #     self.Lstatus.configure(text="Lose")
+        #     self.playerMoney -= self.betMoney
+        #
+        # self.LUserMoney.configure(text= str(self.playerMoney))
+        # self.betMoney = 10
+        # self.LUser1_betMoney.configure(text="$" + str(self.betMoney))
+
+    def Player1Check(self):  # 플레이어의 상태를 체크 한 당
+        self.p1val=[0 for _ in range(5)]
+
         for i in range (5):
-            print(self.player1.cards[i][2]) #점수 각각
+           self.p1val[i]=self.player1.cards[i][0] #점수 각각 저장
 
+        #self.p1Check.sort()
+        for i in range(20):
+            if self.cardtable[i][0] in self.p1val:
+                self.p1val.remove(self.cardtable[i][0])
+                if self.cardtable[i][1] in self.p1val:
+                    self.p1val.remove(self.cardtable[i][1])
+                    if self.cardtable[i][2] in self.p1val:
+                        self.p1val.remove(self.cardtable[i][2])
+                        return i
+
+        self.Lplayer1State.configure(text="노메이드")
+        return -1 #노메이드
+
+    def Player2Check(self):
+        self.p2val = [0 for _ in range(5)]
+
+        for i in range (5):
+            self.p2val[i] = self.player2.cards[i][0]
+
+        #self.p1Check.sort()
+        for i in range(20):
+            if self.cardtable[i][0] in self.p2val:
+                self.p2val.remove(self.cardtable[i][0])
+                if self.cardtable[i][1] in self.p2val:
+                    self.p2val.remove(self.cardtable[i][1])
+                    if self.cardtable[i][2] in self.p2val:
+                        self.p2val.remove(self.cardtable[i][2])
+                        return i
+
+        self.Lplayer2State.configure(text="노메이드")
+        return -1
+
+    def Player3Check(self):
+        self.p3val = [0 for _ in range(5)]
+
+        for i in range (5):
+            self.p3val[i] = self.player3.cards[i][0]
+
+        #self.p1Check.sort()
+        for i in range(20):
+            if self.cardtable[i][0] in self.p3val:
+                self.p3val.remove(self.cardtable[i][0])
+                if self.cardtable[i][1] in self.p3val:
+                    self.p3val.remove(self.cardtable[i][1])
+                    if self.cardtable[i][2] in self.p3val:
+                        self.p3val.remove(self.cardtable[i][2])
+                        return i
+
+        self.Lplayer3State.configure(text="노메이드")
+        return -1
+                        
     def DealerCheck(self):
         pass
+
+    def JokboCheck(self,lst):
+        #         # 3장을 메이르도 완성한 뒤 나머지 2장으로 족보 비교
+        #
+        #         # 1순위 - 2장 self.value가 3,8 >> 38광땡
+        #         # 2순위 - self.value가 1,3 또는 1,8 >> 광땡
+        #         # 3순위 - self.value가 같을 때 >> 땡 (월이 높을 수록 높은 족보)
+        #         # 4순위 - 1,2,3 순위 해당x 두 패의 숫자 합이 1~8 >> 끗
+        #         # 5순위 - 2,8월 또는 3,7월 끗 수가 0 >> 가장 낮음
+        print("넘어온 리스트:",lst)
 
     def inputCardList(self):
         n = 0
@@ -455,38 +558,5 @@ class DorijitGo:
             for j in range(1, 5):
                 self.cardDeck[n] = i+j
                 n += 1
-
-    def checkCardtable(self): #족보 써둠
-        cardtable = [[1,1,8,'콩콩팔'],
-                     [1,2,7,'삐리칠'],
-                     [1,3,6,'물삼육'],
-                     [1,4,5,'빽새오'],
-                     [1,9,10,'삥구장'],
-                     [2,2,6,'니니육'],
-                     [2,3,5,'이삼오'],
-                     [2,8,10,'이판장'],
-                     [3,3,4,'심심새'],
-                     [3,7,10,'삼칠장'],
-                     [3,8,9,'삼빡구'],
-                     [4,4,2,'살살이'],
-                     [4,6,10,'사륙장'],
-                     [4,8,9,'사칠구'],
-                     [5,5,10,'꼬꼬장'],
-                     [5,6,9,'오륙구'],
-                     [5,7,8,'오리발'],
-                     [6,6,8,'쭉쭉팔'],
-                     [7,7,6,'철철육'],
-                     [8,8,4,'팍팍싸'],
-                     [9,9,2,'구구리']]
-        #인덱스 20까지
-        #각 점수 오름차순 정렬한 후 비교가 나을 것 같은데 숫자를 좀 바꿔도 될까 용~
-        # 3장을 메이르도 완성한 뒤 나머지 2장으로 족보 비교
-
-        # 1순위 - 2장 self.value가 3,8 >> 38광땡
-        # 2순위 - self.value가 1,3 또는 1,8 >> 광땡
-        # 3순위 - self.value가 같을 때 >> 땡 (월이 높을 수록 높은 족보)
-        # 4순위 - 1,2,3 순위 해당x 두 패의 숫자 합이 1~8 >> 끗
-        # 5순위 - 2,8월 또는 3,7월 끗 수가 0 >> 가장 낮음
-
 
 DorijitGo()
