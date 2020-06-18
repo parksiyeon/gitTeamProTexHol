@@ -779,6 +779,10 @@ class DorijitGo:
                 countRankD = 2
                 numCheckD = lstD[0] + lstD[1] - 10
 
+        # self.betMoney2 += 1
+        # self.playerMoney -= 1
+        # self.LUser2_betMoney.configure(text=str(self.betMoney2) + "만")
+        # self.LUserMoney.configure(text=str(self.playerMoney) + "만")
         print("넘체크들!:",numCheck1,numCheck2,numCheck3,numCheckD)
         if countRank1 != 0:
             if countRank1 < countRankD:
@@ -788,8 +792,15 @@ class DorijitGo:
                     self.resultLabel1.configure(text="패")
                 elif numCheck1 > numCheckD:
                     self.resultLabel1.configure(text="승")
+                    self.playerMoney += self.betMoney1 * 2
+                    self.LUserMoney.configure(text=str(self.playerMoney) + "만")
+                elif numCheck1==numCheckD:
+                    self.playerMoney += self.betMoney1
+                    self.LUserMoney.configure(text=str(self.playerMoney) + "만")
             elif countRank1 > countRankD:
                 self.resultLabel1.configure(text="승")
+                self.playerMoney += self.betMoney1 * 2
+                self.LUserMoney.configure(text=str(self.playerMoney) + "만")
 
         if countRank2 != 0:
             if countRank2 < countRankD:
@@ -799,8 +810,15 @@ class DorijitGo:
                     self.resultLabel2.configure(text="패")
                 elif numCheck2 > numCheckD:
                     self.resultLabel2.configure(text="승")
+                    self.playerMoney += self.betMoney2 * 2
+                    self.LUserMoney.configure(text=str(self.playerMoney) + "만")
+                elif numCheck2==numCheckD:
+                    self.playerMoney += self.betMoney2
+                    self.LUserMoney.configure(text=str(self.playerMoney) + "만")
             elif countRank2 > countRankD:
                 self.resultLabel2.configure(text="승")
+                self.playerMoney += self.betMoney2 * 2
+                self.LUserMoney.configure(text=str(self.playerMoney) + "만")
 
         if countRank3 != 0:
             if countRank3 < countRankD:
@@ -810,8 +828,15 @@ class DorijitGo:
                     self.resultLabel3.configure(text="패")
                 elif numCheck3 > numCheckD:
                     self.resultLabel3.configure(text="승")
+                    self.playerMoney += self.betMoney3 * 2
+                    self.LUserMoney.configure(text=str(self.playerMoney) + "만")
+                elif numCheck3==numCheckD:
+                    self.playerMoney += self.betMoney3
+                    self.LUserMoney.configure(text=str(self.playerMoney) + "만")
             elif countRank3 > countRankD:
                 self.resultLabel3.configure(text="승")
+                self.playerMoney += self.betMoney3 * 2
+                self.LUserMoney.configure(text=str(self.playerMoney) + "만")
 
     def inputCardList(self):
         n = 0
