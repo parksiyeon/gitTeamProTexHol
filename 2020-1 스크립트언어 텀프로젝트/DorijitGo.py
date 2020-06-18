@@ -685,15 +685,19 @@ class DorijitGo:
             if lst1[0] == lst1[1]:
                 self.Lplayer1StateJB.configure(text=str(lst1[0]) + "땡")
                 countRank1 = 3
-            if 1<= lst1[0] + lst1[1] <= 9:
+                numCheck1 = lst1[0]
+            if 1<= lst1[0] + lst1[1] <= 9 and lst1[0] != lst1[1]:
                 self.Lplayer1StateJB.configure(text=str(lst1[0] + lst1[1]) + "끗")
                 countRank1 = 2
                 numCheck1 = lst1[0] + lst1[1]
             if (lst1[0] == 2 and lst1[1] == 8) or (lst1[0] == 3 and lst1[1] == 7):
                 self.Lplayer1StateJB.configure(text="망통")
                 countRank1 = 1
-            if 10 <= lst1[0] + lst1[1]:
-                self.Lplayer1StateJB.configure(text=str(lst1[0] + lst1[1]- 10) + "끗")
+            if (10 <= lst1[0] + lst1[1]) and lst1[0] == lst1[1]:
+                self.Lplayer1StateJB.configure(text=str(lst1[0]) + "땡")
+                numCheck1 = lst1[0]
+            if 10 <= lst1[0] + lst1[1] and lst1[0] != lst1[1]:
+                self.Lplayer1StateJB.configure(text=str(lst1[0] + lst1[1] - 10) + "끗")
                 countRank1 = 2
                 numCheck1 = lst1[0] + lst1[1] - 10
 
@@ -707,15 +711,19 @@ class DorijitGo:
             if lst2[0] == lst2[1]:
                 self.Lplayer2StateJB.configure(text=str(lst2[0]) + "땡")
                 countRank2 = 3
-            if 1 <= lst2[0] + lst2[1]<= 9:
+                numCheck2 = lst2[0]
+            if 1 <= lst2[0] + lst2[1]<= 9 and lst2[0] != lst2[1]:
                 self.Lplayer2StateJB.configure(text=str(lst2[0] + lst2[1]) + "끗")
                 countRank2 = 2
                 numCheck2 = lst2[0] + lst2[1]
             if (lst2[0] == 2 and lst2[1] == 8) or (lst2[0] == 3 and lst2[1] == 7):
                 self.Lplayer2StateJB.configure(text="망통")
                 countRank2 = 1
-            if 10 <= lst2[0] + lst2[1]:
-                self.Lplayer2StateJB.configure(text=str(lst2[0] + lst2[1]- 10) + "끗")
+            if (10 <= lst2[0] + lst2[1]) and lst2[0] == lst2[1]:
+                self.Lplayer2StateJB.configure(text=str(lst2[0]) + "땡")
+                numCheck2 = lst2[0]
+            if 10 <= lst2[0] + lst2[1] and lst2[0] != lst2[1]:
+                self.Lplayer2StateJB.configure(text=str(lst2[0] + lst2[1] - 10) + "끗")
                 countRank2 = 2
                 numCheck2 = lst2[0] + lst2[1] - 10
 
@@ -729,15 +737,19 @@ class DorijitGo:
             if lst3[0] == lst3[1]:
                 self.Lplayer3StateJB.configure(text=str(lst3[0]) + "땡")
                 countRank3 = 3
-            if 1 <= lst3[0] + lst3[1]<= 9:
+                numCheck3 = lst3[0]
+            if 1 <= lst3[0] + lst3[1]<= 9 and lst3[0] != lst3[1]:
                 self.Lplayer3StateJB.configure(text=str(lst3[0] + lst3[1]) + "끗")
                 countRank3 = 2
                 numCheck3 = lst3[0] + lst3[1]
             if (lst3[0] == 2 and lst3[1] == 8) or (lst3[0] == 3 and lst3[1] == 7):
                 self.Lplayer3StateJB.configure(text="망통")
                 countRank3 = 1
-            if 10 <= lst3[0] + lst3[1]:
-                self.Lplayer3StateJB.configure(text=str(lst3[0] + lst3[1]- 10) + "끗")
+            if (10 <= lst3[0] + lst3[1]) and lst3[0] == lst3[1]:
+                self.Lplayer3StateJB.configure(text=str(lst3[0]) + "땡")
+                numCheck3 = lst3[0]
+            if 10 <= lst3[0] + lst3[1] and lst3[0] != lst3[1]:
+                self.Lplayer3StateJB.configure(text=str(lst3[0] + lst3[1] - 10) + "끗")
                 countRank3 = 2
                 numCheck3 = lst3[0] + lst3[1] - 10
 
@@ -751,14 +763,18 @@ class DorijitGo:
             if lstD[0] == lstD[1]:
                 self.LdealerStateJB.configure(text=str(lstD[0]) + "땡")
                 countRankD = 3
-            if 1 <= lstD[0] + lstD[1]<= 9:
+                numCheckD = lstD[0]
+            if 1 <= lstD[0] + lstD[1]<= 9 and lstD[0] != lstD[1]:
                 self.LdealerStateJB.configure(text=str(lstD[0] + lstD[1]) + "끗")
                 countRankD = 2
                 numCheckD = lstD[0] + lstD[1]
             if (lstD[0] == 2 and lstD[1] == 8) or (lstD[0] == 3 and lstD[1] == 7):
                 self.LdealerStateJB.configure(text="망통")
                 countRankD = 1
-            if 10 <= lstD[0] + lstD[1]:
+            if (10 <= lstD[0] + lstD[1]) and lstD[0] == lstD[1]:
+                self.LdealerStateJB.configure(text=str(lstD[0]) + "땡")
+                numCheckD = lstD[0]
+            if 10 <= lstD[0] + lstD[1] and lstD[0] != lstD[1]:
                 self.LdealerStateJB.configure(text=str(lstD[0] + lstD[1] - 10) + "끗")
                 countRankD = 2
                 numCheckD = lstD[0] + lstD[1] - 10
@@ -781,7 +797,7 @@ class DorijitGo:
             elif countRank2 == countRankD:
                 if numCheck2 < numCheckD:
                     self.resultLabel2.configure(text="패")
-                elif numCheck2>numCheckD:
+                elif numCheck2 > numCheckD:
                     self.resultLabel2.configure(text="승")
             elif countRank2 > countRankD:
                 self.resultLabel2.configure(text="승")
