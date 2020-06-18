@@ -65,11 +65,6 @@ class DorijitGo:
         self.pCheck = 0
         self.dCheck = 0
 
-        self.countRank1 = 0
-        self.countRank2 = 0
-        self.countRank3 = 0
-        self.countRankD = 0
-
         self.playerFlag1 = 0
         self.playerFlag2 = 0
         self.playerFlag3 = 0
@@ -426,14 +421,6 @@ class DorijitGo:
         self.betMoney1=0
         self.betMoney2=0
         self.betMoney3=0
-        self.countRank1 = 0
-        self.countRank2 = 0
-        self.countRank3 = 0
-        self.countRankD = 0
-        self.numCheck1 = 0
-        self.numCheck2 = 0
-        self.numCheck3 = 0
-        self.numCheckD = 0
 
         self.playerFlag1 = 0
         self.playerFlag2 = 0
@@ -468,10 +455,10 @@ class DorijitGo:
             self.LcardsPlayer2[i].configure(image='')
             self.LcardsPlayer3[i].configure(image='')
             self.LcardsDealer[i].configure(image='')
-            self.LScoresPlayer1[i].configure(text="")
-            self.LScoresPlayer2[i].configure(text="")
-            self.LScoresPlayer3[i].configure(text="")
-            self.LScoresDealer[i].configure(text="")
+            self.LScoresPlayer1[i].configure(text="",fg="white")
+            self.LScoresPlayer2[i].configure(text="",fg="white")
+            self.LScoresPlayer3[i].configure(text="",fg="white")
+            self.LScoresDealer[i].configure(text="",fg="white")
 
         self.LcardsPlayer1.clear()
         self.LcardsPlayer2.clear()
@@ -494,6 +481,9 @@ class DorijitGo:
         self.Player2Check()
         self.Player3Check()
         self.DealerCheck()
+
+        self.JokboCheck(self.toJokbo1,self.toJokbo2,self.toJokbo3,self.toJokboD)
+#
         # if self.pCheck > self.dCheck:
         #     #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
         #     self.Lstatus.configure(text="Win")
@@ -526,10 +516,10 @@ class DorijitGo:
         idx2=0
         idx3=0
         key=0
+        check=True
 
         for i in range(5):
             p1val[i] = self.player1.cards[i][0]  # 점수 각각 저장
-
         for i in range(21):
             if self.cardtable[i][0] in p1val[:]:  # 찾아서 있으면
                 idx = p1val.index(self.cardtable[i][0])  # 체크할 인덱스를 p1val 인덱스로 바꿈
@@ -548,9 +538,8 @@ class DorijitGo:
                                 self.LScoresPlayer1[idx3].configure(fg="yellow")
                                 self.Lplayer1State.configure(text=str(self.cardtable[i][3]))
                                 self.playerFlag1 = 1
-                                self.JokboCheck(self.toJokbo1,1)
-                                return
-
+                                return 1
+        self.toJokbo1.append(0)
         self.Lplayer1State.configure(text="노메이드")
 
     def Player2Check(self):
@@ -560,6 +549,7 @@ class DorijitGo:
         key = 0
         idx2=0
         idx3=0
+        check=True
 
         for i in range(5):
             p2val[i] = self.player2.cards[i][0]  # 점수 각각 저장
@@ -583,9 +573,8 @@ class DorijitGo:
                                 self.LScoresPlayer2[idx3].configure(fg="yellow")
                                 self.Lplayer2State.configure(text=str(self.cardtable[i][3]))
                                 self.playerFlag2 = 1
-                                self.JokboCheck(self.toJokbo2,2)
-                                return
-
+                                return 1
+        self.toJokbo2.append(0)
         self.Lplayer2State.configure(text="노메이드")
 
 
@@ -596,10 +585,10 @@ class DorijitGo:
         idx2=0
         idx3=0
         key = 0
+        check=True
 
         for i in range(5):
             p3val[i] = self.player3.cards[i][0]  # 점수 각각 저장
-
         for i in range(21):
             if self.cardtable[i][0] in p3val[:]:  # 찾아서 있으면
                 idx = p3val.index(self.cardtable[i][0])  # 체크할 인덱스를 p1val 인덱스로 바꿈
@@ -618,10 +607,9 @@ class DorijitGo:
                                 self.LScoresPlayer3[idx2].configure(fg="yellow")
                                 self.LScoresPlayer3[idx3].configure(fg="yellow")
                                 self.Lplayer3State.configure(text=str(self.cardtable[i][3]))
-                                self.player3 = 1
-                                self.JokboCheck(self.toJokbo3,3)
-                                return
-
+                                self.playerFlag3 = 1
+                                return 1
+        self.toJokbo3.append(0)
         self.Lplayer3State.configure(text="노메이드")
 
     def DealerCheck(self):
@@ -654,12 +642,12 @@ class DorijitGo:
                                 self.LScoresDealer[idx2].configure(fg="yellow")
                                 self.LScoresDealer[idx3].configure(fg="yellow")
                                 self.playerFlagD = 1
-                                self.JokboCheck(self.toJokboD,4)
-                                return
+                                return 1
 
+        self.toJokboD.append(0)
         self.LdealerState.configure(text="노메이드")
 
-    def JokboCheck(self,lst,num):
+    def JokboCheck(self,lst1,lst2,lst3,lstD):
 
         #         # 1순위 - 2장 self.value가 3,8 >> 38광땡
         #         # 2순위 - self.value가 1,3 또는 1,8 >> 광땡
@@ -667,10 +655,16 @@ class DorijitGo:
         #         # 4순위 - 1,2,3 순위 해당x 두 패의 숫자 합이 1~8 >> 끗
         #         # 5순위 - 2,8월 또는 3,7월 끗 수가 0 >> 가장낮음>> 망통
 
-        self.numCheck1 = 0
-        self.numCheck2 = 0
-        self.numCheck3 = 0
-        self.numCheckD = 0
+        numCheck1 = 0
+        numCheck2 = 0
+        numCheck3 = 0
+        numCheckD = 0
+        countRank1=0
+        countRank2 = 0
+        countRank3 = 0
+        countRankD = 0
+
+        print(lst1,lst2,lst3,lstD)
 
         if self.playerFlagD == 1:
             if self.playerFlag1 == 0:
@@ -680,185 +674,128 @@ class DorijitGo:
             if self.playerFlag3 == 0:
                 self.resultLabel3.configure(text="패")
 
-        lst.sort()
-        if lst==[3,8]:
-            if num==1:
+        #리스트 1이 들어왔는지 확인
+        if len(lst1)==2:
+            if lst1 == [3, 8]:
                 self.Lplayer1StateJB.configure(text="38광땡")
-                self.countRank1 = 5
-            elif num==2:
-                self.Lplayer2StateJB.configure(text="38광땡")
-                self.countRank2 = 5
-            elif num==3:
-                self.Lplayer3StateJB.configure(text="38광땡")
-                self.countRank3 = 5
-            elif num==4:
-                self.LdealerStateJB.configure(text="38광땡")
-                self.countRankD = 5
-
-        elif lst==[1,3] or lst==[1,8]:
-            if num==1:
-                self.Lplayer1StateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
-                self.countRank1 = 4
-            elif num==2:
-                self.Lplayer2StateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
-                self.countRank2 = 4
-            elif num==3:
-                self.Lplayer3StateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
-                self.countRank3 = 4
-            elif num==4:
-                self.LdealerStateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
-                self.countRankD = 4
-                
-        elif lst[0]==lst[1]:
-            if num==1:
-                self.Lplayer1StateJB.configure(text=str(lst[0])+"땡")
-                self.countRank1 = 3
-            elif num==2:
-                self.Lplayer2StateJB.configure(text=str(lst[0])+"땡")
-                self.countRank2 = 3
-            elif num==3:
-                self.Lplayer3StateJB.configure(text=str(lst[0])+"땡")
-                self.countRank3 = 3
-            elif num==4:
-                self.LdealerStateJB.configure(text=str(lst[0])+"땡")
-                self.countRankD = 3
-
-        elif 1<=lst[0]+lst[1] and lst[0]+lst[1]<=9:
-            if num==1:
-                self.Lplayer1StateJB.configure(text=str(lst[0]+lst[1])+"끗")
-                self.countRank1 = 2
-                self.numCheck1 = lst[0]+ lst[1]
-            elif num==2:
-                self.Lplayer2StateJB.configure(text=str(lst[0]+lst[1])+"끗")
-                self.countRank2 = 2
-                self.numCheck2 = lst[0] + lst[1]
-            elif num==3:
-                self.Lplayer3StateJB.configure(text=str(lst[0]+lst[1])+"끗")
-                self.countRank3 = 2
-                self.numCheck3 = lst[0] + lst[1]
-            elif num==4:
-                self.LdealerStateJB.configure(text=str(lst[0]+lst[1])+"끗")
-                self.countRankD = 2
-                self.numCheckD = lst[0] + lst[1]
-
-        elif 10<=lst[0]+lst[1]:
-            if num==1:
-                if (lst[0] + lst[1]) % 10 == 0:
-                    self.Lplayer1StateJB.configure(text="망통")
-                    self.countRank1 = 1
-                self.Lplayer1StateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
-                self.countRank1 = 2
-                self.numCheck1 = (lst[0] + lst[1])%10
-            elif num==2:
-                if (lst[0] + lst[1]) % 10 == 0:
-                    self.Lplayer2StateJB.configure(text="망통")
-                    self.countRank1 = 1
-                self.Lplayer2StateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
-                self.countRank2 = 2
-                self.numCheck2 = (lst[0] + lst[1])%10
-            elif num==3:
-                if (lst[0] + lst[1]) % 10 == 0:
-                    self.Lplayer3StateJB.configure(text="망통")
-                    self.countRank1 = 1
-                self.Lplayer3StateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
-                self.countRank3 = 2
-                self.numCheck3 = (lst[0] + lst[1])%10
-            elif num==4:
-                if (lst[0] + lst[1]) % 10 == 0:
-                    self.LdealerStateJB.configure(text="망통")
-                    self.countRank1 = 1
-                self.LdealerStateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
-                self.countRankD = 2
-                self.numCheckD = (lst[0] + lst[1])%10
-
-        elif (lst[0]==2 and lst[1]==8)or (lst[0]==3 and lst[1]==7):
-            if num==1:
+                countRank1 = 5
+            if lst1 == [1, 3] or lst1 == [1, 8]:
+                self.Lplayer1StateJB.configure(text=str(lst1[0]) + str(lst1[1]) + "광땡")
+                countRank1 = 4
+            if lst1[0] == lst1[1]:
+                self.Lplayer1StateJB.configure(text=str(lst1[0]) + "땡")
+                countRank1 = 3
+            if 1<= lst1[0] + lst1[1] <= 9:
+                self.Lplayer1StateJB.configure(text=str(lst1[0] + lst1[1]) + "끗")
+                countRank1 = 2
+                numCheck1 = lst1[0] + lst1[1]
+            if (lst1[0] == 2 and lst1[1] == 8) or (lst1[0] == 3 and lst1[1] == 7):
                 self.Lplayer1StateJB.configure(text="망통")
-                self.countRank1 = 1
-            elif num==2:
+                countRank1 = 1
+            if 10 <= lst1[0] + lst1[1]:
+                self.Lplayer1StateJB.configure(text=str(lst1[0] + lst1[1]- 10) + "끗")
+                countRank1 = 2
+                numCheck1 = lst1[0] + lst1[1] - 10
+
+        if len(lst2) == 2:
+            if lst2== [3, 8]:
+                self.Lplayer2StateJB.configure(text="38광땡")
+                countRank2 = 5
+            if lst2 == [1, 3] or lst2 == [1, 8]:
+                self.Lplayer2StateJB.configure(text=str(lst2[0]) + str(lst2[1]) + "광땡")
+                countRank2 = 4
+            if lst2[0] == lst2[1]:
+                self.Lplayer2StateJB.configure(text=str(lst2[0]) + "땡")
+                countRank2 = 3
+            if 1 <= lst2[0] + lst2[1]<= 9:
+                self.Lplayer2StateJB.configure(text=str(lst2[0] + lst2[1]) + "끗")
+                countRank2 = 2
+                numCheck2 = lst2[0] + lst2[1]
+            if (lst2[0] == 2 and lst2[1] == 8) or (lst2[0] == 3 and lst2[1] == 7):
                 self.Lplayer2StateJB.configure(text="망통")
-                self.countRank2 = 1
-            elif num==3:
+                countRank2 = 1
+            if 10 <= lst2[0] + lst2[1]:
+                self.Lplayer2StateJB.configure(text=str(lst2[0] + lst2[1]- 10) + "끗")
+                countRank2 = 2
+                numCheck2 = lst2[0] + lst2[1] - 10
+
+        if len(lst3) == 2:
+            if lst3== [3, 8]:
+                self.Lplayer3StateJB.configure(text="38광땡")
+                countRank3 = 5
+            if lst3 == [1, 3] or lst3 == [1, 8]:
+                self.Lplayer3StateJB.configure(text=str(lst3[0]) + str(lst3[1]) + "광땡")
+                countRank3 = 4
+            if lst3[0] == lst3[1]:
+                self.Lplayer3StateJB.configure(text=str(lst3[0]) + "땡")
+                countRank3 = 3
+            if 1 <= lst3[0] + lst3[1]<= 9:
+                self.Lplayer3StateJB.configure(text=str(lst3[0] + lst3[1]) + "끗")
+                countRank3 = 2
+                numCheck3 = lst3[0] + lst3[1]
+            if (lst3[0] == 2 and lst3[1] == 8) or (lst3[0] == 3 and lst3[1] == 7):
                 self.Lplayer3StateJB.configure(text="망통")
-                self.countRank3 = 1
-            elif num==4:
+                countRank3 = 1
+            if 10 <= lst3[0] + lst3[1]:
+                self.Lplayer3StateJB.configure(text=str(lst3[0] + lst3[1]- 10) + "끗")
+                countRank3 = 2
+                numCheck3 = lst3[0] + lst3[1] - 10
+
+        if len(lstD) == 2:
+            if lstD== [3, 8]:
+                self.LdealerStateJB.configure(text="38광땡")
+                countRankD = 5
+            if lstD == [1, 3] or lstD == [1, 8]:
+                self.LdealerStateJB.configure(text=str(lstD[0]) + str(lstD[1]) + "광땡")
+                countRankD = 4
+            if lstD[0] == lstD[1]:
+                self.LdealerStateJB.configure(text=str(lstD[0]) + "땡")
+                countRankD = 3
+            if 1 <= lstD[0] + lstD[1]<= 9:
+                self.LdealerStateJB.configure(text=str(lstD[0] + lstD[1]) + "끗")
+                countRankD = 2
+                numCheckD = lstD[0] + lstD[1]
+            if (lstD[0] == 2 and lstD[1] == 8) or (lstD[0] == 3 and lstD[1] == 7):
                 self.LdealerStateJB.configure(text="망통")
-                self.countRankD = 1
+                countRankD = 1
+            if 10 <= lstD[0] + lstD[1]:
+                self.LdealerStateJB.configure(text=str(lstD[0] + lstD[1] - 10) + "끗")
+                countRankD = 2
+                numCheckD = lstD[0] + lstD[1] - 10
 
-        if self.countRank1 != 0:
-            if self.countRank1 < self.countRankD:
+        print("넘체크들!:",numCheck1,numCheck2,numCheck3,numCheckD)
+        if countRank1 != 0:
+            if countRank1 < countRankD:
                 self.resultLabel1.configure(text="패")
-            if self.countRank1 == self.countRankD:
-                if self.numCheck1 < self.numCheckD:
+            elif countRank1 == countRankD:
+                if numCheck1 < numCheckD:
                     self.resultLabel1.configure(text="패")
-        if self.countRank2 != 0:
-            if self.countRank2 < self.countRankD:
-                self.resultLabel2.configure(text="패")
-            if self.countRank2 == self.countRankD:
-                if self.numCheck2 < self.numCheckD:
-                    self.resultLabel2.configure(text="패")
-        if self.countRank3 != 0:
-            if self.countRank3 < self.countRankD:
-                self.resultLabel3.configure(text="패")
-            if self.countRank3 == self.countRankD:
-                if self.numCheck3 < self.numCheckD:
-                    self.resultLabel3.configure(text="패")
-
-
-        if self.countRank1 != 0:
-            if self.countRank1 > self.countRankD:
-                self.resultLabel1.configure(text="승")
-            if self.countRank1 == self.countRankD:
-                if self.numCheck1 > self.numCheckD:
+                elif numCheck1 > numCheckD:
                     self.resultLabel1.configure(text="승")
-        if self.countRank2 != 0:
-            if self.countRank2 > self.countRankD:
-                self.resultLabel2.configure(text="승")
-            if self.countRank2 == self.countRankD:
-                if self.numCheck2 > self.numCheckD:
+            elif countRank1 > countRankD:
+                self.resultLabel1.configure(text="승")
+
+        if countRank2 != 0:
+            if countRank2 < countRankD:
+                self.resultLabel2.configure(text="패")
+            elif countRank2 == countRankD:
+                if numCheck2 < numCheckD:
+                    self.resultLabel2.configure(text="패")
+                elif numCheck2>numCheckD:
                     self.resultLabel2.configure(text="승")
-        if self.countRank3 != 0:
-            if self.countRank3 > self.countRankD:
-                self.resultLabel3.configure(text="승")
-            if self.countRank3 == self.countRankD:
-                if self.numCheck3 > self.numCheckD:
+            elif countRank2 > countRankD:
+                self.resultLabel2.configure(text="승")
+
+        if countRank3 != 0:
+            if countRank3 < countRankD:
+                self.resultLabel3.configure(text="패")
+            elif countRank3 == countRankD:
+                if numCheck3 < numCheckD:
+                    self.resultLabel3.configure(text="패")
+                elif numCheck3 > numCheckD:
                     self.resultLabel3.configure(text="승")
-
-        # if self.playerFlagD == True and self.playerFlag1 == False:
-        #     self.resultLabel1.configure(text="패")
-        # if self.playerFlagD == True and self.playerFlag2 == False:
-        #     self.resultLabel2.configure(text="패")
-        # if self.playerFlagD == True and self.playerFlag3 == False:
-        #     self.resultLabel3.configure(text="패")
-
-
-        # if self.countRankD != 0 and self.countRank1 > self.countRankD:
-        #     self.resultLabel1.configure(text="패")
-        # if self.countRankD != 0 and self.countRank2 > self.countRankD:
-        #     self.resultLabel2.configure(text="패")
-        # if self.countRankD != 0 and self.countRank3 > self.countRankD:
-        #     self.resultLabel3.configure(text="패")
-        #
-        # if self.countRankD != 0 and self.countRank1 < self.countRankD:
-        #     self.resultLabel1.configure(text="승")
-        # if self.countRankD != 0 and self.countRank2 < self.countRankD:
-        #     self.resultLabel2.configure(text="승")
-        # if self.countRankD != 0 and self.countRank3 < self.countRankD:
-        #     self.resultLabel3.configure(text="승")
-
-
-
-
-        #해당없으면 출력 안함
-        # else:
-        #     if num==1:
-        #         self.Lplayer1StateJB.configure(text="해당없음")
-        #     elif num==2:
-        #         self.Lplayer2StateJB.configure(text="뭐")
-        #     elif num==3:
-        #         self.Lplayer3StateJB.configure(text="뭐")
-        #     elif num==4:
-        #         self.LdealerStateJB.configure(text="뭐")
+            elif countRank3 > countRankD:
+                self.resultLabel3.configure(text="승")
 
     def inputCardList(self):
         n = 0
