@@ -19,6 +19,15 @@ class DorijitGo:
         self.fontstyle = font.Font(self.window, size=24, weight='bold', family='Consolas')
         self.fontstyle2 = font.Font(self.window, size=12, weight='bold', family='Consolas')
 
+        self.betMoney1 =0
+        self.betMoney2 = 0
+        self.betMoney3 = 0
+        self.playerMoney = 2500
+        self.LcardsPlayer1 = []  # 플레이어가 뽑은 카드의 라벨 리스트
+        self.LcardsPlayer2 = []
+        self.LcardsPlayer3 = []
+        self.LcardsDealer = []  # 딜러가 뽑은 카드의 라벨 리스트
+
         self.cardtable = [[1, 1, 8, '콩콩팔'],
                           [1, 2, 7, '삐리칠'],
                           [1, 3, 6, '물삼육'],
@@ -29,26 +38,17 @@ class DorijitGo:
                           [2, 8, 10, '이판장'],
                           [3, 3, 4, '심심새'],
                           [3, 7, 10, '삼칠장'],
-                          [3, 8, 9, '삼빡구'],
+                          [3, 8, 9, '삼빡구'], #10
                           [2, 4, 4, '살살이'],
                           [4, 6, 10, '사륙장'],
-                          [4, 8, 9, '사칠구'],
+                          [4, 7, 9, '사칠구'],
                           [5, 5, 10, '꼬꼬장'],
                           [5, 6, 9, '오륙구'],
                           [5, 7, 8, '오리발'],
                           [6, 6, 8, '쭉쭉팔'],
-                          [6, 7, 7, '철철육'],
-                          [4, 8, 8, '팍팍싸'],
-                          [2, 9, 9, '구구리']]
-
-        self.betMoney1 =0
-        self.betMoney2 = 0
-        self.betMoney3 = 0
-        self.playerMoney = 2500
-        self.LcardsPlayer1 = []  # 플레이어가 뽑은 카드의 라벨 리스트
-        self.LcardsPlayer2 = []
-        self.LcardsPlayer3 = []
-        self.LcardsDealer = []  # 딜러가 뽑은 카드의 라벨 리스트
+                          [7, 7, 6, '철철육'],
+                          [8, 8, 4, '팍팍싸'],
+                          [9, 9, 2, '구구리']]
 
         #플레이별 각각 점수 보일 라벨 리스트
         self.LScoresPlayer1=[0 for _ in range(5)]
@@ -398,6 +398,10 @@ class DorijitGo:
         self.betMoney2=0
         self.betMoney3=0
 
+        self.p1val.clear()
+        self.p2val.clear()
+        self.p3val.clear()
+
         self.StartButtonState()
         #self.LplayerState.configure(text="")
         #self.LdealerState.configure(text="")
@@ -445,15 +449,12 @@ class DorijitGo:
         #메이드 된 애들
         if self.Player1Check()> -1:
             self.Lplayer1State.configure(text=str(self.cardtable[self.Player1Check()][3]))
-            self.JokboCheck(self.p1val)
 
         elif self.Player2Check()>-1:
             self.Lplayer2State.configure(text=str(self.cardtable[self.Player2Check()][3]))
-            self.JokboCheck(self.p2val)
 
         elif self.Player3Check()>-1:
             self.Lplayer3State.configure(text=str(self.cardtable[self.Player3Check()][3]))
-            self.JokboCheck(self.p3val)
 
         #print(self.cardtable[self.Player1Check()][3],self.cardtable[self.Player2Check()][3],self.cardtable[self.Player3Check()][3])
 
@@ -484,57 +485,85 @@ class DorijitGo:
 
     def Player1Check(self):  # 플레이어의 상태를 체크 한 당
         self.p1val=[0 for _ in range(5)]
+        toJokbo=[0 for _ in range(3)] #메이드 3개 빼놓을 리스트
+        idx=0
+        key=0
 
-        for i in range (5):
-           self.p1val[i]=self.player1.cards[i][0] #점수 각각 저장
+        for i in range(5):
+            self.p1val[i] = self.player1.cards[i][0]  # 점수 각각 저장
 
-        #self.p1Check.sort()
         for i in range(21):
-            if self.cardtable[i][0] in self.p1val:
-                self.p1val.remove(self.cardtable[i][0])
-                if self.cardtable[i][1] in self.p1val:
-                    self.p1val.remove(self.cardtable[i][1])
-                    if self.cardtable[i][2] in self.p1val:
-                        self.p1val.remove(self.cardtable[i][2])
-                        return i
+            if self.cardtable[i][0] in self.p1val[:]: #찾아서 있으면
+                idx=self.p1val.index(self.cardtable[i][0]) #체크할 인덱스를 p1val 인덱스로 바꿈
+                key=i#족보 인덱스
+                if self.cardtable[key][1] in self.p1val[:]:#key 족보 두번째 요소 찾기
+                    if self.p1val.index(self.cardtable[key][1])!=idx:#
+                        print(idx, self.p1val.index(self.cardtable[i][1]))
+                        if self.cardtable[key][2] in self.p1val[:]:
+                            toJokbo[0] = self.cardtable[key][0]
+                            toJokbo[1] = self.cardtable[key][1]
+                            toJokbo[2] = self.cardtable[key][2]
+                            self.p1val.remove(toJokbo[0])
+                            self.p1val.remove(toJokbo[1])
+                            self.p1val.remove(toJokbo[2])
+                            print(self.p1val)
+                            return i
 
         self.Lplayer1State.configure(text="노메이드")
         return -1 #노메이드
 
     def Player2Check(self):
         self.p2val = [0 for _ in range(5)]
+        toJokbo = [0 for _ in range(3)]  # 메이드 3개 빼놓을 리스트
+        idx = 0
+        key = 0
 
-        for i in range (5):
-            self.p2val[i] = self.player2.cards[i][0]
+        for i in range(5):
+            self.p2val[i] = self.player2.cards[i][0]  # 점수 각각 저장
 
-        #self.p1Check.sort()
         for i in range(21):
-            if self.cardtable[i][0] in self.p2val:
-                self.p2val.remove(self.cardtable[i][0])
-                if self.cardtable[i][1] in self.p2val:
-                    self.p2val.remove(self.cardtable[i][1])
-                    if self.cardtable[i][2] in self.p2val:
-                        self.p2val.remove(self.cardtable[i][2])
-                        return i
+            if self.cardtable[i][0] in self.p2val[:]:  # 찾아서 있으면
+                idx = self.p2val.index(self.cardtable[i][0])  # 체크할 인덱스를 p1val 인덱스로 바꿈
+                key = i  # 족보 인덱스
+                if self.cardtable[key][1] in self.p2val[:]:  # key 족보 두번째 요소 찾기
+                    if self.p2val.index(self.cardtable[key][1]) != idx:  #
+                        print(idx, self.p2val.index(self.cardtable[i][1]))
+                        if self.cardtable[key][2] in self.p2val[:]:
+                            toJokbo[0] = self.cardtable[key][0]
+                            toJokbo[1] = self.cardtable[key][1]
+                            toJokbo[2] = self.cardtable[key][2]
+                            self.p2val.remove(toJokbo[0])
+                            self.p2val.remove(toJokbo[1])
+                            self.p2val.remove(toJokbo[2])
+                            return i
 
         self.Lplayer2State.configure(text="노메이드")
         return -1
 
     def Player3Check(self):
         self.p3val = [0 for _ in range(5)]
+        toJokbo = [0 for _ in range(3)]  # 메이드 3개 빼놓을 리스트
+        idx = 0
+        key = 0
 
-        for i in range (5):
-            self.p3val[i] = self.player3.cards[i][0]
+        for i in range(5):
+            self.p3val[i] = self.player3.cards[i][0]  # 점수 각각 저장
 
-        #self.p1Check.sort()
         for i in range(21):
-            if self.cardtable[i][0] in self.p3val:
-                self.p3val.remove(self.cardtable[i][0])
-                if self.cardtable[i][1] in self.p3val:
-                    self.p3val.remove(self.cardtable[i][1])
-                    if self.cardtable[i][2] in self.p3val:
-                        self.p3val.remove(self.cardtable[i][2])
-                        return i
+            if self.cardtable[i][0] in self.p3val[:]:  # 찾아서 있으면
+                idx = self.p3val.index(self.cardtable[i][0])  # 체크할 인덱스를 p1val 인덱스로 바꿈
+                key = i  # 족보 인덱스
+                if self.cardtable[key][1] in self.p3val[:]:  # key 족보 두번째 요소 찾기
+                    if self.p3val.index(self.cardtable[key][1]) != idx:  #
+                        print(idx, self.p3val.index(self.cardtable[i][1]))
+                        if self.cardtable[key][2] in self.p3val[:]:
+                            toJokbo[0] = self.cardtable[key][0]
+                            toJokbo[1] = self.cardtable[key][1]
+                            toJokbo[2] = self.cardtable[key][2]
+                            self.p3val.remove(toJokbo[0])
+                            self.p3val.remove(toJokbo[1])
+                            self.p3val.remove(toJokbo[2])
+                            return i
 
         self.Lplayer3State.configure(text="노메이드")
         return -1
