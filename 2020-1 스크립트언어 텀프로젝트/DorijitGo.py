@@ -65,6 +65,16 @@ class DorijitGo:
         self.pCheck = 0
         self.dCheck = 0
 
+        self.countRank1 = 0
+        self.countRank2 = 0
+        self.countRank3 = 0
+        self.countRankD = 0
+
+        self.playerFlag1 = 0
+        self.playerFlag2 = 0
+        self.playerFlag3 = 0
+        self.playerFlagD = 0
+
         self.DealPressedTimes=0
 
         self.setupButton()
@@ -136,6 +146,14 @@ class DorijitGo:
 
             self.LScoresDealer[i] = Label(text="", width=2, height=1, font=self.fontstyle2, bg="green", fg="white")
             self.LScoresDealer[i].place(x=500 + i * 20, y=50)
+
+        #승/패 라벨
+        self.resultLabel1 = Label(text="", width=2, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.resultLabel1.place(x=205, y=250)
+        self.resultLabel2 = Label(text="", width=2, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.resultLabel2.place(x=405, y=250)
+        self.resultLabel3 = Label(text="", width=2, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.resultLabel3.place(x=605, y=250)
 
 
     def PressedUser1_5milB(self):
@@ -408,6 +426,19 @@ class DorijitGo:
         self.betMoney1=0
         self.betMoney2=0
         self.betMoney3=0
+        self.countRank1 = 0
+        self.countRank2 = 0
+        self.countRank3 = 0
+        self.countRankD = 0
+        self.numCheck1 = 0
+        self.numCheck2 = 0
+        self.numCheck3 = 0
+        self.numCheckD = 0
+
+        self.playerFlag1 = 0
+        self.playerFlag2 = 0
+        self.playerFlag3 = 0
+        self.playerFlagD = 0
 
         self.StartButtonState()
         self.Lplayer1State.configure(text="")
@@ -422,6 +453,10 @@ class DorijitGo:
         self.LUser1_betMoney.configure(text="0만")
         self.LUser2_betMoney.configure(text="0만")
         self.LUser3_betMoney.configure(text="0만")
+
+        self.resultLabel1.configure(text="")
+        self.resultLabel2.configure(text="")
+        self.resultLabel3.configure(text="")
 
         del self.player1
         del self.player2
@@ -512,6 +547,7 @@ class DorijitGo:
                                 self.LScoresPlayer1[idx2].configure(fg="yellow")
                                 self.LScoresPlayer1[idx3].configure(fg="yellow")
                                 self.Lplayer1State.configure(text=str(self.cardtable[i][3]))
+                                self.playerFlag1 = 1
                                 self.JokboCheck(self.toJokbo1,1)
                                 return
 
@@ -546,10 +582,12 @@ class DorijitGo:
                                 self.LScoresPlayer2[idx2].configure(fg="yellow")
                                 self.LScoresPlayer2[idx3].configure(fg="yellow")
                                 self.Lplayer2State.configure(text=str(self.cardtable[i][3]))
+                                self.playerFlag2 = 1
                                 self.JokboCheck(self.toJokbo2,2)
                                 return
 
         self.Lplayer2State.configure(text="노메이드")
+
 
     def Player3Check(self):
         p3val = [0 for _ in range(5)]
@@ -580,11 +618,12 @@ class DorijitGo:
                                 self.LScoresPlayer3[idx2].configure(fg="yellow")
                                 self.LScoresPlayer3[idx3].configure(fg="yellow")
                                 self.Lplayer3State.configure(text=str(self.cardtable[i][3]))
+                                self.player3 = 1
                                 self.JokboCheck(self.toJokbo3,3)
                                 return
 
         self.Lplayer3State.configure(text="노메이드")
-                        
+
     def DealerCheck(self):
         dval = [0 for _ in range(5)]
         self.toJokboD = []  # 메이드 3개 빼놓을 리스트
@@ -614,6 +653,7 @@ class DorijitGo:
                                 self.LScoresDealer[idx].configure(fg="yellow")
                                 self.LScoresDealer[idx2].configure(fg="yellow")
                                 self.LScoresDealer[idx3].configure(fg="yellow")
+                                self.playerFlagD = 1
                                 self.JokboCheck(self.toJokboD,4)
                                 return
 
@@ -627,58 +667,188 @@ class DorijitGo:
         #         # 4순위 - 1,2,3 순위 해당x 두 패의 숫자 합이 1~8 >> 끗
         #         # 5순위 - 2,8월 또는 3,7월 끗 수가 0 >> 가장낮음>> 망통
 
+        self.numCheck1 = 0
+        self.numCheck2 = 0
+        self.numCheck3 = 0
+        self.numCheckD = 0
+
+        if self.playerFlagD == 1:
+            if self.playerFlag1 == 0:
+                self.resultLabel1.configure(text="패")
+            if self.playerFlag2 == 0:
+                self.resultLabel2.configure(text="패")
+            if self.playerFlag3 == 0:
+                self.resultLabel3.configure(text="패")
 
         lst.sort()
         if lst==[3,8]:
             if num==1:
                 self.Lplayer1StateJB.configure(text="38광땡")
+                self.countRank1 = 5
             elif num==2:
                 self.Lplayer2StateJB.configure(text="38광땡")
+                self.countRank2 = 5
             elif num==3:
                 self.Lplayer3StateJB.configure(text="38광땡")
+                self.countRank3 = 5
             elif num==4:
                 self.LdealerStateJB.configure(text="38광땡")
-                
+                self.countRankD = 5
+
         elif lst==[1,3] or lst==[1,8]:
             if num==1:
                 self.Lplayer1StateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
+                self.countRank1 = 4
             elif num==2:
                 self.Lplayer2StateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
+                self.countRank2 = 4
             elif num==3:
                 self.Lplayer3StateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
+                self.countRank3 = 4
             elif num==4:
                 self.LdealerStateJB.configure(text=str(lst[0])+str(lst[1])+"광땡")
+                self.countRankD = 4
                 
         elif lst[0]==lst[1]:
             if num==1:
                 self.Lplayer1StateJB.configure(text=str(lst[0])+"땡")
+                self.countRank1 = 3
             elif num==2:
                 self.Lplayer2StateJB.configure(text=str(lst[0])+"땡")
+                self.countRank2 = 3
             elif num==3:
                 self.Lplayer3StateJB.configure(text=str(lst[0])+"땡")
+                self.countRank3 = 3
             elif num==4:
                 self.LdealerStateJB.configure(text=str(lst[0])+"땡")
+                self.countRankD = 3
 
-        elif 1<=lst[0]+lst[1] and lst[0]+lst[1]<=8:
+        elif 1<=lst[0]+lst[1] and lst[0]+lst[1]<=9:
             if num==1:
                 self.Lplayer1StateJB.configure(text=str(lst[0]+lst[1])+"끗")
+                self.countRank1 = 2
+                self.numCheck1 = lst[0]+ lst[1]
             elif num==2:
                 self.Lplayer2StateJB.configure(text=str(lst[0]+lst[1])+"끗")
+                self.countRank2 = 2
+                self.numCheck2 = lst[0] + lst[1]
             elif num==3:
                 self.Lplayer3StateJB.configure(text=str(lst[0]+lst[1])+"끗")
+                self.countRank3 = 2
+                self.numCheck3 = lst[0] + lst[1]
             elif num==4:
                 self.LdealerStateJB.configure(text=str(lst[0]+lst[1])+"끗")
+                self.countRankD = 2
+                self.numCheckD = lst[0] + lst[1]
+
+        elif 10<=lst[0]+lst[1]:
+            if num==1:
+                if (lst[0] + lst[1]) % 10 == 0:
+                    self.Lplayer1StateJB.configure(text="망통")
+                    self.countRank1 = 1
+                self.Lplayer1StateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
+                self.countRank1 = 2
+                self.numCheck1 = (lst[0] + lst[1])%10
+            elif num==2:
+                if (lst[0] + lst[1]) % 10 == 0:
+                    self.Lplayer2StateJB.configure(text="망통")
+                    self.countRank1 = 1
+                self.Lplayer2StateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
+                self.countRank2 = 2
+                self.numCheck2 = (lst[0] + lst[1])%10
+            elif num==3:
+                if (lst[0] + lst[1]) % 10 == 0:
+                    self.Lplayer3StateJB.configure(text="망통")
+                    self.countRank1 = 1
+                self.Lplayer3StateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
+                self.countRank3 = 2
+                self.numCheck3 = (lst[0] + lst[1])%10
+            elif num==4:
+                if (lst[0] + lst[1]) % 10 == 0:
+                    self.LdealerStateJB.configure(text="망통")
+                    self.countRank1 = 1
+                self.LdealerStateJB.configure(text=str((lst[0]+lst[1])%10)+"끗")
+                self.countRankD = 2
+                self.numCheckD = (lst[0] + lst[1])%10
 
         elif (lst[0]==2 and lst[1]==8)or (lst[0]==3 and lst[1]==7):
             if num==1:
                 self.Lplayer1StateJB.configure(text="망통")
+                self.countRank1 = 1
             elif num==2:
                 self.Lplayer2StateJB.configure(text="망통")
+                self.countRank2 = 1
             elif num==3:
                 self.Lplayer3StateJB.configure(text="망통")
+                self.countRank3 = 1
             elif num==4:
                 self.LdealerStateJB.configure(text="망통")
-                
+                self.countRankD = 1
+
+        if self.countRank1 != 0:
+            if self.countRank1 < self.countRankD:
+                self.resultLabel1.configure(text="패")
+            if self.countRank1 == self.countRankD:
+                if self.numCheck1 < self.numCheckD:
+                    self.resultLabel1.configure(text="패")
+        if self.countRank2 != 0:
+            if self.countRank2 < self.countRankD:
+                self.resultLabel2.configure(text="패")
+            if self.countRank2 == self.countRankD:
+                if self.numCheck2 < self.numCheckD:
+                    self.resultLabel2.configure(text="패")
+        if self.countRank3 != 0:
+            if self.countRank3 < self.countRankD:
+                self.resultLabel3.configure(text="패")
+            if self.countRank3 == self.countRankD:
+                if self.numCheck3 < self.numCheckD:
+                    self.resultLabel3.configure(text="패")
+
+
+        if self.countRank1 != 0:
+            if self.countRank1 > self.countRankD:
+                self.resultLabel1.configure(text="승")
+            if self.countRank1 == self.countRankD:
+                if self.numCheck1 > self.numCheckD:
+                    self.resultLabel1.configure(text="승")
+        if self.countRank2 != 0:
+            if self.countRank2 > self.countRankD:
+                self.resultLabel2.configure(text="승")
+            if self.countRank2 == self.countRankD:
+                if self.numCheck2 > self.numCheckD:
+                    self.resultLabel2.configure(text="승")
+        if self.countRank3 != 0:
+            if self.countRank3 > self.countRankD:
+                self.resultLabel3.configure(text="승")
+            if self.countRank3 == self.countRankD:
+                if self.numCheck3 > self.numCheckD:
+                    self.resultLabel3.configure(text="승")
+
+        # if self.playerFlagD == True and self.playerFlag1 == False:
+        #     self.resultLabel1.configure(text="패")
+        # if self.playerFlagD == True and self.playerFlag2 == False:
+        #     self.resultLabel2.configure(text="패")
+        # if self.playerFlagD == True and self.playerFlag3 == False:
+        #     self.resultLabel3.configure(text="패")
+
+
+        # if self.countRankD != 0 and self.countRank1 > self.countRankD:
+        #     self.resultLabel1.configure(text="패")
+        # if self.countRankD != 0 and self.countRank2 > self.countRankD:
+        #     self.resultLabel2.configure(text="패")
+        # if self.countRankD != 0 and self.countRank3 > self.countRankD:
+        #     self.resultLabel3.configure(text="패")
+        #
+        # if self.countRankD != 0 and self.countRank1 < self.countRankD:
+        #     self.resultLabel1.configure(text="승")
+        # if self.countRankD != 0 and self.countRank2 < self.countRankD:
+        #     self.resultLabel2.configure(text="승")
+        # if self.countRankD != 0 and self.countRank3 < self.countRankD:
+        #     self.resultLabel3.configure(text="승")
+
+
+
+
         #해당없으면 출력 안함
         # else:
         #     if num==1:
