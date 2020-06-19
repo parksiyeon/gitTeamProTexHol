@@ -14,6 +14,7 @@ class TermProj:
         self.findtimes=0
         self.index=0
         self.favLblupdate=False
+        self.mailTF=False
         self.Mailsys=Mail()
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
@@ -148,7 +149,10 @@ class TermProj:
 
 
     def UpdateResult(self,index):
-        self.showStatusmail.configure(text="")
+        if self.mailTF==True:
+            self.showStatusmail.configure(text="")
+            self.mailTF=False
+
         if self.favLblupdate==True:
             self.favmsgL.configure(text="")
             self.favLblupdate=False
@@ -257,10 +261,12 @@ class TermProj:
 
     def SendMail(self):
         address=str(self.mailEntry.get())
-        self.Mailsys.MessageSet(address,self.DataList,self.index)
+        self.Mailsys.MessageSet(address,self.DataList,self.date,self.index)
         self.showStatusmail=Label(self.frame4,text="발송되었습니다!")
         self.showStatusmail.pack()
         self.showStatusmail.place(x=750,y=500)
+        self.mailTF=True
+        self.mailEntry.delete(0, 'end')
 
     def AddtoFav(self):
         self.FavList[self.favtimes]=self.index
