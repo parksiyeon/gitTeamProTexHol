@@ -22,6 +22,7 @@ class TermProj:
         self.GetxmlFile()
         self.SetUIs()
         self.SetUIonFrame3()
+        self.SetUIonFrame4()
         self.UpdateRecentDate()
         self.window.mainloop()
 
@@ -32,9 +33,11 @@ class TermProj:
         self.frame1 = Frame(self.window,background="white")
         self.frame2 = Frame(self.window,background="white")
         self.frame3 = Frame(self.window,background="white")
+        self.frame4 = Frame(self.window,background="white")
         notebook.add(self.frame1, text="검색")
         notebook.add(self.frame2, text="상세비교")
         notebook.add(self.frame3, text="즐겨찾기")
+        notebook.add(self.frame4, text="공유")
         
         #self.canvas1= Canvas(self.frame1,width=1000,height=600)
         self.canvas2 = Canvas(self.frame2, width=1000, height=600,background="white")
@@ -82,8 +85,6 @@ class TermProj:
         self.pollutantValue4.pack()
         self.pollutantValue5 = Label(self.frame2, text="", fg='black', font='helvetica 12',background="white")
         self.pollutantValue5.pack()
-
-
 
 
     def Clicked(self,event):
@@ -139,6 +140,7 @@ class TermProj:
             self.ShowResult(Entry)
             self.averageSeoul()
             self.DrawGraph(Entry)
+
         elif self.findtimes>=2:
             self.UpdateResult(Entry)
             self.averageSeoul()
@@ -220,6 +222,8 @@ class TermProj:
         self.GMail.pack()
         self.GMail.place(x=900, y=450)
 
+        self.ChoosedGuL.configure(text=str(self.DataList[0][index]) + "의 대기 정보를 이메일로 보냅니다.")
+
     def SetUIonFrame3(self):
         lab=Label(self.frame3,text="나의 즐겨찾기 목록",font='helvetica 20',background="white")
         lab.pack()
@@ -235,8 +239,24 @@ class TermProj:
         self.Bfav3.pack()
         self.Bfav3.place(x=50, y=360)
 
+    def SetUIonFrame4(self):
+        TempFont = font.Font(self.window, size=16, weight='bold', family='Consolas')
+        TitleFont = font.Font(self.window, size=21, weight='bold', family='Consolas')
+
+        self.ChoosedGuL=Label(self.frame4,text="",bg="white",font=TitleFont)
+        self.ChoosedGuL.pack()
+        self.ChoosedGuL.place(x=60,y=30)
+
+        self.mailEntry = Entry(self.frame4, width=50, bd=5)
+        self.mailEntry.pack()
+        self.mailEntry.place(x=100, y=100)
+
+        SearchButton = Button(self.frame4, font=TempFont, text="발송하기",command=self.SendMail())
+        SearchButton.pack()
+        SearchButton.place(x=800, y=500)
+
     def SendMail(self):
-        self.Mailsys.MessageSet(self.DataList,self.index)
+        self.Mailsys.MessageSet(self.mailEntry.get(),self.DataList,self.index)
 
 
     def AddtoFav(self):
@@ -244,6 +264,12 @@ class TermProj:
         self.favmsgL=Label(self.frame1,text="즐겨찾기에 추가되었습니다!",background="white")
         self.favmsgL.pack()
         self.favmsgL.place(x=720,y=520)
+
+        self.mailmsgL = Label(self.frame1, text="메일 발송", background="white")
+        self.mailmsgL.pack()
+        self.mailmsgL.place(x=720, y=430)
+        
+        
         self.favLblupdate=True
         self.Lnamef3 = Label(self.frame3, text="", fg='black', font='helvetica 20',background="white")
         self.Lnamef3.pack()
