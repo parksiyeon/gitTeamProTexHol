@@ -3,6 +3,7 @@ from tkinter import font
 import tkinter.ttk
 import tkinter.messagebox
 import mouse
+from CMail import *
 
 class TermProj:
     def __init__(self):
@@ -13,7 +14,7 @@ class TermProj:
         self.findtimes=0
         self.index=0
         self.favLblupdate=False
-
+        self.Mailsys=Mail()
         self.window = Tk()
         self.window.title("실시간 서울시 대기오염정보")
         self.window.geometry("1000x600+300+100")
@@ -81,6 +82,8 @@ class TermProj:
         self.pollutantValue4.pack()
         self.pollutantValue5 = Label(self.frame2, text="", fg='black', font='helvetica 12',background="white")
         self.pollutantValue5.pack()
+
+
 
 
     def Clicked(self,event):
@@ -212,6 +215,11 @@ class TermProj:
         self.Baddfav.pack()
         self.Baddfav.place(x=900,y=500)
 
+        self.mailbg = PhotoImage(file="gmailIcon.png")
+        self.GMail = Button(self.frame1, image=self.mailbg, command=self.SendMail,borderwidth=0)
+        self.GMail.pack()
+        self.GMail.place(x=900, y=450)
+
     def SetUIonFrame3(self):
         lab=Label(self.frame3,text="나의 즐겨찾기 목록",font='helvetica 20',background="white")
         lab.pack()
@@ -226,6 +234,10 @@ class TermProj:
         self.Bfav3 = Button(self.frame3, text="Empty",font='helvetica 16',command=self.ShowMyFav3,width=25,height=4,borderwidth=0,background='CadetBlue3')
         self.Bfav3.pack()
         self.Bfav3.place(x=50, y=360)
+
+    def SendMail(self):
+        self.Mailsys.MessageSet(self.DataList,self.index)
+
 
     def AddtoFav(self):
         self.FavList[self.favtimes]=self.index
@@ -465,7 +477,6 @@ class TermProj:
         self.sum = 0
 
     def ShowPollutantList(self, index):
-        print(self.findtimes)
         self.PollutantL0 = Label(self.frame2, text="평균 / 선택지역", fg='black', font='helvetica 12',background="white")
         self.PollutantL0.pack()
         self.PollutantL0.place(x=50, y=480)
