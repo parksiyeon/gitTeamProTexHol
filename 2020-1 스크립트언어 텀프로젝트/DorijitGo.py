@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter import font
+from winsound import *
 from CCard import *
 from Cplayer import *
 import random
-
 
 class DorijitGo:
     def __init__(self):
@@ -57,7 +57,6 @@ class DorijitGo:
         self.LScoresDealer=[0 for _ in range(5)]
 
         self.deckN = 0
-        #self.cardsphotoimage = [0 for _ in range(40)] # 20에서 40으로 교체
         self.cardsphotoimage = [0] * 40
         self.pstatevalue = 0
         self.dstatevalue = 0
@@ -156,42 +155,42 @@ class DorijitGo:
         self.playerMoney -=5
         self.LUser1_betMoney.configure(text=str(self.betMoney1)+"만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
-        #PlaySound('GodoriCards/', SND_FILENAME)
+        PlaySound('sounds/chip.wav', SND_FILENAME)
 
     def PressedUser2_5milB(self):
         self.betMoney2+=5
         self.playerMoney -=5
         self.LUser2_betMoney.configure(text=str(self.betMoney2)+"만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
-        #PlaySound('GodoriCards/', SND_FILENAME)
+        PlaySound('sounds/chip.wav', SND_FILENAME)
 
     def PressedUser3_5milB(self):
         self.betMoney3+=5
         self.playerMoney-= 5
         self.LUser3_betMoney.configure(text=str(self.betMoney3)+"만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
-        #PlaySound('GodoriCards/', SND_FILENAME)
+        PlaySound('sounds/chip.wav', SND_FILENAME)
 
     def PressedUser1_1milB(self):
         self.betMoney1+=1
         self.playerMoney -= 1
         self.LUser1_betMoney.configure(text=str(self.betMoney1) + "만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
-        #PlaySound('GodoriCards/', SND_FILENAME)
+        PlaySound('sounds/chip.wav', SND_FILENAME)
 
     def PressedUser2_1milB(self):
         self.betMoney2+=1
         self.playerMoney -= 1
         self.LUser2_betMoney.configure(text=str(self.betMoney2) + "만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
-        #PlaySound('GodoriCards/', SND_FILENAME)
+        PlaySound('sounds/chip.wav', SND_FILENAME)
 
     def PressedUser3_1milB(self):
         self.betMoney3+=1
         self.playerMoney -= 1
         self.LUser3_betMoney.configure(text=str(self.betMoney3) + "만")
         self.LUserMoney.configure(text=str(self.playerMoney)+"만")
-        #PlaySound('GodoriCards/', SND_FILENAME)
+        PlaySound('sounds/chip.wav', SND_FILENAME)
 
     def StartGame(self):  # 딜 처음 시작 때 불리는 세팅 함수
         self.player1 = Player("player1")
@@ -203,6 +202,7 @@ class DorijitGo:
         self.cardDeck = [0] * 40
         self.inputCardList()
         random.shuffle(self.cardDeck)
+        PlaySound('sounds/ding.wav', SND_FILENAME)
 
     def HitPlayer(self):
         #LcardsPlayer,cardsphotoimage 리스트 인자-->self.deckN
@@ -236,6 +236,7 @@ class DorijitGo:
                 text=str(self.player3.cards[self.player3.inHand() - 1][0]))
 
         elif self.DealPressedTimes==1:
+            PlaySound('sounds/cardFlip1.wav', SND_FILENAME)
             for i in range(1, 4):  # p1:471013   p2:581114   p3:691215
                 self.deckN += 1
                 self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
@@ -272,6 +273,7 @@ class DorijitGo:
                     text=str(self.player3.cards[self.player3.inHand() - 1][0]))
 
         elif self.DealPressedTimes==2:
+            PlaySound('sounds/cardFlip1.wav', SND_FILENAME)
             self.deckN += 1
             self.cardsphotoimage[self.deckN] = Card(self.cardDeck[self.deckN])
             self.player1.addCard(self.cardsphotoimage[self.deckN].getValue(),
@@ -413,6 +415,7 @@ class DorijitGo:
         #딜러점수 라벨에 보여야함여
 
     def PressedAgain(self):
+        PlaySound('sounds/ding.wav', SND_FILENAME)
         self.cardDeck.clear()
         self.deckN = 0
         self.pstatevalue = 0
@@ -483,31 +486,6 @@ class DorijitGo:
         self.DealerCheck()
 
         self.JokboCheck(self.toJokbo1,self.toJokbo2,self.toJokbo3,self.toJokboD)
-#
-        # if self.pCheck > self.dCheck:
-        #     #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
-        #     self.Lstatus.configure(text="Win")
-        #     self.playerMoney += self.betMoney
-        #
-        # elif self.pCheck == self.dCheck:
-        #     if self.pstatevalue > self.dstatevalue:
-        #         self.Lstatus.configure(text="Win")
-        #         #PlaySound('Resources/sounds/win.wav', SND_FILENAME)
-        #     elif self.pstatevalue == self.dstatevalue:
-        #         self.Lstatus.configure(text="Push")
-        #     else:
-        #         self.Lstatus.configure(text="Lose")
-        #         #PlaySound('Resources/sounds/wrong.wav', SND_FILENAME)
-        #     self.playerMoney = self.playerMoney
-        #
-        # else:
-        #     #PlaySound('Resources/sounds/wrong.wav', SND_FILENAME)
-        #     self.Lstatus.configure(text="Lose")
-        #     self.playerMoney -= self.betMoney
-        #
-        # self.LUserMoney.configure(text= str(self.playerMoney))
-        # self.betMoney = 10
-        # self.LUser1_betMoney.configure(text="$" + str(self.betMoney))
 
     def Player1Check(self):  # 플레이어의 상태를 체크 한 당
         p1val=[0 for _ in range(5)]
@@ -649,12 +627,6 @@ class DorijitGo:
 
     def JokboCheck(self,lst1,lst2,lst3,lstD):
 
-        #         # 1순위 - 2장 self.value가 3,8 >> 38광땡
-        #         # 2순위 - self.value가 1,3 또는 1,8 >> 광땡
-        #         # 3순위 - self.value가 같을 때 >> 땡 (월이 높을 수록 높은 족보)
-        #         # 4순위 - 1,2,3 순위 해당x 두 패의 숫자 합이 1~8 >> 끗
-        #         # 5순위 - 2,8월 또는 3,7월 끗 수가 0 >> 가장낮음>> 망통
-
         numCheck1 = 0
         numCheck2 = 0
         numCheck3 = 0
@@ -663,6 +635,10 @@ class DorijitGo:
         countRank2 = 0
         countRank3 = 0
         countRankD = 0
+
+        winNum1 = 0
+        winNum2 = 0
+        winNum3 = 0
 
         print(lst1,lst2,lst3,lstD)
 
@@ -673,6 +649,9 @@ class DorijitGo:
                 self.resultLabel2.configure(text="패")
             if self.playerFlag3 == 0:
                 self.resultLabel3.configure(text="패")
+
+        if self.playerFlagD==1 and self.playerFlag1==0 and self.playerFlag2==0 and self.playerFlag3==0:
+            PlaySound('sounds/wrong.wav', SND_FILENAME)
 
         #리스트 1이 들어왔는지 확인
         if len(lst1)==2:
@@ -779,10 +758,6 @@ class DorijitGo:
                 countRankD = 2
                 numCheckD = lstD[0] + lstD[1] - 10
 
-        # self.betMoney2 += 1
-        # self.playerMoney -= 1
-        # self.LUser2_betMoney.configure(text=str(self.betMoney2) + "만")
-        # self.LUserMoney.configure(text=str(self.playerMoney) + "만")
         print("넘체크들!:",numCheck1,numCheck2,numCheck3,numCheckD)
         if countRank1 != 0:
             if countRank1 < countRankD:
@@ -791,6 +766,7 @@ class DorijitGo:
                 if numCheck1 < numCheckD:
                     self.resultLabel1.configure(text="패")
                 elif numCheck1 > numCheckD:
+                    winNum1 = 1
                     self.resultLabel1.configure(text="승")
                     self.playerMoney += self.betMoney1 * 2
                     self.LUserMoney.configure(text=str(self.playerMoney) + "만")
@@ -798,6 +774,7 @@ class DorijitGo:
                     self.playerMoney += self.betMoney1
                     self.LUserMoney.configure(text=str(self.playerMoney) + "만")
             elif countRank1 > countRankD:
+                winNum1 = 1
                 self.resultLabel1.configure(text="승")
                 self.playerMoney += self.betMoney1 * 2
                 self.LUserMoney.configure(text=str(self.playerMoney) + "만")
@@ -809,6 +786,7 @@ class DorijitGo:
                 if numCheck2 < numCheckD:
                     self.resultLabel2.configure(text="패")
                 elif numCheck2 > numCheckD:
+                    winNum2 = 1
                     self.resultLabel2.configure(text="승")
                     self.playerMoney += self.betMoney2 * 2
                     self.LUserMoney.configure(text=str(self.playerMoney) + "만")
@@ -816,6 +794,7 @@ class DorijitGo:
                     self.playerMoney += self.betMoney2
                     self.LUserMoney.configure(text=str(self.playerMoney) + "만")
             elif countRank2 > countRankD:
+                winNum2 = 1
                 self.resultLabel2.configure(text="승")
                 self.playerMoney += self.betMoney2 * 2
                 self.LUserMoney.configure(text=str(self.playerMoney) + "만")
@@ -827,6 +806,7 @@ class DorijitGo:
                 if numCheck3 < numCheckD:
                     self.resultLabel3.configure(text="패")
                 elif numCheck3 > numCheckD:
+                    winNum3 = 1
                     self.resultLabel3.configure(text="승")
                     self.playerMoney += self.betMoney3 * 2
                     self.LUserMoney.configure(text=str(self.playerMoney) + "만")
@@ -834,9 +814,13 @@ class DorijitGo:
                     self.playerMoney += self.betMoney3
                     self.LUserMoney.configure(text=str(self.playerMoney) + "만")
             elif countRank3 > countRankD:
+                winNum2 = 1
                 self.resultLabel3.configure(text="승")
                 self.playerMoney += self.betMoney3 * 2
                 self.LUserMoney.configure(text=str(self.playerMoney) + "만")
+
+        if winNum1 == 1 or winNum2 == 1 or winNum3 == 1:
+            PlaySound('sounds/win.wav', SND_FILENAME)
 
     def inputCardList(self):
         n = 0
