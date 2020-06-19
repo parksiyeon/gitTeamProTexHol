@@ -163,6 +163,7 @@ class TermProj:
         self.Lsurful.configure(text="아황산가스: " +self.DataList[8][index]+"ppm")
         self.GuName.configure(text="")
         self.GuName.configure(text=self.DataList[0][index])
+        self.ChoosedGuL.configure(text=str(self.DataList[0][index]) + "의 대기 정보를 이메일로 보냅니다.")
 
         self.canvas2.delete('label')
 
@@ -251,12 +252,13 @@ class TermProj:
         self.mailEntry.pack()
         self.mailEntry.place(x=100, y=100)
 
-        SearchButton = Button(self.frame4, font=TempFont, text="발송하기",command=self.SendMail())
+        SearchButton = Button(self.frame4, font=TempFont, text="발송하기",command=self.SendMail)
         SearchButton.pack()
         SearchButton.place(x=800, y=500)
 
     def SendMail(self):
-        self.Mailsys.MessageSet(self.mailEntry.get(),self.DataList,self.index)
+        address=str(self.mailEntry.get())
+        self.Mailsys.MessageSet(address,self.DataList,self.index)
 
 
     def AddtoFav(self):
