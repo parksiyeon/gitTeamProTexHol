@@ -148,6 +148,7 @@ class TermProj:
 
 
     def UpdateResult(self,index):
+        self.showStatusmail.configure(text="")
         if self.favLblupdate==True:
             self.favmsgL.configure(text="")
             self.favLblupdate=False
@@ -214,14 +215,8 @@ class TermProj:
 
         self.favpressedimg=PhotoImage(file="fav.png")
         self.Baddfav=Button(self.frame1,image=self.favpressedimg,command=self.AddtoFav,borderwidth=0)
-        #
         self.Baddfav.pack()
         self.Baddfav.place(x=900,y=500)
-
-        self.mailbg = PhotoImage(file="gmailIcon.png")
-        self.GMail = Button(self.frame1, image=self.mailbg, command=self.SendMail,borderwidth=0)
-        self.GMail.pack()
-        self.GMail.place(x=900, y=450)
 
         self.ChoosedGuL.configure(text=str(self.DataList[0][index]) + "의 대기 정보를 이메일로 보냅니다.")
 
@@ -241,25 +236,31 @@ class TermProj:
         self.Bfav3.place(x=50, y=360)
 
     def SetUIonFrame4(self):
-        TempFont = font.Font(self.window, size=16, weight='bold', family='Consolas')
+        TempFont = font.Font(self.window, size=15, weight='bold', family='Consolas')
         TitleFont = font.Font(self.window, size=21, weight='bold', family='Consolas')
+
+        toL=Label(self.frame4,font=TempFont,text="받는 사람",bg="white")
+        toL.pack()
+        toL.place(x=20,y=100)
 
         self.ChoosedGuL=Label(self.frame4,text="",bg="white",font=TitleFont)
         self.ChoosedGuL.pack()
-        self.ChoosedGuL.place(x=60,y=30)
+        self.ChoosedGuL.place(x=20,y=30)
 
         self.mailEntry = Entry(self.frame4, width=50, bd=5)
         self.mailEntry.pack()
-        self.mailEntry.place(x=100, y=100)
+        self.mailEntry.place(x=130, y=105)
 
-        SearchButton = Button(self.frame4, font=TempFont, text="발송하기",command=self.SendMail)
+        SearchButton = Button(self.frame4, font=TempFont, text="발송하기!",command=self.SendMail)
         SearchButton.pack()
-        SearchButton.place(x=800, y=500)
+        SearchButton.place(x=850, y=500)
 
     def SendMail(self):
         address=str(self.mailEntry.get())
         self.Mailsys.MessageSet(address,self.DataList,self.index)
-
+        self.showStatusmail=Label(self.frame4,text="발송되었습니다!")
+        self.showStatusmail.pack()
+        self.showStatusmail.place(x=750,y=500)
 
     def AddtoFav(self):
         self.FavList[self.favtimes]=self.index
