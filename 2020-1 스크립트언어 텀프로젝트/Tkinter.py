@@ -25,6 +25,7 @@ class TermProj:
         self.SetUIonFrame3()
         self.SetUIonFrame4()
         self.UpdateRecentDate()
+        self.CheckFavFile()
         self.window.mainloop()
 
     def SetUIs(self):
@@ -147,6 +148,25 @@ class TermProj:
             self.averageSeoul()
             self.DrawGraph(Entry)
 
+    def CheckFavFile(self):
+        f=open('FavListsTXT.txt','r')
+        for i in range(3):
+            line = f.readline()
+            line.rstrip("\n")
+            if not line:
+                break
+            self.FavList[i]=int(line)
+            if i==0:
+                self.Bfav1.configure(text=self.DataList[0][int(line)])
+                self.favtimes=1
+            if i==1:
+                self.Bfav2.configure(text=self.DataList[0][int(line)])
+                self.favtimes=2
+            if i==2:
+                self.Bfav3.configure(text=self.DataList[0][int(line)])
+                self.favtimes=3
+        print(self.FavList)
+
 
     def UpdateResult(self,index):
         if self.mailTF==True:
@@ -239,6 +259,34 @@ class TermProj:
         self.Bfav3.pack()
         self.Bfav3.place(x=50, y=360)
 
+        self.Lnamef3 = Label(self.frame3, text="", fg='black', font='helvetica 20', background="white")
+        self.Lnamef3.pack()
+        self.Lnamef3.place(x=600, y=80)
+        self.LgradeStrf3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.LgradeStrf3.pack()
+        self.LgradeStrf3.place(x=600, y=120)
+        self.Lgradenumf3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lgradenumf3.pack()
+        self.Lgradenumf3.place(x=700, y=120)
+        self.Lpm10f3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lpm10f3.pack()
+        self.Lpm10f3.place(x=600, y=200)
+        self.Lpm25f3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lpm25f3.pack()
+        self.Lpm25f3.place(x=600, y=250)
+        self.Lnitrof3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lnitrof3.pack()
+        self.Lnitrof3.place(x=600, y=300)
+        self.Lozonef3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lozonef3.pack()
+        self.Lozonef3.place(x=600, y=350)
+        self.Lcarbonf3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lcarbonf3.pack()
+        self.Lcarbonf3.place(x=600, y=400)
+        self.Lsurfulf3 = Label(self.frame3, text="", fg='black', font='helvetica 16', background="white")
+        self.Lsurfulf3.pack()
+        self.Lsurfulf3.place(x=600, y=450)
+
     def SetUIonFrame4(self):
         TempFont = font.Font(self.window, size=15, weight='bold', family='Consolas')
         TitleFont = font.Font(self.window, size=21, weight='bold', family='Consolas')
@@ -269,44 +317,17 @@ class TermProj:
         self.mailEntry.delete(0, 'end')
 
     def AddtoFav(self):
+        f=open('FavListsTXT.txt','a')
+        data=str(self.index)+'\n'
+        f.write(data)
+        f.close()
+
         self.FavList[self.favtimes]=self.index
         self.favmsgL=Label(self.frame1,text="즐겨찾기에 추가되었습니다!",background="white")
         self.favmsgL.pack()
         self.favmsgL.place(x=720,y=520)
 
-        self.mailmsgL = Label(self.frame1, text="메일 발송", background="white")
-        self.mailmsgL.pack()
-        self.mailmsgL.place(x=720, y=430)
-        
-        
         self.favLblupdate=True
-        self.Lnamef3 = Label(self.frame3, text="", fg='black', font='helvetica 20',background="white")
-        self.Lnamef3.pack()
-        self.Lnamef3.place(x=600, y=80)
-        self.LgradeStrf3 = Label(self.frame3, text="", fg='black', font='helvetica 16',background="white")
-        self.LgradeStrf3.pack()
-        self.LgradeStrf3.place(x=600, y=120)
-        self.Lgradenumf3 = Label(self.frame3, text="", fg='black',font='helvetica 16',background="white")
-        self.Lgradenumf3.pack()
-        self.Lgradenumf3.place(x=700, y=120)
-        self.Lpm10f3 = Label(self.frame3, text="", fg='black', font='helvetica 16',background="white")
-        self.Lpm10f3.pack()
-        self.Lpm10f3.place(x=600, y=200)
-        self.Lpm25f3 = Label(self.frame3, text="", fg='black', font='helvetica 16',background="white")
-        self.Lpm25f3.pack()
-        self.Lpm25f3.place(x=600, y=250)
-        self.Lnitrof3 = Label(self.frame3, text="", fg='black', font='helvetica 16',background="white")
-        self.Lnitrof3.pack()
-        self.Lnitrof3.place(x=600, y=300)
-        self.Lozonef3 = Label(self.frame3, text="" , fg='black', font='helvetica 16',background="white")
-        self.Lozonef3.pack()
-        self.Lozonef3.place(x=600, y=350)
-        self.Lcarbonf3 = Label(self.frame3, text="", fg='black', font='helvetica 16',background="white")
-        self.Lcarbonf3.pack()
-        self.Lcarbonf3.place(x=600, y=400)
-        self.Lsurfulf3 = Label(self.frame3, text="", fg='black', font='helvetica 16',background="white")
-        self.Lsurfulf3.pack()
-        self.Lsurfulf3.place(x=600, y=450)
 
         if self.favtimes==0:
             self.Bfav1.configure(text=self.DataList[0][self.index])
