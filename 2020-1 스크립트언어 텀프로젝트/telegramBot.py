@@ -107,12 +107,12 @@ def setData(check, userN):
     for i in range(25):
         if DataList[0][i] == check:
             bot.sendMessage(userN,'지역구:'+ DataList[0][i] +'\n'+
-                            '미세먼지'+ DataList[1][i] +'\n'+
-                            '초미세먼지'+ DataList[2][i] +'\n'+
-                            '이산화질소'+ DataList[3][i] +'\n'+
-                            '오존'+ DataList[4][i] +'\n'+
-                            '일산화탄소'+ DataList[5][i] +'\n'+
-                            '아황산가스'+ DataList[6][i])
+                            '미세먼지'+ DataList[1][i] +'㎍ / ㎥\n'+
+                            '초미세먼지'+ DataList[2][i] +'㎍ / ㎥\n'+
+                            '이산화질소'+ DataList[3][i] +'ppm\n'+
+                            '오존'+ DataList[4][i] +'ppm\n'+
+                            '일산화탄소'+ DataList[5][i] +'ppm\n'+
+                            '아황산가스'+ DataList[6][i]+"ppm")
 
 
 while 1:
