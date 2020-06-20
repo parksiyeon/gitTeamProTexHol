@@ -307,6 +307,11 @@ class TermProj:
         SearchButton.pack()
         SearchButton.place(x=850, y=500)
 
+        self.example=PhotoImage(file='mailexample.png')
+        mailex=Label(self.frame4,image=self.example)
+        mailex.pack()
+        mailex.place(x=130,y=150)
+
     def SendMail(self):
         address=str(self.mailEntry.get())
         self.Mailsys.MessageSet(address,self.DataList,self.date,self.index)

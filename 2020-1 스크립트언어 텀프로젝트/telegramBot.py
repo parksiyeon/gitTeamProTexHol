@@ -29,9 +29,8 @@ def handle(msg):
         response = msg['text']
         user = chat_id
         setData(response, user)
-    if msg['text'] == 'ㅎㅇ':
+    if msg['text'] == 'ㅎㅇ' or msg['text']=='시작':
         bot.sendMessage(chat_id, infoMsg)
-
 
 bot.message_loop(handle)
 
@@ -113,7 +112,6 @@ def setData(check, userN):
                             '오존'+ DataList[4][i] +'ppm\n'+
                             '일산화탄소'+ DataList[5][i] +'ppm\n'+
                             '아황산가스'+ DataList[6][i]+"ppm")
-
 
 while 1:
     time.sleep(10)

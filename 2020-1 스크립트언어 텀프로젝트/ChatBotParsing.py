@@ -21,10 +21,6 @@ class setData:
         self.bot.getMe() # 텔레그램 정보 확인용
         self.startChat()
 
-
-
-
-
     def GetxmlFile(self):
         import http.client
         from xml.dom.minidom import parse, parseString
