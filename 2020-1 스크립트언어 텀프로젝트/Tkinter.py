@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import font
 import tkinter.ttk
@@ -149,7 +150,7 @@ class TermProj:
             self.DrawGraph(Entry)
 
     def CheckFavFile(self):
-        f=open('FavListsTXT.txt','r')
+        f=open('FavListsTXT.txt','r',encoding='utf-8')
         for i in range(3):
             line = f.readline()
             line.rstrip("\n")
@@ -322,7 +323,7 @@ class TermProj:
         self.mailEntry.delete(0, 'end')
 
     def AddtoFav(self):
-        f=open('FavListsTXT.txt','a')
+        f=open('FavListsTXT.txt','a',encoding='utf-8')
         data=str(self.index)+'\n'
         f.write(data)
         f.close()
