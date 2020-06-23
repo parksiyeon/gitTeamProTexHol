@@ -5,6 +5,7 @@ import tkinter.ttk
 import tkinter.messagebox
 import mouse
 from CMail import *
+import spam
 
 class TermProj:
     def __init__(self):
@@ -488,27 +489,28 @@ class TermProj:
         #미세먼지
         for i in range(25):
             if self.DataList[3][i]!='점검중':
-                self.sum += int(self.DataList[3][i])
+                self.sum+=float(self.DataList[3][i])
                 numtodivide+=1
-        self.average[0] = round(self.sum /numtodivide, 1)
+        self.average[0]=spam.SetSeoulAverB(self.sum, numtodivide)
+        #self.average[0] = round(self.sum /numtodivide, 1)
         self.sum = 0
         numtodivide=0
 
         #초미세
         for i in range(25):
             if self.DataList[4][i] != '점검중':
-                self.sum += int(self.DataList[4][i])
+                self.sum +=float(self.DataList[4][i])
                 numtodivide+=1
-        self.average[1] = round(self.sum /numtodivide, 1)
-        self.sum = 0
+        self.average[1]=spam.SetSeoulAverB(self.sum, numtodivide)
         numtodivide=0
+        self.sum=0
 
         #이산화질소
         for i in range(25):
             if self.DataList[5][i] != '점검중':
                 self.sum += float(self.DataList[5][i])
                 numtodivide+=1
-        self.average[2] = round(self.sum /numtodivide, 3)
+        self.average[2] = round(spam.SetSeoulAverS(self.sum, numtodivide), 4)
         self.sum = 0
         numtodivide=0
 
@@ -517,7 +519,7 @@ class TermProj:
             if self.DataList[6][i] != '점검중':
                 self.sum += float(self.DataList[6][i])
                 numtodivide+=1
-        self.average[3] = round(self.sum /numtodivide, 3)
+        self.average[3] = round(spam.SetSeoulAverS(self.sum, numtodivide), 4)
         self.sum = 0
         numtodivide=0
 
@@ -526,7 +528,7 @@ class TermProj:
             if self.DataList[7][i] != '점검중':
                 self.sum += float(self.DataList[7][i])
                 numtodivide+=1
-        self.average[4] = round(self.sum /numtodivide, 2)
+        self.average[4] = round(spam.SetSeoulAverS(self.sum, numtodivide), 4)
         self.sum = 0
         numtodivide=0
 
@@ -535,7 +537,8 @@ class TermProj:
             if self.DataList[8][i] != '점검중':
                 self.sum += float(self.DataList[8][i])
                 numtodivide+=1
-        self.average[5] = round(self.sum /numtodivide, 4)
+        self.average[5] = round(spam.SetSeoulAverS(self.sum, numtodivide), 4)
+
         self.sum = 0
 
     def ShowPollutantList(self, index):
